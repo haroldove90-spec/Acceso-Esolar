@@ -13,33 +13,31 @@ import {
   LogOut,
   Shield,
   ChevronRight,
-  School,
-  Sparkles
+  School
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
-import { RoleType } from '../../types';
 
 export const Sidebar: React.FC = () => {
-  const { currentRole, setCurrentRole, activeTab, setActiveTab, isSidebarOpen, setIsSidebarOpen, logout } = useApp();
+  const { currentRole, activeTab, setActiveTab, isSidebarOpen, setIsSidebarOpen, logout } = useApp();
 
   if (!currentRole) return null;
 
   const adminNavItems = [
-    { id: 'students', label: 'Gestión de Alumnos', sub: 'Padrón 700 y Grupos', icon: Users },
-    { id: 'staff', label: 'Gestión de Personal', sub: 'Docentes y Portones', icon: UserCheck },
-    { id: 'reports', label: 'Módulo de Reportes', sub: 'Historial e Incidencias', icon: BarChart3 },
+    { id: 'students', label: 'Gestión de Alumnos y Grupos', sub: 'Padrón 700 Plazas y Tutores', icon: Users },
+    { id: 'staff', label: 'Gestión de Personal Escolar', sub: 'Docentes y Portones Asignados', icon: UserCheck },
+    { id: 'reports', label: 'Módulo de Reportes & Historial', sub: 'Estadísticas e Incidencias', icon: BarChart3 },
   ];
 
   const staffNavItems = [
-    { id: 'access', label: 'Control de Acceso Ágil', sub: 'Escaneo QR y Registro', icon: QrCode },
-    { id: 'status', label: 'Estatus en Tiempo Real', sub: 'Puntualidad en vivo', icon: Clock },
-    { id: 'notices', label: 'Avisos Directos', sub: 'Reportes al Tutor', icon: Send },
+    { id: 'access', label: 'Control de Acceso Ágil', sub: 'Escaneo QR y Entrada/Salida', icon: QrCode },
+    { id: 'status', label: 'Estatus en Tiempo Real', sub: 'Puntualidad en vivo y Retardos', icon: Clock },
+    { id: 'notices', label: 'Avisos Directos al Tutor', sub: 'Comunicados y Alertas al Móvil', icon: Send },
   ];
 
   const parentNavItems = [
-    { id: 'notifications', label: 'Notificaciones de Acceso', sub: 'Alertas automáticas', icon: Bell },
-    { id: 'student_profile', label: 'Perfil y Asistencia', sub: 'Historial y Credencial', icon: IdCard },
-    { id: 'announcements', label: 'Tablón de Avisos', sub: 'Circulares y Eventos', icon: Megaphone },
+    { id: 'notifications', label: 'Notificaciones de Acceso', sub: 'Alertas push y confirmaciones', icon: Bell },
+    { id: 'student_profile', label: 'Perfil y Credencial Digital', sub: 'Código QR y Ficha Médica', icon: IdCard },
+    { id: 'announcements', label: 'Tablón de Avisos y Eventos', sub: 'Circulares Oficiales de Dirección', icon: Megaphone },
   ];
 
   const currentItems =
@@ -49,53 +47,47 @@ export const Sidebar: React.FC = () => {
       ? staffNavItems
       : parentNavItems;
 
-  const rolesList: { role: RoleType; name: string; icon: any }[] = [
-    { role: 'admin', name: 'Administrador (Dirección)', icon: Shield },
-    { role: 'staff', name: 'Docente / Puerta', icon: UserCheck },
-    { role: 'parent', name: 'Padres de Familia / App', icon: Users },
-  ];
-
   return (
     <>
-      {/* Backdrop for mobile / overlay */}
+      {/* Backdrop for overlay */}
       {isSidebarOpen && (
         <div
           onClick={() => setIsSidebarOpen(false)}
-          className="fixed inset-0 z-45 bg-slate-900/40 backdrop-blur-xs transition-opacity duration-200"
+          className="fixed inset-0 z-45 bg-slate-900/50 backdrop-blur-xs transition-opacity duration-200"
         />
       )}
 
       {/* Sidebar panel */}
       <aside
         id="app-navigation-sidebar"
-        className={`fixed top-0 bottom-0 left-0 z-50 w-72 sm:w-80 bg-white border-r border-slate-200 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 bottom-0 left-0 z-50 w-80 sm:w-88 bg-white border-r border-slate-200 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Header inside sidebar */}
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-white">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-xs">
-              <School className="h-4 w-4 stroke-[2.2]" />
+        <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-white">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-black shadow-sm">
+              <School className="h-5 w-5 stroke-[2.2]" />
             </div>
             <div>
-              <p className="text-xs font-black text-slate-800 leading-tight uppercase">Acceso Escolar</p>
-              <p className="text-[10px] text-slate-400 font-semibold tracking-wider uppercase">Módulos Escolares</p>
+              <p className="text-base font-black text-slate-900 leading-tight uppercase">Acceso Escolar</p>
+              <p className="text-xs text-slate-500 font-bold tracking-wider uppercase">Menú de Navegación</p>
             </div>
           </div>
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
+            className="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer"
             aria-label="Cerrar menú"
           >
-            <X className="w-5 h-5" />
+            <X className="w-6 h-6 stroke-[2.2]" />
           </button>
         </div>
 
         {/* Current Active Role Header */}
-        <div className="p-4 bg-blue-50/60 border-b border-blue-100/60">
-          <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider">Rol Activo:</span>
-          <p className="text-sm font-extrabold text-slate-900 mt-0.5">
+        <div className="p-4 sm:p-5 bg-blue-50/80 border-b border-blue-100">
+          <span className="text-xs font-black text-blue-800 uppercase tracking-wider block">Rol Activo:</span>
+          <p className="text-base font-black text-slate-900 mt-0.5">
             {currentRole === 'admin'
               ? 'Administrador (Dirección)'
               : currentRole === 'staff'
@@ -105,9 +97,9 @@ export const Sidebar: React.FC = () => {
         </div>
 
         {/* Navigation items */}
-        <div className="flex-1 overflow-y-auto p-3 space-y-1.5">
-          <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-            Módulos del Rol
+        <div className="flex-1 overflow-y-auto p-4 space-y-2">
+          <div className="px-2 py-1 text-xs font-black text-slate-400 uppercase tracking-wider">
+            Módulos del Sistema
           </div>
           {currentItems.map(item => {
             const Icon = item.icon;
@@ -120,72 +112,44 @@ export const Sidebar: React.FC = () => {
                   setActiveTab(item.id);
                   setIsSidebarOpen(false);
                 }}
-                className={`w-full flex items-center justify-between p-3 rounded-2xl text-left transition-all ${
+                className={`w-full flex items-center justify-between p-3.5 rounded-2xl text-left transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20 font-semibold'
-                    : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900 font-medium'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25 font-bold'
+                    : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900 font-semibold'
                 }`}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3.5">
                   <div
-                    className={`p-2 rounded-xl ${
-                      isActive ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+                    className={`p-2.5 rounded-xl ${
+                      isActive ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-700'
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-5 h-5 stroke-[2.2]" />
                   </div>
                   <div>
-                    <div className="text-xs sm:text-sm leading-tight font-bold">{item.label}</div>
+                    <div className="text-sm sm:text-base leading-snug font-bold">{item.label}</div>
                     <div
-                      className={`text-[11px] ${
-                        isActive ? 'text-blue-100' : 'text-slate-400'
+                      className={`text-xs ${
+                        isActive ? 'text-blue-100' : 'text-slate-500'
                       }`}
                     >
                       {item.sub}
                     </div>
                   </div>
                 </div>
-                <ChevronRight className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-300'}`} />
+                <ChevronRight className={`w-5 h-5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
               </button>
             );
           })}
-
-          {/* Quick Role Switcher section */}
-          <div className="pt-6 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-            Cambiar de Rol
-          </div>
-          <div className="space-y-1">
-            {rolesList.map(r => {
-              const Icon = r.icon;
-              const isCurrent = currentRole === r.role;
-              return (
-                <button
-                  key={r.role}
-                  onClick={() => {
-                    setCurrentRole(r.role);
-                    setIsSidebarOpen(false);
-                  }}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition font-semibold ${
-                    isCurrent
-                      ? 'bg-slate-100 font-bold text-blue-600 border border-slate-200'
-                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  }`}
-                >
-                  <Icon className={`w-3.5 h-3.5 ${isCurrent ? 'text-blue-600' : 'text-slate-400'}`} />
-                  <span>{r.name}</span>
-                </button>
-              );
-            })}
-          </div>
         </div>
 
         {/* Footer with logout button */}
-        <div className="p-3 border-t border-slate-200 bg-white">
+        <div className="p-4 border-t border-slate-200 bg-slate-50">
           <button
             onClick={logout}
-            className="w-full flex items-center justify-center gap-2 p-2.5 rounded-xl text-xs font-bold text-white bg-slate-800 hover:bg-slate-900 transition active:scale-95"
+            className="w-full flex items-center justify-center gap-2.5 p-3 rounded-2xl text-sm font-extrabold text-white bg-slate-900 hover:bg-slate-800 transition shadow-sm active:scale-95 cursor-pointer"
           >
-            <LogOut className="w-4 h-4" />
+            <LogOut className="w-5 h-5" />
             <span>Cerrar Sesión (Ir a Inicio)</span>
           </button>
         </div>

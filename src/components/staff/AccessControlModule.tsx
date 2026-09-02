@@ -95,42 +95,42 @@ export const AccessControlModule: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Port & Mode Configuration Banner */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
-            <DoorClosed className="w-5 h-5" />
+      <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+            <DoorClosed className="w-6 h-6 stroke-[2.2]" />
           </div>
           <div>
-            <h2 className="text-sm sm:text-base font-extrabold text-slate-900">Control de Acceso Ágil en Puerta</h2>
-            <p className="text-xs text-slate-500">Escaneo de credencial QR o registro por matrícula con confirmación al tutor.</p>
+            <h2 className="text-base sm:text-xl font-black text-slate-900">Control de Acceso Ágil en Puerta</h2>
+            <p className="text-xs sm:text-sm font-semibold text-slate-600 mt-0.5">Escaneo de credencial QR o registro por matrícula con confirmación al tutor.</p>
           </div>
         </div>
 
         {/* Gate Selector & Mode toggle */}
-        <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+        <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
           <select
             value={selectedGate}
             onChange={e => setSelectedGate(e.target.value as GateType)}
-            className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+            className="px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm font-black text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
           >
             <option value="Portón Principal (Entrada General)">Portón Principal (Entrada General)</option>
             <option value="Portón 2 (Primaria / Vehicular)">Portón 2 (Primaria / Vehicular)</option>
             <option value="Portón 3 (Peatonal / Secundaria)">Portón 3 (Peatonal / Secundaria)</option>
           </select>
 
-          <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-bold">
+          <div className="flex bg-slate-100 p-1 rounded-2xl border border-slate-200 text-xs sm:text-sm font-black">
             <button
               onClick={() => setAccessType('Entrada')}
-              className={`px-3 py-1 rounded-lg transition ${
-                accessType === 'Entrada' ? 'bg-emerald-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              className={`px-4 py-1.5 rounded-xl transition cursor-pointer ${
+                accessType === 'Entrada' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               Entrada
             </button>
             <button
               onClick={() => setAccessType('Salida')}
-              className={`px-3 py-1 rounded-lg transition ${
-                accessType === 'Salida' ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              className={`px-4 py-1.5 rounded-xl transition cursor-pointer ${
+                accessType === 'Salida' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               Salida
@@ -143,63 +143,63 @@ export const AccessControlModule: React.FC = () => {
         {/* Left column: Scanner + Quick Input */}
         <div className="lg:col-span-7 space-y-4">
           {/* Main Scanner Card */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+          <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                <ScanLine className="w-4 h-4 text-emerald-600" /> Escáner de Credencial Digital
+              <span className="text-sm sm:text-base font-black text-slate-800 flex items-center gap-2">
+                <ScanLine className="w-5 h-5 text-emerald-600" /> Escáner de Credencial Digital
               </span>
               <button
                 onClick={() => setIsScanningMode(!isScanningMode)}
-                className={`text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 transition ${
+                className={`text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-xl flex items-center gap-1.5 transition cursor-pointer ${
                   isScanningMode
-                    ? 'bg-rose-100 text-rose-700 border border-rose-200'
-                    : 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
+                    ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                    : 'bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100'
                 }`}
               >
-                <Camera className="w-3.5 h-3.5" />
+                <Camera className="w-4 h-4" />
                 <span>{isScanningMode ? 'Pausar Cámara' : 'Activar Cámara'}</span>
               </button>
             </div>
 
             {/* Visual QR Scanner Viewport */}
-            <div className="relative w-full h-52 sm:h-60 bg-slate-900 rounded-2xl overflow-hidden flex flex-col items-center justify-center text-white border border-slate-800">
+            <div className="relative w-full h-56 sm:h-64 bg-slate-900 rounded-3xl overflow-hidden flex flex-col items-center justify-center text-white border border-slate-800">
               {/* Animated scanning laser */}
-              <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 h-36 border-2 border-dashed border-emerald-400/80 rounded-2xl flex items-center justify-center">
+              <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 h-40 border-2 border-dashed border-emerald-400/80 rounded-3xl flex items-center justify-center">
                 <div className="absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_12px_#34d399] animate-bounce"></div>
               </div>
 
-              <div className="z-10 text-center space-y-2 p-4">
-                <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md mx-auto flex items-center justify-center text-emerald-400 border border-white/20">
-                  <QrCode className="w-7 h-7" />
+              <div className="z-10 text-center space-y-2.5 p-4">
+                <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md mx-auto flex items-center justify-center text-emerald-400 border border-white/20">
+                  <QrCode className="w-8 h-8" />
                 </div>
-                <p className="text-xs font-bold text-slate-200">
+                <p className="text-sm sm:text-base font-black text-slate-100">
                   {isScanningMode ? 'Escáner Óptico Activo — Apunte el código QR' : 'Lector de Portón Listo'}
                 </p>
-                <p className="text-[11px] text-slate-400 max-w-xs">
+                <p className="text-xs sm:text-sm text-slate-300 max-w-sm font-medium">
                   Coloque la credencial digital del alumno frente al lector óptico o use el registro rápido por matrícula abajo.
                 </p>
               </div>
             </div>
 
             {/* Manual Quick Search & Enter */}
-            <form onSubmit={handleSearchSubmit} className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 block">
+            <form onSubmit={handleSearchSubmit} className="space-y-2.5">
+              <label className="text-xs sm:text-sm font-black text-slate-800 block">
                 Búsqueda Rápida / Entrada por Matrícula o Nombre:
               </label>
               <div className="relative flex gap-2">
                 <div className="relative flex-1">
-                  <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
+                  <Search className="absolute left-3.5 top-3 w-5 h-5 text-slate-400" />
                   <input
                     type="text"
                     placeholder="Ej. ALU-2026-001 o 'Sofía Mendoza' y presione Enter..."
                     value={inputQuery}
                     onChange={e => setInputQuery(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm sm:text-base font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs sm:text-sm transition shadow-xs"
+                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-2xl text-xs sm:text-sm transition shadow-xs cursor-pointer"
                 >
                   Registrar
                 </button>
@@ -207,22 +207,22 @@ export const AccessControlModule: React.FC = () => {
 
               {/* Autocomplete Quick Match Dropdown */}
               {suggestedStudents.length > 0 && (
-                <div className="bg-white border border-slate-200 rounded-xl shadow-lg p-1.5 space-y-1 mt-1">
+                <div className="bg-white border border-slate-200 rounded-2xl shadow-lg p-2 space-y-1.5 mt-1">
                   {suggestedStudents.map(student => (
                     <button
                       key={student.id}
                       type="button"
                       onClick={() => handleRegister(student)}
-                      className="w-full flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-left text-xs transition"
+                      className="w-full flex items-center justify-between p-2.5 hover:bg-slate-50 rounded-xl text-left text-xs sm:text-sm transition cursor-pointer"
                     >
-                      <div className="flex items-center gap-2">
-                        <img src={student.photoUrl} alt="" className="w-7 h-7 rounded-lg object-cover" />
+                      <div className="flex items-center gap-3">
+                        <img src={student.photoUrl} alt="" className="w-9 h-9 rounded-xl object-cover" />
                         <div>
-                          <p className="font-bold text-slate-900">{student.fullName}</p>
-                          <span className="text-[10px] text-sky-700 font-mono">{student.enrollmentId} • {student.grade} {student.group}</span>
+                          <p className="font-black text-slate-900">{student.fullName}</p>
+                          <span className="text-xs text-blue-700 font-mono font-bold">{student.enrollmentId} • {student.grade} {student.group}</span>
                         </div>
                       </div>
-                      <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                      <span className="text-xs font-black text-emerald-800 bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200">
                         Marcar {accessType}
                       </span>
                     </button>
@@ -232,23 +232,23 @@ export const AccessControlModule: React.FC = () => {
             </form>
 
             {/* Quick Demo Scan Buttons for 1-Click Verification */}
-            <div className="pt-2 border-t border-slate-100">
-              <span className="text-[11px] font-bold text-slate-400 block mb-2">
+            <div className="pt-3 border-t border-slate-100">
+              <span className="text-xs font-black text-slate-500 block mb-2.5">
                 Simulación Rápida de Escaneo de Alumnos:
               </span>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                 {students.slice(0, 6).map(stu => (
                   <button
                     key={stu.id}
                     onClick={() => handleRegister(stu)}
-                    className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:border-emerald-200 border border-slate-200 text-left text-xs transition group"
+                    className="flex items-center gap-2.5 p-2.5 rounded-2xl bg-slate-50 hover:bg-emerald-50 hover:border-emerald-200 border border-slate-200 text-left text-xs transition group cursor-pointer"
                   >
-                    <img src={stu.photoUrl} alt="" className="w-8 h-8 rounded-lg object-cover shrink-0" />
+                    <img src={stu.photoUrl} alt="" className="w-9 h-9 rounded-xl object-cover shrink-0" />
                     <div className="truncate">
-                      <p className="font-bold text-slate-800 group-hover:text-emerald-900 truncate leading-tight">
+                      <p className="font-black text-slate-900 group-hover:text-emerald-950 truncate text-xs sm:text-sm">
                         {stu.fullName.split(' ')[0]} {stu.fullName.split(' ')[1] || ''}
                       </p>
-                      <p className="text-[10px] text-slate-400 font-mono">{stu.grade} {stu.group}</p>
+                      <p className="text-xs text-slate-500 font-bold">{stu.grade} {stu.group}</p>
                     </div>
                   </button>
                 ))}
@@ -260,89 +260,89 @@ export const AccessControlModule: React.FC = () => {
         {/* Right column: Last Registered Feedback Card & Realtime Gate Stream */}
         <div className="lg:col-span-5 space-y-4">
           {/* Feedback Card */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">
+          <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-xs">
+            <span className="text-xs sm:text-sm font-black text-slate-500 uppercase tracking-wider block mb-3.5">
               Último Alumno Registrado
             </span>
 
             {lastScannedStudent ? (
               <div className="space-y-4 animate-in zoom-in-95 duration-200">
-                <div className="flex items-center gap-3.5 p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
+                <div className="flex items-center gap-3.5 p-4 bg-slate-50 rounded-2xl border border-slate-200">
                   <img
                     src={lastScannedStudent.student.photoUrl}
                     alt={lastScannedStudent.student.fullName}
-                    className="w-16 h-16 rounded-2xl object-cover border-2 border-emerald-500 shrink-0 shadow-sm"
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border-2 border-emerald-500 shrink-0 shadow-sm"
                   />
                   <div className="flex-1 min-w-0">
-                    <span className="text-[10px] font-mono text-sky-700 font-bold">
+                    <span className="text-xs font-mono text-blue-700 font-black">
                       {lastScannedStudent.student.enrollmentId}
                     </span>
-                    <h3 className="text-sm font-black text-slate-900 truncate">
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 truncate">
                       {lastScannedStudent.student.fullName}
                     </h3>
-                    <p className="text-xs text-slate-600 font-semibold">
+                    <p className="text-xs sm:text-sm text-slate-600 font-bold">
                       {lastScannedStudent.student.grade} - Grupo {lastScannedStudent.student.group}
                     </p>
                   </div>
                 </div>
 
                 {/* Status & Time confirmation */}
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-center">
-                    <span className="text-[10px] font-bold text-emerald-800 block">Hora Registrada</span>
-                    <span className="text-base font-black text-emerald-700">{lastScannedStudent.time}</span>
+                <div className="grid grid-cols-2 gap-2.5">
+                  <div className="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 text-center">
+                    <span className="text-xs font-black text-emerald-800 block">Hora Registrada</span>
+                    <span className="text-lg sm:text-xl font-black text-emerald-700">{lastScannedStudent.time}</span>
                   </div>
 
-                  <div className={`p-3 rounded-xl border text-center ${
+                  <div className={`p-3.5 rounded-2xl border text-center ${
                     lastScannedStudent.status === 'late'
                       ? 'bg-amber-50 border-amber-200 text-amber-700'
-                      : 'bg-sky-50 border-sky-200 text-sky-700'
+                      : 'bg-blue-50 border-blue-200 text-blue-700'
                   }`}>
-                    <span className="text-[10px] font-bold block">Puntualidad</span>
-                    <span className="text-base font-black capitalize">
+                    <span className="text-xs font-black block">Puntualidad</span>
+                    <span className="text-lg sm:text-xl font-black capitalize">
                       {lastScannedStudent.status === 'late' ? 'Retardo' : 'A tiempo'}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
-                  <span>Tutor vinculado:</span>
-                  <span className="font-bold text-slate-800">{lastScannedStudent.student.tutorName}</span>
+                <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700 flex items-center justify-between">
+                  <span className="font-bold">Tutor vinculado:</span>
+                  <span className="font-black text-slate-900">{lastScannedStudent.student.tutorName}</span>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-[11px] text-emerald-700 bg-emerald-50 p-2 rounded-lg border border-emerald-200 font-medium">
-                  <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-emerald-800 bg-emerald-50 p-3 rounded-2xl border border-emerald-200 font-bold">
+                  <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600" />
                   <span>Notificación automática enviada al teléfono del tutor.</span>
                 </div>
               </div>
             ) : (
-              <div className="text-center py-10 text-slate-400 space-y-2">
-                <UserCheck className="w-10 h-10 mx-auto text-slate-300" />
-                <p className="text-xs font-semibold">Listo para registrar accesos</p>
-                <p className="text-[11px] text-slate-400">Escanee un código QR o seleccione un alumno para registrar.</p>
+              <div className="text-center py-12 text-slate-400 space-y-2.5">
+                <UserCheck className="w-12 h-12 mx-auto text-slate-300" />
+                <p className="text-sm font-bold text-slate-600">Listo para registrar accesos</p>
+                <p className="text-xs sm:text-sm text-slate-400 font-medium">Escanee un código QR o seleccione un alumno para registrar.</p>
               </div>
             )}
           </div>
 
           {/* Recent accesses at gate */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-2.5">
-            <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-slate-400" /> Movimientos Recientes en Portón
+          <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs space-y-3">
+            <span className="text-xs sm:text-sm font-black text-slate-800 flex items-center gap-2">
+              <Clock className="w-4 h-4 text-slate-400" /> Movimientos Recientes en Portón
             </span>
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               {recentLogs.map(log => (
                 <div
                   key={log.id}
-                  className="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-100 text-xs"
+                  className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100 text-xs sm:text-sm"
                 >
                   <div>
-                    <p className="font-bold text-slate-900 leading-tight">{log.studentName}</p>
-                    <span className="text-[10px] text-slate-400">{log.grade} {log.group} • {log.type}</span>
+                    <p className="font-black text-slate-900 leading-tight text-xs sm:text-sm">{log.studentName}</p>
+                    <span className="text-xs text-slate-500 font-bold">{log.grade} {log.group} • {log.type}</span>
                   </div>
                   <div className="text-right">
-                    <span className="font-mono font-bold text-slate-800 block text-xs">{log.formattedTime}</span>
-                    <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded ${
-                      log.status === 'late' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                    <span className="font-mono font-black text-slate-900 block text-xs sm:text-sm">{log.formattedTime}</span>
+                    <span className={`text-xs font-black px-2 py-0.5 rounded-lg ${
+                      log.status === 'late' ? 'bg-amber-100 text-amber-900' : 'bg-emerald-100 text-emerald-900'
                     }`}>
                       {log.status === 'late' ? 'Retardo' : 'A tiempo'}
                     </span>

@@ -10,17 +10,17 @@ export const Header: React.FC = () => {
     admin: {
       label: 'Administrador',
       icon: Shield,
-      badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+      badgeColor: 'bg-blue-50 text-blue-800 border-blue-200',
     },
     staff: {
       label: 'Docente / Puerta',
       icon: UserCheck,
-      badgeColor: 'bg-orange-50 text-orange-700 border-orange-200',
+      badgeColor: 'bg-orange-50 text-orange-800 border-orange-200',
     },
     parent: {
       label: 'Padres de Familia',
       icon: Users,
-      badgeColor: 'bg-teal-50 text-teal-700 border-teal-200',
+      badgeColor: 'bg-teal-50 text-teal-800 border-teal-200',
     },
   };
 
@@ -29,38 +29,38 @@ export const Header: React.FC = () => {
   return (
     <header
       id="main-app-header"
-      className="sticky top-0 z-40 bg-white border-b border-slate-200 px-3 sm:px-6 py-2.5 shadow-xs"
+      className="sticky top-0 z-40 bg-white border-b border-slate-200 px-3 sm:px-6 py-3 shadow-xs"
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-        {/* Left side: Hamburger (for fullscreen/desktop sidebar toggle) + Logo + Title */}
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
+        {/* Left side: Hamburger (ONLY for desktop lg) + Logo + Title */}
         <div className="flex items-center gap-2 sm:gap-4">
           {currentRole && (
             <button
               id="sidebar-toggle-btn"
               onClick={toggleSidebar}
-              className="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 active:bg-slate-200 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="hidden lg:flex p-2.5 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 active:bg-slate-200 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
               aria-label="Abrir barra lateral de navegación"
-              title="Menú de Navegación"
+              title="Menú de Navegación Lateral"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="w-6 h-6 stroke-[2.2]" />
             </button>
           )}
 
           {/* Logo brand */}
           <div
             onClick={() => currentRole && logout()}
-            className={`flex items-center gap-2.5 select-none ${
+            className={`flex items-center gap-3 select-none ${
               currentRole ? 'cursor-pointer' : ''
             }`}
           >
-            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-sm font-black text-sm">
-              <School className="h-5 w-5 stroke-[2.2]" />
+            <div className="w-9 h-9 sm:w-11 sm:h-11 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-sm font-black">
+              <School className="h-6 w-6 stroke-[2.2]" />
             </div>
             <div>
-              <h1 className="font-extrabold text-slate-800 text-sm sm:text-base tracking-tight leading-tight uppercase">
+              <h1 className="font-black text-slate-900 text-base sm:text-lg lg:text-xl tracking-tight leading-tight uppercase">
                 Acceso Escolar
               </h1>
-              <p className="text-[10px] text-slate-400 font-semibold tracking-wider hidden sm:block uppercase">
+              <p className="text-xs sm:text-sm text-slate-500 font-bold tracking-wide hidden sm:block uppercase">
                 Control Escolar & Accesos • 700 Alumnos
               </p>
             </div>
@@ -74,22 +74,22 @@ export const Header: React.FC = () => {
 
           {/* Current Role badge info */}
           {currentRole && currentMeta && (
-            <div className={`hidden lg:flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-bold ${currentMeta.badgeColor}`}>
-              <currentMeta.icon className="w-3.5 h-3.5" />
+            <div className={`hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs sm:text-sm font-extrabold ${currentMeta.badgeColor}`}>
+              <currentMeta.icon className="w-4 h-4" />
               <span>{currentMeta.label}</span>
             </div>
           )}
 
-          {/* Logout */}
+          {/* Logout button (Always visible and functional to switch roles via Home) */}
           {currentRole ? (
             <button
               id="logout-btn"
               onClick={logout}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-slate-800 hover:bg-slate-900 transition-all shadow-xs active:scale-95"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold text-white bg-slate-900 hover:bg-slate-800 transition-all shadow-sm active:scale-95 cursor-pointer"
               title="Cerrar sesión y volver al inicio para navegar en otros roles"
             >
-              <LogOut className="w-4 h-4" />
-              <span className="whitespace-nowrap hidden sm:inline">Cerrar Sesión</span>
+              <LogOut className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+              <span className="whitespace-nowrap font-bold">Cerrar Sesión</span>
             </button>
           ) : null}
         </div>

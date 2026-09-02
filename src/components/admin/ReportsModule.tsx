@@ -99,90 +99,90 @@ export const ReportsModule: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Header & Export */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs">
         <div>
-          <h2 className="text-base sm:text-lg font-black text-slate-900">Módulo de Reportes & Historial Consolidado</h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <h2 className="text-base sm:text-xl font-black text-slate-900">Módulo de Reportes & Historial Consolidado</h2>
+          <p className="text-xs sm:text-sm font-semibold text-slate-600 mt-1">
             Monitoreo consolidado de entradas, salidas, retardos e incidencias por día, grado o alumno.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={() => window.print()}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition"
+            className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-black transition cursor-pointer"
             title="Imprimir reporte"
           >
-            <Printer className="w-4 h-4" />
+            <Printer className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="hidden sm:inline">Imprimir</span>
           </button>
           <button
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold shadow-sm transition active:scale-95"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-black shadow-sm transition active:scale-95 cursor-pointer"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
             <span>Exportar CSV</span>
           </button>
         </div>
       </div>
 
       {/* KPI Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500">Ingresos Hoy</span>
-            <div className="p-1.5 rounded-lg bg-sky-50 text-sky-700">
-              <CheckCircle2 className="w-4 h-4" />
+            <span className="text-xs sm:text-sm font-black text-slate-600">Ingresos Hoy</span>
+            <div className="p-2 rounded-xl bg-blue-50 text-blue-700">
+              <CheckCircle2 className="w-5 h-5" />
             </div>
           </div>
-          <p className="text-xl sm:text-2xl font-black text-slate-900 mt-1">{registeredCount}</p>
-          <p className="text-[11px] text-slate-400 font-medium">De {students.length} activos en padrón</p>
+          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">{registeredCount}</p>
+          <p className="text-xs font-bold text-slate-500 mt-0.5">De {students.length} activos en padrón</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs">
+        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500">Puntualidad</span>
-            <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-700">
-              <Clock className="w-4 h-4" />
+            <span className="text-xs sm:text-sm font-black text-slate-600">Puntualidad</span>
+            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-700">
+              <Clock className="w-5 h-5" />
             </div>
           </div>
-          <p className="text-xl sm:text-2xl font-black text-emerald-600 mt-1">{punctualityRate}%</p>
-          <p className="text-[11px] text-slate-400 font-medium">{onTimeCount} ingresos a tiempo</p>
+          <p className="text-2xl sm:text-3xl font-black text-emerald-600 mt-2">{punctualityRate}%</p>
+          <p className="text-xs font-bold text-emerald-700 mt-0.5">{onTimeCount} ingresos a tiempo</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs">
+        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500">Retardos</span>
-            <div className="p-1.5 rounded-lg bg-amber-50 text-amber-700">
-              <AlertTriangle className="w-4 h-4" />
+            <span className="text-xs sm:text-sm font-black text-slate-600">Retardos</span>
+            <div className="p-2 rounded-xl bg-amber-50 text-amber-700">
+              <AlertTriangle className="w-5 h-5" />
             </div>
           </div>
-          <p className="text-xl sm:text-2xl font-black text-amber-600 mt-1">{lateCount}</p>
-          <p className="text-[11px] text-slate-400 font-medium">Notificados a tutores</p>
+          <p className="text-2xl sm:text-3xl font-black text-amber-600 mt-2">{lateCount}</p>
+          <p className="text-xs font-bold text-amber-700 mt-0.5">Notificados a tutores</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs">
+        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500">Capacidad Total</span>
-            <div className="p-1.5 rounded-lg bg-indigo-50 text-indigo-700">
-              <BarChart3 className="w-4 h-4" />
+            <span className="text-xs sm:text-sm font-black text-slate-600">Capacidad Total</span>
+            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-700">
+              <BarChart3 className="w-5 h-5" />
             </div>
           </div>
-          <p className="text-xl sm:text-2xl font-black text-indigo-900 mt-1">{totalStudents}</p>
-          <p className="text-[11px] text-slate-400 font-medium">Matrícula escolar máxima</p>
+          <p className="text-2xl sm:text-3xl font-black text-indigo-950 mt-2">{totalStudents}</p>
+          <p className="text-xs font-bold text-indigo-700 mt-0.5">Matrícula escolar máxima</p>
         </div>
       </div>
 
       {/* Filters Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-12 gap-2.5 bg-white p-3 rounded-2xl border border-slate-200">
+      <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 bg-white p-4 rounded-3xl border border-slate-200">
         <div className="relative sm:col-span-6">
-          <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
+          <Search className="absolute left-3.5 top-3 w-5 h-5 text-slate-400" />
           <input
             type="text"
             placeholder="Buscar por alumno, matrícula o portón..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full pl-11 pr-4 py-2.5 text-sm sm:text-base font-semibold bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -190,7 +190,7 @@ export const ReportsModule: React.FC = () => {
           <select
             value={selectedGrade}
             onChange={e => setSelectedGrade(e.target.value)}
-            className="w-full py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full py-2.5 px-3.5 text-sm sm:text-base font-semibold bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="todos">Todos los Grados</option>
             <option value="1°">1° Primaria</option>
@@ -206,7 +206,7 @@ export const ReportsModule: React.FC = () => {
           <select
             value={selectedStatus}
             onChange={e => setSelectedStatus(e.target.value)}
-            className="w-full py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full py-2.5 px-3.5 text-sm sm:text-base font-semibold bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="todos">Todos los Estatus</option>
             <option value="on_time">A tiempo</option>
@@ -217,49 +217,49 @@ export const ReportsModule: React.FC = () => {
       </div>
 
       {/* Reports Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+      <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                <th className="py-3 px-4">Alumno</th>
-                <th className="py-3 px-3">Grado / Grupo</th>
-                <th className="py-3 px-3">Tipo & Hora</th>
-                <th className="py-3 px-3">Estatus</th>
-                <th className="py-3 px-3">Portón de Acceso</th>
-                <th className="py-3 px-4">Responsable</th>
+              <tr className="bg-slate-100 border-b border-slate-200 text-xs sm:text-sm font-black text-slate-700 uppercase tracking-wider">
+                <th className="py-3.5 px-4 sm:px-5">Alumno</th>
+                <th className="py-3.5 px-3 sm:px-4">Grado / Grupo</th>
+                <th className="py-3.5 px-3 sm:px-4">Tipo & Hora</th>
+                <th className="py-3.5 px-3 sm:px-4">Estatus</th>
+                <th className="py-3.5 px-3 sm:px-4">Portón de Acceso</th>
+                <th className="py-3.5 px-4 sm:px-5">Responsable</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-xs">
+            <tbody className="divide-y divide-slate-100 text-xs sm:text-sm">
               {filteredRecords.length > 0 ? (
                 filteredRecords.map(rec => (
-                  <tr key={rec.id} className="hover:bg-slate-50/80 transition">
-                    <td className="py-3 px-4">
-                      <p className="font-bold text-slate-900">{rec.studentName}</p>
-                      <span className="font-mono text-[11px] text-sky-700">{rec.enrollmentId}</span>
+                  <tr key={rec.id} className="hover:bg-blue-50/40 transition">
+                    <td className="py-3.5 px-4 sm:px-5">
+                      <p className="font-black text-slate-900 text-sm sm:text-base">{rec.studentName}</p>
+                      <span className="font-mono text-xs sm:text-sm text-blue-700 font-extrabold">{rec.enrollmentId}</span>
                     </td>
-                    <td className="py-3 px-3 font-semibold text-slate-700">
+                    <td className="py-3.5 px-3 sm:px-4 font-black text-slate-800 text-xs sm:text-sm">
                       {rec.grade} - {rec.group}
                     </td>
-                    <td className="py-3 px-3">
-                      <div className="font-bold text-slate-900 flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
+                    <td className="py-3.5 px-3 sm:px-4">
+                      <div className="font-black text-slate-900 text-sm flex items-center gap-1.5">
+                        <Clock className="w-4 h-4 text-slate-400" />
                         <span>{rec.formattedTime}</span>
                       </div>
-                      <span className="text-[10px] text-slate-400 font-medium">{rec.type}</span>
+                      <span className="text-xs text-slate-500 font-bold">{rec.type}</span>
                     </td>
-                    <td className="py-3 px-3">{getStatusBadge(rec.status)}</td>
-                    <td className="py-3 px-3 text-slate-700 font-medium">
-                      <span className="truncate max-w-[160px] block">{rec.gate}</span>
+                    <td className="py-3.5 px-3 sm:px-4">{getStatusBadge(rec.status)}</td>
+                    <td className="py-3.5 px-3 sm:px-4 text-slate-800 font-bold text-xs sm:text-sm">
+                      <span className="truncate max-w-[180px] block">{rec.gate}</span>
                     </td>
-                    <td className="py-3 px-4 text-slate-500 text-[11px]">
+                    <td className="py-3.5 px-4 sm:px-5 text-slate-600 text-xs sm:text-sm font-semibold">
                       {rec.registeredBy}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-slate-400 text-xs">
+                  <td colSpan={6} className="py-10 text-center text-slate-500 text-sm font-semibold">
                     No se registraron movimientos con los filtros seleccionados.
                   </td>
                 </tr>
