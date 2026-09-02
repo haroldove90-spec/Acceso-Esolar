@@ -42,7 +42,7 @@ export const AdminDashboard: React.FC = () => {
 
       {/* Render Active Module */}
       <div className="animate-in fade-in duration-200">
-        {activeTab === 'students' && <StudentsModule />}
+        {(activeTab === 'students' || (!activeTab || (activeTab !== 'staff' && activeTab !== 'reports'))) && <StudentsModule />}
         {activeTab === 'staff' && <StaffModule />}
         {activeTab === 'reports' && <ReportsModule />}
       </div>

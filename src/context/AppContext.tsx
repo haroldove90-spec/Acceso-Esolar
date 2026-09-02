@@ -78,82 +78,192 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+const VALID_TABS_BY_ROLE: Record<RoleType, string[]> = {
+  admin: ['students', 'staff', 'reports'],
+  staff: ['access', 'status', 'notices'],
+  parent: ['notifications', 'student_profile', 'announcements'],
+};
+
+export const getDefaultTabForRole = (role: RoleType | null, currentTab?: string | null): string => {
+  if (!role) return 'students';
+  const validTabs = VALID_TABS_BY_ROLE[role] || ['students'];
+  if (currentTab && validTabs.includes(currentTab)) {
+    return currentTab;
+  }
+  return validTabs[0];
+};
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentRole, setCurrentRoleState] = useState<RoleType | null>(() => {
-    const saved = localStorage.getItem('sa_current_role');
-    return (saved as RoleType) || null;
+    try {
+      const saved = localStorage.getItem('sa_current_role');
+      if (saved === 'admin' || saved === 'staff' || saved === 'parent') {
+        return saved as RoleType;
+      }
+    } catch (e) {
+      console.error('Error reading saved role:', e);
+    }
+    return null;
   });
 
-  const [activeTab, setActiveTab] = useState<string>('students');
+  const [activeTab, setActiveTab] = useState<string>(() => {
+    try {
+      const savedRole = (localStorage.getItem('sa_current_role') as RoleType) || null;
+      const savedTab = localStorage.getItem('sa_active_tab');
+      return getDefaultTabForRole(savedRole, savedTab);
+    } catch (e) {
+      console.error('Error reading saved active tab:', e);
+      return 'students';
+    }
+  });
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Load / Store Students
   const [students, setStudents] = useState<Student[]>(() => {
-    const saved = localStorage.getItem('sa_students');
-    return saved ? JSON.parse(saved) : INITIAL_STUDENTS;
+    try {
+      const saved = localStorage.getItem('sa_students');
+      return saved ? JSON.parse(saved) : INITIAL_STUDENTS;
+    } catch (e) {
+      return INITIAL_STUDENTS;
+    }
   });
 
   // Load / Store Staff
   const [staff, setStaff] = useState<StaffMember[]>(() => {
-    const saved = localStorage.getItem('sa_staff');
-    return saved ? JSON.parse(saved) : INITIAL_STAFF;
+    try {
+      const saved = localStorage.getItem('sa_staff');
+      return saved ? JSON.parse(saved) : INITIAL_STAFF;
+    } catch (e) {
+      return INITIAL_STAFF;
+    }
   });
 
   // Load / Store Access Records
   const [accessRecords, setAccessRecords] = useState<AccessRecord[]>(() => {
-    const saved = localStorage.getItem('sa_access_records');
-    return saved ? JSON.parse(saved) : INITIAL_ACCESS_RECORDS;
+    try {
+      const saved = localStorage.getItem('sa_access_records');
+      return saved ? JSON.parse(saved) : INITIAL_ACCESS_RECORDS;
+    } catch (e) {
+      return INITIAL_ACCESS_RECORDS;
+    }
   });
 
   // Load / Store Notices
   const [notices, setNotices] = useState<DirectNotice[]>(() => {
-    const saved = localStorage.getItem('sa_notices');
-    return saved ? JSON.parse(saved) : INITIAL_NOTICES;
+    try {
+      const saved = localStorage.getItem('sa_notices');
+      return saved ? JSON.parse(saved) : INITIAL_NOTICES;
+    } catch (e) {
+      return INITIAL_NOTICES;
+    }
   });
 
   const [announcements] = useState<Announcement[]>(INITIAL_ANNOUNCEMENTS);
   const [events] = useState<SchoolEvent[]>(INITIAL_EVENTS);
 
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
-  const [parentSelectedStudentId, setParentSelectedStudentId] = useState<string>('alu-001');
+  const [parentSelectedStudentId, setParentSelectedStudentId] = useState<string>(() => {
+    try {
+      return localStorage.getItem('sa_parent_selected_student') || 'alu-001';
+    } catch (e) {
+      return 'alu-001';
+    }
+  });
   const [toasts, setToasts] = useState<ToastNotification[]>([]);
   const [showPWAInstallModal, setShowPWAInstallModal] = useState(false);
 
-  // Sync to local storage
+  // Sync session and state to local storage
   useEffect(() => {
-    if (currentRole) {
-      localStorage.setItem('sa_current_role', currentRole);
-    } else {
-      localStorage.removeItem('sa_current_role');
+    try {
+      if (currentRole) {
+        localStorage.setItem('sa_current_role', currentRole);
+      } else {
+        localStorage.removeItem('sa_current_role');
+      }
+    } catch (e) {
+      console.error('Error saving role:', e);
     }
   }, [currentRole]);
 
   useEffect(() => {
-    localStorage.setItem('sa_students', JSON.stringify(students));
+    try {
+      if (activeTab) {
+        localStorage.setItem('sa_active_tab', activeTab);
+      }
+    } catch (e) {
+      console.error('Error saving active tab:', e);
+    }
+  }, [activeTab]);
+
+  useEffect(() => {
+    try {
+      if (parentSelectedStudentId) {
+        localStorage.setItem('sa_parent_selected_student', parentSelectedStudentId);
+      }
+    } catch (e) {
+      console.error('Error saving selected student ID:', e);
+    }
+  }, [parentSelectedStudentId]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('sa_students', JSON.stringify(students));
+    } catch (e) {
+      console.error('Error saving students:', e);
+    }
   }, [students]);
 
   useEffect(() => {
-    localStorage.setItem('sa_staff', JSON.stringify(staff));
+    try {
+      localStorage.setItem('sa_staff', JSON.stringify(staff));
+    } catch (e) {
+      console.error('Error saving staff:', e);
+    }
   }, [staff]);
 
   useEffect(() => {
-    localStorage.setItem('sa_access_records', JSON.stringify(accessRecords));
+    try {
+      localStorage.setItem('sa_access_records', JSON.stringify(accessRecords));
+    } catch (e) {
+      console.error('Error saving access records:', e);
+    }
   }, [accessRecords]);
 
   useEffect(() => {
-    localStorage.setItem('sa_notices', JSON.stringify(notices));
+    try {
+      localStorage.setItem('sa_notices', JSON.stringify(notices));
+    } catch (e) {
+      console.error('Error saving notices:', e);
+    }
   }, [notices]);
 
   const setCurrentRole = (role: RoleType | null) => {
     setCurrentRoleState(role);
-    if (role === 'admin') setActiveTab('students');
-    if (role === 'staff') setActiveTab('access');
-    if (role === 'parent') setActiveTab('notifications');
+    const newTab = getDefaultTabForRole(role);
+    setActiveTab(newTab);
+    try {
+      if (role) {
+        localStorage.setItem('sa_current_role', role);
+        localStorage.setItem('sa_active_tab', newTab);
+      } else {
+        localStorage.removeItem('sa_current_role');
+        localStorage.removeItem('sa_active_tab');
+      }
+    } catch (e) {
+      console.error('Error updating role in localStorage:', e);
+    }
   };
 
   const logout = () => {
     setCurrentRoleState(null);
     setIsSidebarOpen(false);
+    try {
+      localStorage.removeItem('sa_current_role');
+      localStorage.removeItem('sa_active_tab');
+    } catch (e) {
+      console.error('Error clearing session in localStorage:', e);
+    }
   };
 
   const toggleSidebar = () => {

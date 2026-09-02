@@ -58,7 +58,9 @@ export const ParentDashboard: React.FC = () => {
 
       {/* Active Tab View */}
       <div className="animate-in fade-in duration-200">
-        {activeTab === 'notifications' && <InstantNotificationsModule />}
+        {(activeTab === 'notifications' || (!activeTab || (activeTab !== 'student_profile' && activeTab !== 'announcements'))) && (
+          <InstantNotificationsModule />
+        )}
         {activeTab === 'student_profile' && <StudentProfileModule />}
         {activeTab === 'announcements' && <AnnouncementsBoardModule />}
       </div>

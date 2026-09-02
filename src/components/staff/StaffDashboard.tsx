@@ -55,7 +55,7 @@ export const StaffDashboard: React.FC = () => {
 
       {/* Render Active Tab */}
       <div className="animate-in fade-in duration-200">
-        {activeTab === 'access' && <AccessControlModule />}
+        {(activeTab === 'access' || (!activeTab || (activeTab !== 'status' && activeTab !== 'notices'))) && <AccessControlModule />}
         {activeTab === 'status' && <RealTimeStatusModule />}
         {activeTab === 'notices' && <DirectNoticesModule />}
       </div>

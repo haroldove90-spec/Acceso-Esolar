@@ -47,12 +47,7 @@ export const Header: React.FC = () => {
           )}
 
           {/* Logo brand */}
-          <div
-            onClick={() => currentRole && logout()}
-            className={`flex items-center gap-3 select-none ${
-              currentRole ? 'cursor-pointer' : ''
-            }`}
-          >
+          <div className="flex items-center gap-3 select-none">
             <div className="w-9 h-9 sm:w-11 sm:h-11 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-sm font-black">
               <School className="h-6 w-6 stroke-[2.2]" />
             </div>
