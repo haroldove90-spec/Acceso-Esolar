@@ -11,10 +11,13 @@ import {
   Camera,
   Volume2,
   ScanLine,
-  UserCheck
+  UserCheck,
+  Maximize2
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { GateType, Student, AttendanceStatus } from '../../types';
+import { RealQRScanner } from '../common/RealQRScanner';
+import { QuickQRScannerModal } from './QuickQRScannerModal';
 
 export const AccessControlModule: React.FC = () => {
   const { students, registerAccess, accessRecords } = useApp();
@@ -22,7 +25,8 @@ export const AccessControlModule: React.FC = () => {
   const [selectedGate, setSelectedGate] = useState<GateType>('Portón Principal (Entrada General)');
   const [accessType, setAccessType] = useState<'Entrada' | 'Salida'>('Entrada');
   const [inputQuery, setInputQuery] = useState('');
-  const [isScanningMode, setIsScanningMode] = useState(false);
+  const [isCameraActive, setIsCameraActive] = useState(true);
+  const [showFullscreenModal, setShowFullscreenModal] = useState(false);
   const [lastScannedStudent, setLastScannedStudent] = useState<{
     student: Student;
     status: AttendanceStatus;
@@ -30,28 +34,9 @@ export const AccessControlModule: React.FC = () => {
     type: 'Entrada' | 'Salida';
   } | null>(null);
 
-  // Play audio beep feedback
-  const playBeep = (isSuccess: boolean = true) => {
-    try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = isSuccess ? 'sine' : 'sawtooth';
-      osc.frequency.setValueAtTime(isSuccess ? 880 : 300, ctx.currentTime);
-      gain.gain.setValueAtTime(0.15, ctx.currentTime);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.18);
-    } catch {
-      // AudioContext not available or blocked
-    }
-  };
-
   const handleRegister = (student: Student) => {
     const result = registerAccess(student.id, selectedGate, undefined, accessType);
     if (result.success && result.record) {
-      playBeep(result.record.status === 'on_time' || result.record.status === 'present');
       setLastScannedStudent({
         student,
         status: result.record.status,
@@ -59,6 +44,23 @@ export const AccessControlModule: React.FC = () => {
         type: accessType,
       });
       setInputQuery('');
+    }
+  };
+
+  const handleDecodedQR = (scannedText: string) => {
+    const query = scannedText.trim().toLowerCase();
+    const matched = students.find(
+      s =>
+        s.qrCodeValue.toLowerCase() === query ||
+        s.enrollmentId.toLowerCase() === query ||
+        s.id.toLowerCase() === query ||
+        query.includes(s.enrollmentId.toLowerCase()) ||
+        query.includes(s.id.toLowerCase()) ||
+        s.fullName.toLowerCase() === query
+    );
+
+    if (matched) {
+      handleRegister(matched);
     }
   };
 
@@ -102,7 +104,7 @@ export const AccessControlModule: React.FC = () => {
           </div>
           <div>
             <h2 className="text-base sm:text-xl font-black text-slate-900">Control de Acceso Ágil en Puerta</h2>
-            <p className="text-xs sm:text-sm font-semibold text-slate-600 mt-0.5">Escaneo de credencial QR o registro por matrícula con confirmación al tutor.</p>
+            <p className="text-xs sm:text-sm font-semibold text-slate-600 mt-0.5">Lector de código QR en vivo con cámara y registro por matrícula con confirmación al tutor.</p>
           </div>
         </div>
 
@@ -140,46 +142,32 @@ export const AccessControlModule: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-        {/* Left column: Scanner + Quick Input */}
+        {/* Left column: Real Camera Scanner + Quick Input */}
         <div className="lg:col-span-7 space-y-4">
           {/* Main Scanner Card */}
           <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm sm:text-base font-black text-slate-800 flex items-center gap-2">
-                <ScanLine className="w-5 h-5 text-emerald-600" /> Escáner de Credencial Digital
+                <ScanLine className="w-5 h-5 text-emerald-600" /> Escáner de Credencial Digital (Cámara en Vivo)
               </span>
               <button
-                onClick={() => setIsScanningMode(!isScanningMode)}
-                className={`text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-xl flex items-center gap-1.5 transition cursor-pointer ${
-                  isScanningMode
-                    ? 'bg-rose-100 text-rose-800 border border-rose-200'
-                    : 'bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100'
-                }`}
+                onClick={() => setShowFullscreenModal(true)}
+                className="text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 flex items-center gap-1.5 transition cursor-pointer"
+                title="Abrir Estación a Pantalla Completa"
               >
-                <Camera className="w-4 h-4" />
-                <span>{isScanningMode ? 'Pausar Cámara' : 'Activar Cámara'}</span>
+                <Maximize2 className="w-4 h-4" />
+                <span>Estación Rápida</span>
               </button>
             </div>
 
-            {/* Visual QR Scanner Viewport */}
-            <div className="relative w-full h-56 sm:h-64 bg-slate-900 rounded-3xl overflow-hidden flex flex-col items-center justify-center text-white border border-slate-800">
-              {/* Animated scanning laser */}
-              <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 h-40 border-2 border-dashed border-emerald-400/80 rounded-3xl flex items-center justify-center">
-                <div className="absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_12px_#34d399] animate-bounce"></div>
-              </div>
-
-              <div className="z-10 text-center space-y-2.5 p-4">
-                <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md mx-auto flex items-center justify-center text-emerald-400 border border-white/20">
-                  <QrCode className="w-8 h-8" />
-                </div>
-                <p className="text-sm sm:text-base font-black text-slate-100">
-                  {isScanningMode ? 'Escáner Óptico Activo — Apunte el código QR' : 'Lector de Portón Listo'}
-                </p>
-                <p className="text-xs sm:text-sm text-slate-300 max-w-sm font-medium">
-                  Coloque la credencial digital del alumno frente al lector óptico o use el registro rápido por matrícula abajo.
-                </p>
-              </div>
-            </div>
+            {/* Real Camera Scanner Viewport */}
+            <RealQRScanner
+              isActive={isCameraActive}
+              onToggleActive={setIsCameraActive}
+              onScanResult={handleDecodedQR}
+              showControls={true}
+              compact={false}
+            />
 
             {/* Manual Quick Search & Enter */}
             <form onSubmit={handleSearchSubmit} className="space-y-2.5">
@@ -234,7 +222,7 @@ export const AccessControlModule: React.FC = () => {
             {/* Quick Demo Scan Buttons for 1-Click Verification */}
             <div className="pt-3 border-t border-slate-100">
               <span className="text-xs font-black text-slate-500 block mb-2.5">
-                Simulación Rápida de Escaneo de Alumnos:
+                Simulación Rápida de Escaneo de Alumnos (1 Clic):
               </span>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                 {students.slice(0, 6).map(stu => (
@@ -319,7 +307,7 @@ export const AccessControlModule: React.FC = () => {
               <div className="text-center py-12 text-slate-400 space-y-2.5">
                 <UserCheck className="w-12 h-12 mx-auto text-slate-300" />
                 <p className="text-sm font-bold text-slate-600">Listo para registrar accesos</p>
-                <p className="text-xs sm:text-sm text-slate-400 font-medium">Escanee un código QR o seleccione un alumno para registrar.</p>
+                <p className="text-xs sm:text-sm text-slate-400 font-medium">Escanee un código QR con la cámara o seleccione un alumno.</p>
               </div>
             )}
           </div>
@@ -353,6 +341,12 @@ export const AccessControlModule: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Standalone Modal triggered from AccessControlModule */}
+      {showFullscreenModal && (
+        <QuickQRScannerModal onClose={() => setShowFullscreenModal(false)} />
+      )}
     </div>
   );
 };
+
