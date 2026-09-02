@@ -145,6 +145,7 @@ export const INITIAL_STAFF: StaffMember[] = [
     email: 'roberto.alarcon@escuela.edu.mx',
     shift: 'Matutino',
     status: 'En Turno',
+    photoUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=250',
   },
   {
     id: 'stf-002',
@@ -156,6 +157,7 @@ export const INITIAL_STAFF: StaffMember[] = [
     email: 'elena.bustamante@escuela.edu.mx',
     shift: 'Matutino',
     status: 'En Turno',
+    photoUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=250',
   },
   {
     id: 'stf-003',
@@ -167,6 +169,7 @@ export const INITIAL_STAFF: StaffMember[] = [
     email: 'fernando.quiroz@escuela.edu.mx',
     shift: 'Completo',
     status: 'En Turno',
+    photoUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=250',
   },
   {
     id: 'stf-004',
@@ -178,6 +181,7 @@ export const INITIAL_STAFF: StaffMember[] = [
     email: 'carmen.estrada@escuela.edu.mx',
     shift: 'Completo',
     status: 'En Turno',
+    photoUrl: 'https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&q=80&w=250',
   },
 ];
 

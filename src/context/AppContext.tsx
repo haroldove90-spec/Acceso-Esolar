@@ -55,8 +55,12 @@ interface AppContextType {
   // Actions
   addStudent: (student: Omit<Student, 'id' | 'qrCodeValue'>) => void;
   updateStudent: (student: Student) => void;
+  deleteStudent: (studentId: string) => void;
+  toggleStudentStatus: (studentId: string) => void;
   addStaff: (staffMember: Omit<StaffMember, 'id'>) => void;
   updateStaff: (staffMember: StaffMember) => void;
+  deleteStaff: (staffId: string) => void;
+  toggleStaffStatus: (staffId: string) => void;
   registerAccess: (studentId: string, gate: GateType, status?: AttendanceStatus, type?: 'Entrada' | 'Salida', notes?: string) => { success: boolean; message: string; record?: AccessRecord };
   updateAccessStatus: (recordId: string, status: AttendanceStatus) => void;
   sendDirectNotice: (studentId: string, category: DirectNotice['category'], title: string, message: string, priority?: DirectNotice['priority']) => void;
@@ -190,6 +194,29 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast('Padrón Actualizado', `Datos de ${updatedStudent.fullName} guardados correctamente.`, 'info');
   };
 
+  const deleteStudent = (studentId: string) => {
+    const target = students.find(s => s.id === studentId);
+    setStudents(prev => prev.filter(s => s.id !== studentId));
+    showToast('Alumno Eliminado', `${target?.fullName || 'El registro'} fue removido del padrón escolar.`, 'warning');
+  };
+
+  const toggleStudentStatus = (studentId: string) => {
+    setStudents(prev =>
+      prev.map(s => {
+        if (s.id === studentId) {
+          const nextStatus = s.status === 'Activo' ? 'Inactivo' : 'Activo';
+          showToast(
+            nextStatus === 'Activo' ? 'Alumno Activado' : 'Alumno Desactivado',
+            `${s.fullName} ahora está ${nextStatus}.`,
+            nextStatus === 'Activo' ? 'success' : 'warning'
+          );
+          return { ...s, status: nextStatus };
+        }
+        return s;
+      })
+    );
+  };
+
   const addStaff = (staffData: Omit<StaffMember, 'id'>) => {
     const id = 'stf-' + (staff.length + 1).toString().padStart(3, '0');
     const newStaff: StaffMember = {
@@ -203,6 +230,29 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const updateStaff = (updatedStaff: StaffMember) => {
     setStaff(prev => prev.map(s => (s.id === updatedStaff.id ? updatedStaff : s)));
     showToast('Personal Actualizado', `Responsabilidad de ${updatedStaff.fullName} actualizada.`, 'info');
+  };
+
+  const deleteStaff = (staffId: string) => {
+    const target = staff.find(s => s.id === staffId);
+    setStaff(prev => prev.filter(s => s.id !== staffId));
+    showToast('Personal Eliminado', `${target?.fullName || 'El personal'} fue removido del sistema.`, 'warning');
+  };
+
+  const toggleStaffStatus = (staffId: string) => {
+    setStaff(prev =>
+      prev.map(s => {
+        if (s.id === staffId) {
+          const nextStatus = s.status === 'Inactivo' ? 'En Turno' : 'Inactivo';
+          showToast(
+            nextStatus === 'Inactivo' ? 'Personal Desactivado' : 'Personal Activado',
+            `${s.fullName} ahora está ${nextStatus}.`,
+            nextStatus === 'Inactivo' ? 'warning' : 'success'
+          );
+          return { ...s, status: nextStatus };
+        }
+        return s;
+      })
+    );
   };
 
   const registerAccess = (
@@ -356,8 +406,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setParentSelectedStudentId,
         addStudent,
         updateStudent,
+        deleteStudent,
+        toggleStudentStatus,
         addStaff,
         updateStaff,
+        deleteStaff,
+        toggleStaffStatus,
         registerAccess,
         updateAccessStatus,
         sendDirectNotice,

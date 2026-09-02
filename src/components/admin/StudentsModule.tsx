@@ -2,30 +2,36 @@ import React, { useState } from 'react';
 import {
   Users,
   Search,
-  Filter,
   Plus,
   QrCode,
   Edit2,
   Phone,
-  Mail,
-  UserCheck,
   CheckCircle2,
   X,
-  FileText,
-  Building
+  Trash2,
+  Eye,
+  Power,
+  AlertCircle,
+  Filter
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { Student } from '../../types';
 import { StudentCardModal } from '../common/StudentCardModal';
+import { PhotoUploader } from '../common/PhotoUploader';
+import { ConfirmDeleteModal } from '../common/ConfirmDeleteModal';
 
 export const StudentsModule: React.FC = () => {
-  const { students, addStudent, updateStudent } = useApp();
+  const { students, addStudent, updateStudent, deleteStudent, toggleStudentStatus } = useApp();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGrade, setSelectedGrade] = useState<string>('todos');
   const [selectedGroup, setSelectedGroup] = useState<string>('todos');
+  const [selectedStatus, setSelectedStatus] = useState<string>('todos');
+  
+  // Modals state
   const [cardModalStudent, setCardModalStudent] = useState<Student | null>(null);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
+  const [studentToDelete, setStudentToDelete] = useState<Student | null>(null);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -100,6 +106,13 @@ export const StudentsModule: React.FC = () => {
     setIsFormModalOpen(false);
   };
 
+  const handleConfirmDelete = () => {
+    if (studentToDelete) {
+      deleteStudent(studentToDelete.id);
+      setStudentToDelete(null);
+    }
+  };
+
   // Filter students
   const filteredStudents = students.filter(s => {
     const matchesSearch =
@@ -109,9 +122,13 @@ export const StudentsModule: React.FC = () => {
 
     const matchesGrade = selectedGrade === 'todos' || s.grade === selectedGrade;
     const matchesGroup = selectedGroup === 'todos' || s.group === selectedGroup;
+    const matchesStatus = selectedStatus === 'todos' || s.status === selectedStatus;
 
-    return matchesSearch && matchesGrade && matchesGroup;
+    return matchesSearch && matchesGrade && matchesGroup && matchesStatus;
   });
+
+  const activeCount = students.filter(s => s.status === 'Activo').length;
+  const inactiveCount = students.filter(s => s.status === 'Inactivo').length;
 
   return (
     <div className="space-y-4">
@@ -120,12 +137,19 @@ export const StudentsModule: React.FC = () => {
         <div>
           <div className="flex flex-wrap items-center gap-2.5">
             <h2 className="text-base sm:text-xl font-black text-slate-900">Gestión de Alumnos y Grupos</h2>
-            <span className="bg-sky-100 text-sky-900 text-xs sm:text-sm font-black px-3 py-1 rounded-full border border-sky-200">
-              Padrón: 700 Plazas ({students.length} Registrados)
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="bg-emerald-50 text-emerald-800 text-xs font-black px-2.5 py-0.5 rounded-full border border-emerald-200">
+                {activeCount} Activos
+              </span>
+              {inactiveCount > 0 && (
+                <span className="bg-slate-100 text-slate-700 text-xs font-black px-2.5 py-0.5 rounded-full border border-slate-200">
+                  {inactiveCount} Inactivos
+                </span>
+              )}
+            </div>
           </div>
           <p className="text-xs sm:text-sm font-semibold text-slate-600 mt-1">
-            Consulta del padrón escolar, asignación por grado y vinculación con tutores legales.
+            Administra el padrón escolar con alta fotográfica, credencial digital, edición, desactivación y borrado de registros.
           </p>
         </div>
 
@@ -134,30 +158,30 @@ export const StudentsModule: React.FC = () => {
           className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-black shadow-sm transition active:scale-95 cursor-pointer"
         >
           <Plus className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
-          <span>Registrar Alumno</span>
+          <span>Alta de Alumno</span>
         </button>
       </div>
 
       {/* Filter and Search Bar */}
       <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 bg-white p-4 rounded-3xl border border-slate-200">
-        <div className="relative sm:col-span-6">
+        <div className="relative sm:col-span-5">
           <Search className="absolute left-3.5 top-3 w-5 h-5 text-slate-400" />
           <input
             type="text"
             placeholder="Buscar por nombre, matrícula o tutor..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
-            className="w-full pl-11 pr-4 py-2.5 text-sm sm:text-base font-semibold bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-11 pr-4 py-2.5 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        <div className="sm:col-span-3">
+        <div className="sm:col-span-2">
           <select
             value={selectedGrade}
             onChange={e => setSelectedGrade(e.target.value)}
-            className="w-full py-2.5 px-3.5 text-sm sm:text-base font-semibold bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-2.5 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="todos">Todos los Grados (1° a 6°)</option>
+            <option value="todos">Todos los Grados</option>
             <option value="1°">1° Primaria</option>
             <option value="2°">2° Primaria</option>
             <option value="3°">3° Primaria</option>
@@ -167,16 +191,28 @@ export const StudentsModule: React.FC = () => {
           </select>
         </div>
 
-        <div className="sm:col-span-3">
+        <div className="sm:col-span-2">
           <select
             value={selectedGroup}
             onChange={e => setSelectedGroup(e.target.value)}
-            className="w-full py-2.5 px-3.5 text-sm sm:text-base font-semibold bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-2.5 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="todos">Todos los Grupos (A, B, C)</option>
+            <option value="todos">Todos los Grupos</option>
             <option value="A">Grupo A</option>
             <option value="B">Grupo B</option>
             <option value="C">Grupo C</option>
+          </select>
+        </div>
+
+        <div className="sm:col-span-3">
+          <select
+            value={selectedStatus}
+            onChange={e => setSelectedStatus(e.target.value)}
+            className="w-full py-2.5 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="todos">Todos los Estatus</option>
+            <option value="Activo">Solo Activos</option>
+            <option value="Inactivo">Solo Inactivos (Desactivados)</option>
           </select>
         </div>
       </div>
@@ -190,18 +226,23 @@ export const StudentsModule: React.FC = () => {
                 <th className="py-3.5 px-4 sm:px-5">Alumno / Matrícula</th>
                 <th className="py-3.5 px-3 sm:px-4">Grado & Grupo</th>
                 <th className="py-3.5 px-3 sm:px-4">Tutor Legal & Contacto</th>
-                <th className="py-3.5 px-3 sm:px-4">Estatus</th>
-                <th className="py-3.5 px-4 sm:px-5 text-right">Credencial / Acciones</th>
+                <th className="py-3.5 px-3 sm:px-4 text-center">Estatus (Activar / Desactivar)</th>
+                <th className="py-3.5 px-4 sm:px-5 text-right">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-xs sm:text-sm">
               {filteredStudents.length > 0 ? (
                 filteredStudents.map(student => (
-                  <tr key={student.id} className="hover:bg-blue-50/40 transition">
+                  <tr
+                    key={student.id}
+                    className={`transition ${
+                      student.status === 'Inactivo' ? 'bg-slate-50/60 opacity-80' : 'hover:bg-blue-50/40'
+                    }`}
+                  >
                     <td className="py-3.5 px-4 sm:px-5">
                       <div className="flex items-center gap-3.5">
                         <img
-                          src={student.photoUrl}
+                          src={student.photoUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=250'}
                           alt={student.fullName}
                           className="w-12 h-12 rounded-2xl object-cover border-2 border-slate-200 shrink-0 shadow-xs"
                         />
@@ -220,33 +261,54 @@ export const StudentsModule: React.FC = () => {
                       <span className="block text-xs font-bold text-slate-500 mt-1">{student.shift}</span>
                     </td>
                     <td className="py-3.5 px-3 sm:px-4">
-                      <p className="font-bold text-slate-900 text-sm sm:text-base">{student.tutorName}</p>
-                      <p className="text-xs sm:text-sm text-slate-600 font-medium flex items-center gap-1.5 mt-0.5">
+                      <p className="font-bold text-slate-900 text-sm">{student.tutorName}</p>
+                      <p className="text-xs text-slate-600 font-medium flex items-center gap-1.5 mt-0.5">
                         <Phone className="w-3.5 h-3.5 text-slate-400" />
                         <span>{student.tutorPhone}</span>
                       </p>
                     </td>
-                    <td className="py-3.5 px-3 sm:px-4">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-emerald-50 text-emerald-800 border border-emerald-200">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> {student.status}
-                      </span>
+                    <td className="py-3.5 px-3 sm:px-4 text-center">
+                      <button
+                        onClick={() => toggleStudentStatus(student.id)}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black border transition cursor-pointer ${
+                          student.status === 'Activo'
+                            ? 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200'
+                            : 'bg-slate-100 text-slate-600 border-slate-300 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200'
+                        }`}
+                        title={student.status === 'Activo' ? 'Clic para Desactivar Alumno' : 'Clic para Activar Alumno'}
+                      >
+                        <Power className="w-3.5 h-3.5" />
+                        <span>{student.status}</span>
+                      </button>
                     </td>
                     <td className="py-3.5 px-4 sm:px-5 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-1.5">
+                        {/* Ver / Credencial QR */}
                         <button
                           onClick={() => setCardModalStudent(student)}
-                          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-extrabold text-xs sm:text-sm border border-blue-200 transition cursor-pointer"
-                          title="Ver Credencial Digital y QR"
+                          className="p-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-xs border border-blue-200 transition cursor-pointer flex items-center gap-1"
+                          title="Ver Credencial Digital y Código QR"
                         >
-                          <QrCode className="w-4 h-4" />
-                          <span className="hidden sm:inline">Credencial QR</span>
+                          <Eye className="w-4 h-4" />
+                          <span className="hidden md:inline">Ver</span>
                         </button>
+
+                        {/* Editar */}
                         <button
                           onClick={() => handleOpenEdit(student)}
-                          className="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer"
-                          title="Editar Alumno"
+                          className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition cursor-pointer"
+                          title="Editar Registro"
                         >
-                          <Edit2 className="w-4.5 h-4.5" />
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+
+                        {/* Borrar */}
+                        <button
+                          onClick={() => setStudentToDelete(student)}
+                          className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold border border-rose-200 transition cursor-pointer"
+                          title="Eliminar Alumno"
+                        >
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </td>
@@ -267,21 +329,36 @@ export const StudentsModule: React.FC = () => {
       {/* Add / Edit Student Modal */}
       {isFormModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in">
-          <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 p-6 max-h-[90vh] overflow-y-auto">
+          <div className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-slate-200 p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-              <h3 className="text-base font-extrabold text-slate-900">
-                {editingStudent ? 'Actualizar Datos de Alumno' : 'Registrar Nuevo Alumno al Padrón'}
-              </h3>
+              <div>
+                <h3 className="text-base sm:text-lg font-black text-slate-900">
+                  {editingStudent ? 'Editar Registro de Alumno' : 'Alta de Nuevo Alumno al Padrón'}
+                </h3>
+                <p className="text-xs text-slate-500 font-semibold">
+                  {editingStudent ? 'Actualiza los datos y la fotografía del alumno.' : 'Completa la información escolar y fotografía oficial.'}
+                </p>
+              </div>
               <button
                 onClick={() => setIsFormModalOpen(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleFormSubmit} className="space-y-4 text-sm">
-              <div className="grid grid-cols-2 gap-3.5">
+              {/* Photo Uploader Field */}
+              <PhotoUploader
+                photoUrl={formData.photoUrl}
+                onChange={url => setFormData({ ...formData, photoUrl: url })}
+                label="Fotografía del Alumno"
+                helperText="Sube foto (JPG/PNG) o toma con cámara"
+                type="student"
+              />
+
+              {/* Student Basic Info */}
+              <div className="grid grid-cols-2 gap-3.5 pt-2 border-t border-slate-100">
                 <div className="col-span-2">
                   <label className="font-black text-slate-800 text-sm block mb-1">Nombre Completo del Alumno *</label>
                   <input
@@ -349,7 +426,7 @@ export const StudentsModule: React.FC = () => {
 
               {/* Tutor Details */}
               <div className="pt-3 border-t border-slate-100">
-                <span className="font-black text-slate-900 text-base block mb-2">Vinculación con Tutor Legal</span>
+                <span className="font-black text-slate-900 text-sm block mb-2">Vinculación con Tutor Legal</span>
                 <div className="grid grid-cols-2 gap-3.5">
                   <div className="col-span-2">
                     <label className="font-bold text-slate-700 text-sm block mb-1">Nombre del Tutor *</label>
@@ -387,7 +464,7 @@ export const StudentsModule: React.FC = () => {
                 </div>
               </div>
 
-              {/* Medical and Emergency */}
+              {/* Medical and Status */}
               <div className="grid grid-cols-2 gap-3.5 pt-3 border-t border-slate-100">
                 <div>
                   <label className="font-bold text-slate-700 text-sm block mb-1">Tipo de Sangre</label>
@@ -399,18 +476,19 @@ export const StudentsModule: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="font-bold text-slate-700 text-sm block mb-1">Estatus del Alumno</label>
+                  <label className="font-bold text-slate-700 text-sm block mb-1">Estatus del Registro</label>
                   <select
                     value={formData.status}
                     onChange={e => setFormData({ ...formData, status: e.target.value as any })}
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl font-semibold text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   >
-                    <option value="Activo">Activo</option>
-                    <option value="Inactivo">Inactivo</option>
+                    <option value="Activo">Activo (Habilitado)</option>
+                    <option value="Inactivo">Inactivo (Desactivado)</option>
                   </select>
                 </div>
               </div>
 
+              {/* Action Buttons: Save & Cancel */}
               <div className="flex gap-3 pt-4 border-t border-slate-100">
                 <button
                   type="submit"
@@ -431,13 +509,23 @@ export const StudentsModule: React.FC = () => {
         </div>
       )}
 
-      {/* Credential Modal */}
+      {/* Credential / View Modal */}
       {cardModalStudent && (
         <StudentCardModal
           student={cardModalStudent}
           onClose={() => setCardModalStudent(null)}
         />
       )}
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmDeleteModal
+        isOpen={!!studentToDelete}
+        title="¿Eliminar Alumno del Padrón?"
+        message="Se eliminará la ficha escolar, credencial digital y vinculación con tutores."
+        itemName={studentToDelete ? `${studentToDelete.fullName} (${studentToDelete.enrollmentId})` : ''}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setStudentToDelete(null)}
+      />
     </div>
   );
 };

@@ -31,7 +31,8 @@ export interface StaffMember {
   phone: string;
   email: string;
   shift: 'Matutino' | 'Vespertino' | 'Completo';
-  status: 'En Turno' | 'Fuera de Servicio';
+  status: 'En Turno' | 'Fuera de Servicio' | 'Inactivo';
+  photoUrl?: string;
 }
 
 export interface AccessRecord {
