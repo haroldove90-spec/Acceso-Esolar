@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+  </defs>
+  <!-- Background with rounded corners -->
+  <rect width="512" height="512" rx="112" fill="url(#brandGrad)" />
+  
+  <!-- Outer subtle shield glow -->
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="8" />
+  
+  <!-- Central air conditioning / airflow snowflake & shield crest -->
+  <g fill="#ffffff">
+    <!-- Air conditioning unit body -->
+    <rect x="116" y="150" width="280" height="130" rx="20" fill="#ffffff" />
+    <rect x="136" y="240" width="240" height="22" rx="8" fill="#e0f2fe" />
+    <circle cx="360" cy="185" r="10" fill="#0284c7" />
+    <circle cx="330" cy="185" r="5" fill="#38bdf8" />
+    
+    <!-- Cool Airflow waves / dynamic breeze -->
+    <path d="M140 310 Q 200 340 260 310 T 380 310" fill="none" stroke="#e0f2fe" stroke-width="14" stroke-linecap="round" />
+    <path d="M160 350 Q 220 380 280 350 T 360 350" fill="none" stroke="#bae6fd" stroke-width="12" stroke-linecap="round" />
+    <path d="M190 390 Q 240 415 290 390 T 330 390" fill="none" stroke="#7dd3fc" stroke-width="10" stroke-linecap="round" />
+    
+    <!-- School & Access Badge inside AC unit -->
+    <path d="M256 168 L285 182 V205 C285 224 256 235 256 235 C256 235 227 224 227 205 V182 Z" fill="#0284c7" />
+    <path d="M246 198 L253 205 L268 190" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>
