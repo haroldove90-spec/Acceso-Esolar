@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, QrCode, Printer, Phone, Heart, CheckCircle2 } from 'lucide-react';
+import { X, QrCode, Printer, Phone, Heart, CheckCircle2, School } from 'lucide-react';
 import { Student } from '../../types';
 
 interface StudentCardModalProps {
@@ -18,14 +18,14 @@ export const StudentCardModal: React.FC<StudentCardModalProps> = ({ student, onC
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in">
       <div className="relative w-full max-w-sm rounded-3xl bg-white shadow-2xl border border-slate-200 overflow-hidden">
         {/* Top bar */}
-        <div className="bg-gradient-to-r from-sky-700 to-sky-900 p-4 text-white flex items-center justify-between">
+        <div className="bg-blue-600 p-4 text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-white/20 flex items-center justify-center text-xs font-black">
-              AC
+            <div className="w-7 h-7 rounded-lg bg-white/20 flex items-center justify-center text-white">
+              <School className="w-4 h-4 stroke-[2.2]" />
             </div>
             <div>
-              <p className="text-xs font-bold leading-none">Sistema Aire Aondicionado</p>
-              <p className="text-[10px] text-sky-200">Credencial Escolar Digital</p>
+              <p className="text-xs font-bold leading-none uppercase">Acceso Escolar</p>
+              <p className="text-[10px] text-blue-100 font-medium">Credencial Escolar Digital</p>
             </div>
           </div>
           <button

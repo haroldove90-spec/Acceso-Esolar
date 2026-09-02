@@ -76,23 +76,10 @@ export const Sidebar: React.FC = () => {
         <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-white">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-xs">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M20.25 14.15v4.25c0 1.05-.85 1.9-1.9 1.9H5.65c-1.05 0-1.9-.85-1.9-1.9v-4.25m16.5 0c0-1.05-.85-1.9-1.9-1.9H5.65c-1.05 0-1.9.85-1.9 1.9m16.5 0h-16.5M12 3v9m0 0l-3-3m3 3l3-3"
-                />
-              </svg>
+              <School className="h-4 w-4 stroke-[2.2]" />
             </div>
             <div>
-              <p className="text-xs font-black text-slate-800 leading-tight uppercase">Sistema Aire Aondicionado</p>
+              <p className="text-xs font-black text-slate-800 leading-tight uppercase">Acceso Escolar</p>
               <p className="text-[10px] text-slate-400 font-semibold tracking-wider uppercase">Módulos Escolares</p>
             </div>
           </div>

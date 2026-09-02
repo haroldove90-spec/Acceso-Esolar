@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, LogOut, Shield, Users, UserCheck, Bell, Sparkles } from 'lucide-react';
+import { Menu, LogOut, Shield, Users, UserCheck, School } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { PWAInstallButton } from './PWAInstallButton';
 
@@ -53,25 +53,12 @@ export const Header: React.FC = () => {
               currentRole ? 'cursor-pointer' : ''
             }`}
           >
-            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-sm font-black text-sm">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M20.25 14.15v4.25c0 1.05-.85 1.9-1.9 1.9H5.65c-1.05 0-1.9-.85-1.9-1.9v-4.25m16.5 0c0-1.05-.85-1.9-1.9-1.9H5.65c-1.05 0-1.9.85-1.9 1.9m16.5 0h-16.5M12 3v9m0 0l-3-3m3 3l3-3"
-                />
-              </svg>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-sm font-black text-sm">
+              <School className="h-5 w-5 stroke-[2.2]" />
             </div>
             <div>
               <h1 className="font-extrabold text-slate-800 text-sm sm:text-base tracking-tight leading-tight uppercase">
-                Sistema Aire Aondicionado
+                Acceso Escolar
               </h1>
               <p className="text-[10px] text-slate-400 font-semibold tracking-wider hidden sm:block uppercase">
                 Control Escolar & Accesos • 700 Alumnos

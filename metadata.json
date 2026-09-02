@@ -1,5 +1,5 @@
 {
-  "name": "Sistema Aire Aondicionado",
+  "name": "Acceso Escolar",
   "description": "Plataforma de control de acceso escolar, gestión de asistencia en tiempo real, credenciales digitales y comunicación directa para instituciones educativas.",
   "requestFramePermissions": ["camera"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

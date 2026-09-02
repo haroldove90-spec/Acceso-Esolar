@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, UserCheck, Users, ArrowRight, Wind } from 'lucide-react';
+import { Shield, UserCheck, Users, School, GraduationCap } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { RoleType } from '../../types';
 
@@ -54,26 +54,15 @@ export const HomeRoleSelector: React.FC = () => {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 py-8 sm:py-12">
-      {/* Central Brand Emblem */}
+      {/* Central School Brand Emblem */}
       <div className="text-center mb-8 sm:mb-12">
-        <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white shadow-xl rounded-3xl mx-auto flex items-center justify-center mb-4 border border-blue-100 shadow-blue-500/5">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-12 w-12 sm:h-14 sm:w-14 text-blue-600"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M20.25 14.15v4.25c0 1.05-.85 1.9-1.9 1.9H5.65c-1.05 0-1.9-.85-1.9-1.9v-4.25m16.5 0c0-1.05-.85-1.9-1.9-1.9H5.65c-1.05 0-1.9.85-1.9 1.9m16.5 0h-16.5M12 3v9m0 0l-3-3m3 3l3-3"
-            />
-          </svg>
+        <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white shadow-xl rounded-3xl mx-auto flex items-center justify-center mb-4 border border-blue-100 shadow-blue-500/10">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+            <School className="w-9 h-9 sm:w-10 sm:h-10 stroke-[1.8]" />
+          </div>
         </div>
         <h2 className="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight mb-2 uppercase">
-          Sistema Aire Aondicionado
+          Acceso Escolar
         </h2>
         <p className="text-slate-500 max-w-md mx-auto text-xs sm:text-sm font-medium">
           Control inteligente de accesos escolares, credenciales QR y monitoreo en tiempo real.
