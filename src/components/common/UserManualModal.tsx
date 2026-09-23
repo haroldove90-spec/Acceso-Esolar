@@ -248,44 +248,104 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
                 3
               </span>
               <h2 className="text-lg sm:text-xl font-black text-slate-900">
-                Creación del Código QR y Envío por WhatsApp al Estudiante
+                Guía Paso a Paso: Cómo Crear el Código QR y Enviarlo por WhatsApp a su Hijo
               </h2>
             </div>
 
             <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
-              El padre de familia o tutor tiene total control desde su celular para generar la credencial digital con código QR de su hijo y compartírsela de forma directa por WhatsApp:
+              El padre de familia o tutor tiene la facultad de generar la credencial de acceso escolar de su hijo directamente desde la plataforma y enviársela de forma inmediata a su teléfono celular por WhatsApp sin necesidad de acudir a la oficina escolar:
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-              <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2">
-                <div className="w-8 h-8 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center font-black text-xs">
-                  Paso A
+            {/* Step-by-Step Flow Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              <div className="p-4 rounded-2xl border-2 border-teal-200 bg-teal-50/50 space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-teal-700 text-white font-black text-xs flex items-center justify-center">
+                    1
+                  </span>
+                  <h3 className="text-sm font-black text-slate-900">
+                    Ingresar al Rol de "Padres de Familia"
+                  </h3>
                 </div>
-                <h3 className="text-sm font-black text-slate-900">Acceder a la Credencial</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  En el menú del Padre de Familia, selecciona la pestaña <strong>"Credencial QR & WhatsApp"</strong>.
+                <p className="text-xs text-slate-600 leading-relaxed pl-8">
+                  En el menú principal o barra de navegación superior, asegúrate de estar en el rol <strong>Padres de Familia</strong>. Si tienes más de un hijo inscrito en el colegio, selecciona el nombre de tu alumno en el selector superior de estudiantes.
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2">
-                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-black text-xs">
-                  Paso B
+              <div className="p-4 rounded-2xl border-2 border-teal-200 bg-teal-50/50 space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-teal-700 text-white font-black text-xs flex items-center justify-center">
+                    2
+                  </span>
+                  <h3 className="text-sm font-black text-slate-900">
+                    Abrir el Generador de Acceso QR
+                  </h3>
                 </div>
-                <h3 className="text-sm font-black text-slate-900">Generar y Descargar QR</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Presiona el botón verde <strong>"Enviar QR a mi Hijo (WhatsApp)"</strong>. El sistema genera el QR óptico de alta definición con opción de descargar la imagen PNG para guardarla en la galería del móvil del estudiante.
+                <p className="text-xs text-slate-600 leading-relaxed pl-8">
+                  Haz clic en la pestaña <strong>"Credencial QR & WhatsApp"</strong>. A continuación, pulsa el botón verde principal: <strong className="text-emerald-700">"📲 Enviar QR a mi Hijo (WhatsApp)"</strong>.
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2">
-                <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center font-black text-xs">
-                  Paso C
+              <div className="p-4 rounded-2xl border-2 border-teal-200 bg-teal-50/50 space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-teal-700 text-white font-black text-xs flex items-center justify-center">
+                    3
+                  </span>
+                  <h3 className="text-sm font-black text-slate-900">
+                    Crear & Descargar la Imagen Óptica (PNG)
+                  </h3>
                 </div>
-                <h3 className="text-sm font-black text-slate-900">Envío Directo a WhatsApp</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Ingresa el número de tu hijo (opcional) o pulsa <strong>"Enviar por WhatsApp"</strong>. Se abrirá la conversación con un mensaje oficial estructurado que contiene matrícula, grado, grupo y las instrucciones de uso para el alumno.
+                <p className="text-xs text-slate-600 leading-relaxed pl-8">
+                  El sistema genera en tiempo real el código QR criptográfico de alta resolución con corrección de errores <em>Nivel H</em>. Puedes presionar <strong>"Descargar Imagen QR (PNG)"</strong> para que tu hijo guarde la imagen en la galería de fotos de su celular (funciona sin internet en el portón).
                 </p>
               </div>
+
+              <div className="p-4 rounded-2xl border-2 border-teal-200 bg-teal-50/50 space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-teal-700 text-white font-black text-xs flex items-center justify-center">
+                    4
+                  </span>
+                  <h3 className="text-sm font-black text-slate-900">
+                    Enviar el Mensaje Oficial por WhatsApp
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed pl-8">
+                  Puedes escribir el número celular de tu hijo en el recuadro (ej. <em>+52 55...</em>) o dejarlo vacío para que WhatsApp te permita elegir su contacto. Luego haz clic en <strong>"Enviar por WhatsApp"</strong>.
+                </p>
+              </div>
+            </div>
+
+            {/* Message Template Preview Box */}
+            <div className="p-4 bg-slate-900 text-slate-100 rounded-2xl space-y-2 font-mono text-xs border border-slate-800">
+              <div className="flex items-center justify-between text-emerald-400 font-bold border-b border-slate-800 pb-2">
+                <span>💬 Mensaje Institucional que se envía a WhatsApp:</span>
+                <span className="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800">Pre-redactado</span>
+              </div>
+              <div className="space-y-1 text-slate-300 pl-1 text-[11px] leading-relaxed">
+                <p className="text-emerald-300 font-bold">🎓 *CREDENCIAL ESCOLAR DIGITAL - CÓDIGO QR DE ACCESO*</p>
+                <p>Hola *[Nombre del Alumno]*, aquí tienes tu código oficial para registrar tu entrada y salida del plantel escolar:</p>
+                <p>👤 *Alumno:* [Nombre Completo]</p>
+                <p>📋 *Matrícula:* [2026-001]</p>
+                <p>🏫 *Grado y Grupo:* [3° Secundaria - Grupo A]</p>
+                <p>🕒 *Turno:* [Matutino]</p>
+                <p>🔑 *Código de Acceso:* [ESC-2026-001-ALUMNO]</p>
+                <p className="pt-1 text-amber-200">📱 *Instrucciones para el Alumno:*</p>
+                <p>1. Guarda este mensaje o descarga la imagen de tu código QR en tu galería.</p>
+                <p>2. Al llegar y salir del colegio, muestra este código QR ante el lector en el portón.</p>
+                <p>3. El sistema registrará tu puntualidad y notificará automáticamente a tu tutor en tiempo real con sonido Beep.</p>
+              </div>
+            </div>
+
+            {/* Student Best Practices */}
+            <div className="p-3.5 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-900 space-y-1.5">
+              <span className="font-black text-amber-950 flex items-center gap-1.5">
+                💡 Recomendaciones para el Alumno en el Portón:
+              </span>
+              <ul className="list-disc list-inside space-y-1 text-amber-900/90 pl-1">
+                <li><strong>Sin internet:</strong> El alumno puede abrir la imagen del código QR guardada en su galería sin requerir saldo ni datos móviles.</li>
+                <li><strong>Brillo de Pantalla:</strong> Se recomienda tener el brillo de pantalla al menos al 60% para una lectura óptica instantánea en menos de 1 segundo.</li>
+                <li><strong>Distancia Óptima:</strong> Colocar el celular a 15-25 centímetros de la lente de la cámara del portón.</li>
+              </ul>
             </div>
           </div>
 
@@ -296,7 +356,7 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
                 4
               </span>
               <h2 className="text-lg sm:text-xl font-black text-slate-900">
-                Módulo "Registro de Accesos": Historial de Entradas y Salidas
+                Módulo "Registro de Accesos": Historial de Entradas y Salidas con Día y Hora
               </h2>
             </div>
 
@@ -351,11 +411,11 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
             </ol>
           </div>
 
-          {/* SECTION 4: PREGUNTAS FRECUENTES Y SEGURIDAD */}
+          {/* SECTION 6: ESPECIFICACIONES TÉCNICAS Y SEGURIDAD */}
           <div className="space-y-3">
             <div className="flex items-center gap-2.5 pb-2 border-b border-slate-200">
               <span className="w-7 h-7 rounded-lg bg-slate-800 text-white font-black text-sm flex items-center justify-center">
-                4
+                6
               </span>
               <h2 className="text-lg sm:text-xl font-black text-slate-900">
                 Especificaciones Técnicas y Seguridad
