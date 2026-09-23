@@ -1,16 +1,22 @@
 import React from 'react';
-import { Users } from 'lucide-react';
+import { Users, QrCode } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { InstantNotificationsModule } from './InstantNotificationsModule';
 import { StudentProfileModule } from './StudentProfileModule';
 import { AnnouncementsBoardModule } from './AnnouncementsBoardModule';
+import { StudentEntranceNotificationModal } from './StudentEntranceNotificationModal';
+import { ParentEntranceDemoBanner } from './ParentEntranceDemoBanner';
 
 export const ParentDashboard: React.FC = () => {
   const {
     activeTab,
+    setActiveTab,
     students,
     parentSelectedStudentId,
     setParentSelectedStudentId,
+    entranceAlert,
+    setEntranceAlert,
+    simulateStudentEntrance,
   } = useApp();
 
   return (
@@ -56,6 +62,13 @@ export const ParentDashboard: React.FC = () => {
         </div>
       </div>
 
+      {/* Interactive Demonstration Banner for Client */}
+      <ParentEntranceDemoBanner
+        onSimulateEntrance={(isLate) => {
+          simulateStudentEntrance(parentSelectedStudentId, isLate);
+        }}
+      />
+
       {/* Active Tab View */}
       <div className="animate-in fade-in duration-200">
         {(activeTab === 'notifications' || (!activeTab || (activeTab !== 'student_profile' && activeTab !== 'announcements'))) && (
@@ -64,6 +77,15 @@ export const ParentDashboard: React.FC = () => {
         {activeTab === 'student_profile' && <StudentProfileModule />}
         {activeTab === 'announcements' && <AnnouncementsBoardModule />}
       </div>
+
+      {/* Floating Real-time Entrance Notification Window (Triggered by QR Scan or Simulation) */}
+      <StudentEntranceNotificationModal
+        isOpen={!!entranceAlert}
+        student={entranceAlert?.student || null}
+        accessRecord={entranceAlert?.accessRecord || null}
+        onClose={() => setEntranceAlert(null)}
+        onViewHistory={() => setActiveTab('notifications')}
+      />
     </div>
   );
 };

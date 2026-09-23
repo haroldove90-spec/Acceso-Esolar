@@ -18,6 +18,7 @@ import {
   INITIAL_ANNOUNCEMENTS,
   INITIAL_EVENTS
 } from '../mockData';
+import { soundEffects } from '../utils/audioNotification';
 
 interface ToastNotification {
   id: string;
@@ -51,6 +52,11 @@ interface AppContextType {
   setSelectedStudent: (student: Student | null) => void;
   parentSelectedStudentId: string;
   setParentSelectedStudentId: (id: string) => void;
+
+  // Real-time Student Entrance Floating Notification Alert for Parent
+  entranceAlert: { student: Student; accessRecord: AccessRecord } | null;
+  setEntranceAlert: (alert: { student: Student; accessRecord: AccessRecord } | null) => void;
+  simulateStudentEntrance: (studentId?: string, isLate?: boolean) => void;
 
   // Actions
   addStudent: (student: Omit<Student, 'id' | 'qrCodeValue'>) => void;
@@ -172,6 +178,55 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
   const [toasts, setToasts] = useState<ToastNotification[]>([]);
   const [showPWAInstallModal, setShowPWAInstallModal] = useState(false);
+
+  // Entrance floating modal alert for Parent role
+  const [entranceAlert, setEntranceAlert] = useState<{ student: Student; accessRecord: AccessRecord } | null>(null);
+
+  // Cross-tab synchronization: notify Parent role when an entrance is recorded in another tab/window
+  useEffect(() => {
+    let channel: BroadcastChannel | null = null;
+    try {
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        channel = new BroadcastChannel('school_access_channel');
+        channel.onmessage = (event) => {
+          if (event.data?.type === 'STUDENT_ENTRANCE' && event.data?.record) {
+            const studentId = event.data.studentId;
+            const stu = students.find(s => s.id === studentId);
+            if (stu && currentRole === 'parent') {
+              soundEffects.playEntranceBeep();
+              setEntranceAlert({ student: stu, accessRecord: event.data.record });
+            }
+          }
+        };
+      }
+    } catch (e) {
+      console.warn('BroadcastChannel error:', e);
+    }
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'sa_last_entrance_event' && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (parsed && parsed.studentId && parsed.record) {
+            const stu = students.find(s => s.id === parsed.studentId);
+            if (stu && currentRole === 'parent') {
+              soundEffects.playEntranceBeep();
+              setEntranceAlert({ student: stu, accessRecord: parsed.record });
+            }
+          }
+        } catch (err) {}
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      try {
+        channel?.close();
+      } catch (e) {}
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [students, currentRole]);
 
   // Sync session and state to local storage
   useEffect(() => {
@@ -442,6 +497,36 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     setNotices(prev => [autoNotice, ...prev]);
 
+    // Handle real-time entrance event for Parent role:
+    if (type === 'Entrada') {
+      // If currently viewing as parent, play beep and pop up floating modal
+      if (currentRole === 'parent') {
+        soundEffects.playEntranceBeep();
+        setEntranceAlert({ student, accessRecord: newRecord });
+      }
+
+      // Broadcast event to other tabs or windows
+      try {
+        if (typeof window !== 'undefined') {
+          if ('BroadcastChannel' in window) {
+            const bc = new BroadcastChannel('school_access_channel');
+            bc.postMessage({
+              type: 'STUDENT_ENTRANCE',
+              studentId: student.id,
+              record: newRecord,
+            });
+            bc.close();
+          }
+          localStorage.setItem(
+            'sa_last_entrance_event',
+            JSON.stringify({ studentId: student.id, record: newRecord, time: Date.now() })
+          );
+        }
+      } catch (e) {
+        console.warn('Cross-tab broadcast error:', e);
+      }
+    }
+
     showToast(
       noticeTitle,
       `${student.fullName} (${student.grade} ${student.group}) - ${formattedTime}`,
@@ -449,6 +534,77 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
 
     return { success: true, message: 'Acceso registrado correctamente.', record: newRecord };
+  };
+
+  const simulateStudentEntrance = (studentId?: string, isLate: boolean = false) => {
+    const targetStudentId = studentId || parentSelectedStudentId || students[0]?.id;
+    const student = students.find(s => s.id === targetStudentId) || students[0];
+    if (!student) return;
+
+    if (student.id !== parentSelectedStudentId) {
+      setParentSelectedStudentId(student.id);
+    }
+
+    const now = new Date();
+    const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const dateStr = now.toISOString().split('T')[0];
+
+    const determinedStatus: AttendanceStatus = isLate ? 'late' : 'on_time';
+    const gate: GateType = 'Portón Principal (Entrada General)';
+
+    const newRecord: AccessRecord = {
+      id: 'acc-' + Date.now(),
+      studentId: student.id,
+      studentName: student.fullName,
+      enrollmentId: student.enrollmentId,
+      grade: student.grade,
+      group: student.group,
+      type: 'Entrada',
+      timestamp: now.toISOString(),
+      formattedTime,
+      date: dateStr,
+      status: determinedStatus,
+      gate,
+      registeredBy: 'Lector Óptico QR • Puerta Principal',
+      notes: 'Ingreso verificado por credencial QR digital (Simulación para Cliente).',
+    };
+
+    setAccessRecords(prev => [newRecord, ...prev]);
+
+    const noticeTitle = determinedStatus === 'late'
+      ? '⚠️ Entrada con Retardo Registrada'
+      : '✅ Ingreso Escolar Confirmado';
+
+    const noticeMsg = `${student.fullName} ingresó al plantel a las ${formattedTime} por el ${gate} (${determinedStatus === 'late' ? 'Retardo' : 'A tiempo'}).`;
+
+    const autoNotice: DirectNotice = {
+      id: 'not-' + Date.now(),
+      studentId: student.id,
+      studentName: student.fullName,
+      tutorName: student.tutorName,
+      senderStaffName: 'Control de Puerta & Accesos',
+      senderRole: 'Lector QR Automatizado',
+      category: 'Puntualidad',
+      title: noticeTitle,
+      message: noticeMsg,
+      timestamp: now.toISOString(),
+      isRead: false,
+      priority: determinedStatus === 'late' ? 'Importante' : 'Normal',
+    };
+
+    setNotices(prev => [autoNotice, ...prev]);
+
+    // Play instant BEEP sound!
+    soundEffects.playEntranceBeep();
+
+    // Trigger floating modal window for parent!
+    setEntranceAlert({ student, accessRecord: newRecord });
+
+    showToast(
+      noticeTitle,
+      `${student.fullName} • ${formattedTime} (${gate})`,
+      determinedStatus === 'late' ? 'warning' : 'success'
+    );
   };
 
   const updateAccessStatus = (recordId: string, newStatus: AttendanceStatus) => {
@@ -514,6 +670,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setSelectedStudent,
         parentSelectedStudentId,
         setParentSelectedStudentId,
+        entranceAlert,
+        setEntranceAlert,
+        simulateStudentEntrance,
         addStudent,
         updateStudent,
         deleteStudent,

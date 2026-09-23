@@ -1,10 +1,12 @@
 import React from 'react';
-import { Menu, LogOut, Shield, Users, UserCheck, School } from 'lucide-react';
+import { Menu, LogOut, Shield, Users, UserCheck, School, Bell } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { PWAInstallButton } from './PWAInstallButton';
 
 export const Header: React.FC = () => {
-  const { currentRole, setCurrentRole, logout, toggleSidebar, notices, activeTab } = useApp();
+  const { currentRole, setCurrentRole, logout, toggleSidebar, notices, activeTab, setActiveTab } = useApp();
+
+  const unreadCount = notices.filter(n => !n.isRead).length;
 
   const roleMeta = {
     admin: {
@@ -64,6 +66,22 @@ export const Header: React.FC = () => {
 
         {/* Right side: Role badge, PWA install button, and Logout button */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Parent Live Notification Indicator */}
+          {currentRole === 'parent' && (
+            <button
+              onClick={() => setActiveTab('notifications')}
+              className="relative p-2 rounded-xl text-slate-700 hover:text-blue-600 hover:bg-slate-100 transition active:scale-95 cursor-pointer"
+              title="Notificaciones de acceso escolar"
+            >
+              <Bell className="w-5 h-5 text-slate-700" />
+              {unreadCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-rose-500 text-[10px] font-black text-white shadow-xs">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+          )}
+
           {/* PWA Install Button */}
           <PWAInstallButton />
 

@@ -1,9 +1,17 @@
 import React from 'react';
-import { Bell, CheckCircle2, Clock, AlertTriangle, ShieldCheck, DoorClosed, MessageSquare, Check } from 'lucide-react';
+import { Bell, CheckCircle2, Clock, AlertTriangle, ShieldCheck, DoorClosed, MessageSquare, Check, Volume2, Sparkles, ExternalLink } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { soundEffects } from '../../utils/audioNotification';
 
 export const InstantNotificationsModule: React.FC = () => {
-  const { notices, parentSelectedStudentId, students, markNoticeAsRead, accessRecords } = useApp();
+  const {
+    notices,
+    parentSelectedStudentId,
+    students,
+    markNoticeAsRead,
+    accessRecords,
+    setEntranceAlert,
+  } = useApp();
 
   const currentStudent = students.find(s => s.id === parentSelectedStudentId) || students[0];
 
@@ -14,6 +22,16 @@ export const InstantNotificationsModule: React.FC = () => {
   const studentAccesses = accessRecords.filter(
     a => a.studentId === currentStudent?.id || a.enrollmentId === currentStudent?.enrollmentId
   );
+
+  const handleOpenLatestFloatingModal = () => {
+    if (studentAccesses.length > 0 && currentStudent) {
+      soundEffects.playEntranceBeep();
+      setEntranceAlert({
+        student: currentStudent,
+        accessRecord: studentAccesses[0],
+      });
+    }
+  };
 
   return (
     <div className="space-y-4 max-w-3xl mx-auto">
@@ -26,17 +44,27 @@ export const InstantNotificationsModule: React.FC = () => {
             </span>
             <div>
               <h3 className="text-base sm:text-lg font-black leading-tight">Alertas de Acceso en Tiempo Real</h3>
-              <p className="text-xs sm:text-sm font-semibold text-blue-100">Notificaciones automáticas vinculadas al móvil del tutor</p>
+              <p className="text-xs sm:text-sm font-semibold text-blue-100">Notificaciones automáticas con sonido Beep vinculadas al tutor</p>
             </div>
           </div>
-          <span className="text-xs font-black bg-white/25 px-3.5 py-1.5 rounded-full border border-white/30 tracking-wide">
-            Push Activo
-          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => soundEffects.playEntranceBeep()}
+              className="text-xs font-black bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-full border border-white/30 flex items-center gap-1.5 transition active:scale-95 cursor-pointer"
+              title="Escuchar sonido Beep de notificación"
+            >
+              <Volume2 className="w-3.5 h-3.5" />
+              <span>Beep 🔔</span>
+            </button>
+            <span className="text-xs font-black bg-emerald-500/80 px-3 py-1.5 rounded-full border border-emerald-400 text-white tracking-wide">
+              Push Activo
+            </span>
+          </div>
         </div>
 
         {/* Latest Entry Summary Box */}
         {studentAccesses.length > 0 ? (
-          <div className="bg-white/15 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/25 flex items-center justify-between gap-3">
+          <div className="bg-white/15 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/25 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3.5">
               <div className="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center font-black shadow-xs shrink-0">
                 <CheckCircle2 className="w-7 h-7" />
@@ -49,13 +77,25 @@ export const InstantNotificationsModule: React.FC = () => {
                 <span className="text-xs text-blue-100 font-semibold">{studentAccesses[0].gate}</span>
               </div>
             </div>
-            <span className="text-xs sm:text-sm font-black bg-emerald-500/30 text-emerald-100 px-3 py-1.5 rounded-xl border border-emerald-300/40 shrink-0">
-              {studentAccesses[0].status === 'late' ? 'Retardo' : 'Puntual'}
-            </span>
+
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={handleOpenLatestFloatingModal}
+                className="text-xs font-black bg-white text-blue-900 hover:bg-blue-50 px-3.5 py-2 rounded-xl transition shadow-xs flex items-center gap-1.5 cursor-pointer"
+                title="Desplegar ventana emergente oficial de ingreso escolar"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                <span>Ver Ventana Flotante</span>
+              </button>
+              <span className="text-xs font-black bg-emerald-500/30 text-emerald-100 px-3 py-2 rounded-xl border border-emerald-300/40 shrink-0">
+                {studentAccesses[0].status === 'late' ? 'Retardo' : 'Puntual'}
+              </span>
+            </div>
           </div>
         ) : (
           <div className="p-4 bg-white/10 rounded-2xl text-xs sm:text-sm text-blue-100 font-semibold">
-            Aún no se registran movimientos para este día.
+            Aún no se registran movimientos para este día. Utiliza el botón de simulación arriba para probar la notificación y el sonido.
           </div>
         )}
       </div>
