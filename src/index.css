@@ -1,1 +1,47 @@
 @import "tailwindcss";
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Hide everything except the printable user manual when printing to PDF */
+  body > * {
+    display: none !important;
+  }
+
+  body > #root {
+    display: block !important;
+  }
+
+  #root > div > *:not(:has(#printable-user-manual)) {
+    display: none !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  #printable-user-manual {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  #printable-user-manual * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  @page {
+    margin: 15mm;
+    size: letter portrait;
+  }
+}

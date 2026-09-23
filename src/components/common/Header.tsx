@@ -1,10 +1,12 @@
-import React from 'react';
-import { Menu, LogOut, Shield, Users, UserCheck, School, Bell } from 'lucide-react';
+import React, { useState } from 'react';
+import { Menu, LogOut, Shield, Users, UserCheck, School, Bell, FileText } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { PWAInstallButton } from './PWAInstallButton';
+import { UserManualModal } from './UserManualModal';
 
 export const Header: React.FC = () => {
   const { currentRole, setCurrentRole, logout, toggleSidebar, notices, activeTab, setActiveTab } = useApp();
+  const [isManualOpen, setIsManualOpen] = useState(false);
 
   const unreadCount = notices.filter(n => !n.isRead).length;
 
@@ -82,6 +84,16 @@ export const Header: React.FC = () => {
             </button>
           )}
 
+          {/* Manual de Usuario PDF Button */}
+          <button
+            onClick={() => setIsManualOpen(true)}
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border border-blue-200 bg-blue-50 hover:bg-blue-100 text-blue-800 text-xs sm:text-sm font-black transition active:scale-95 cursor-pointer shadow-2xs"
+            title="Abrir y Descargar Manual del Usuario en PDF para el Cliente"
+          >
+            <FileText className="w-4 h-4 text-blue-700" />
+            <span className="hidden sm:inline">Manual PDF</span>
+          </button>
+
           {/* PWA Install Button */}
           <PWAInstallButton />
 
@@ -107,6 +119,9 @@ export const Header: React.FC = () => {
           ) : null}
         </div>
       </div>
+
+      {/* Printable / Downloadable PDF User Manual Modal */}
+      <UserManualModal isOpen={isManualOpen} onClose={() => setIsManualOpen(false)} />
     </header>
   );
 };

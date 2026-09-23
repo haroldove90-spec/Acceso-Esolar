@@ -7,10 +7,12 @@ import {
   CheckCircle2,
   AlertTriangle,
   Play,
-  Info
+  Info,
+  FileText
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { soundEffects } from '../../utils/audioNotification';
+import { UserManualModal } from '../common/UserManualModal';
 
 interface ParentEntranceDemoBannerProps {
   onSimulateEntrance: (isLate: boolean) => void;
@@ -22,6 +24,7 @@ export const ParentEntranceDemoBanner: React.FC<ParentEntranceDemoBannerProps> =
   const { students, parentSelectedStudentId } = useApp();
   const currentStudent = students.find(s => s.id === parentSelectedStudentId) || students[0];
   const [isPlayingTest, setIsPlayingTest] = useState(false);
+  const [isManualOpen, setIsManualOpen] = useState(false);
 
   const handleTestBeepOnly = () => {
     setIsPlayingTest(true);
@@ -89,6 +92,17 @@ export const ParentEntranceDemoBanner: React.FC<ParentEntranceDemoBannerProps> =
             <Volume2 className={`w-4 h-4 ${isPlayingTest ? 'animate-bounce' : 'text-blue-600'}`} />
             <span className="hidden md:inline">Probar Beep</span>
           </button>
+
+          {/* Open User Manual PDF for Client */}
+          <button
+            type="button"
+            onClick={() => setIsManualOpen(true)}
+            className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-blue-300 bg-blue-600 hover:bg-blue-700 text-white text-xs font-black shadow-xs transition active:scale-95 cursor-pointer"
+            title="Abrir o Descargar el Manual de Usuario en PDF para el Cliente"
+          >
+            <FileText className="w-4 h-4" />
+            <span>Manual en PDF</span>
+          </button>
         </div>
       </div>
 
@@ -98,6 +112,9 @@ export const ParentEntranceDemoBanner: React.FC<ParentEntranceDemoBannerProps> =
           Al hacer clic, se reproduce el sonido <strong>Beep</strong> oficial en el navegador y se despliega la <strong>ventana flotante</strong> de confirmación con los datos del alumno y hora de llegada.
         </span>
       </div>
+
+      {/* Manual Modal */}
+      <UserManualModal isOpen={isManualOpen} onClose={() => setIsManualOpen(false)} />
     </div>
   );
 };
