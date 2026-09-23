@@ -20,7 +20,7 @@ import { RealQRScanner } from '../common/RealQRScanner';
 import { QuickQRScannerModal } from './QuickQRScannerModal';
 
 export const AccessControlModule: React.FC = () => {
-  const { students, registerAccess, accessRecords } = useApp();
+  const { students, registerAccess, accessRecords, showToast } = useApp();
 
   const [selectedGate, setSelectedGate] = useState<GateType>('Portón Principal (Entrada General)');
   const [accessType, setAccessType] = useState<'Entrada' | 'Salida'>('Entrada');
@@ -48,19 +48,42 @@ export const AccessControlModule: React.FC = () => {
   };
 
   const handleDecodedQR = (scannedText: string) => {
-    const query = scannedText.trim().toLowerCase();
-    const matched = students.find(
+    const raw = scannedText.trim();
+    if (!raw) return;
+    const query = raw.toLowerCase();
+
+    // 1. Direct match on qrCodeValue, enrollmentId, id
+    let matched = students.find(
       s =>
         s.qrCodeValue.toLowerCase() === query ||
         s.enrollmentId.toLowerCase() === query ||
-        s.id.toLowerCase() === query ||
-        query.includes(s.enrollmentId.toLowerCase()) ||
-        query.includes(s.id.toLowerCase()) ||
-        s.fullName.toLowerCase() === query
+        s.id.toLowerCase() === query
     );
+
+    // 2. Multi-pattern match: check if query contains enrollmentId or vice-versa
+    if (!matched) {
+      matched = students.find(s => {
+        const cleanEnrollment = s.enrollmentId.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cleanQuery = query.replace(/[^a-z0-9]/g, '');
+        return cleanQuery.includes(cleanEnrollment) || query.includes(s.enrollmentId.toLowerCase());
+      });
+    }
+
+    // 3. Name match
+    if (!matched) {
+      matched = students.find(
+        s =>
+          s.fullName.toLowerCase() === query ||
+          query.includes(s.fullName.toLowerCase()) ||
+          s.fullName.toLowerCase().includes(query)
+      );
+    }
 
     if (matched) {
       handleRegister(matched);
+      showToast('QR Leído Exitosamente', `Acceso procesado para ${matched.fullName}`, 'success');
+    } else {
+      showToast('Código no reconocido', `No se encontró alumno para el código: "${raw.slice(0, 24)}"`, 'warning');
     }
   };
 
@@ -68,18 +91,7 @@ export const AccessControlModule: React.FC = () => {
     e.preventDefault();
     if (!inputQuery.trim()) return;
 
-    const query = inputQuery.trim().toLowerCase();
-    const matched = students.find(
-      s =>
-        s.enrollmentId.toLowerCase() === query ||
-        s.id.toLowerCase() === query ||
-        s.qrCodeValue.toLowerCase() === query ||
-        s.fullName.toLowerCase().includes(query)
-    );
-
-    if (matched) {
-      handleRegister(matched);
-    }
+    handleDecodedQR(inputQuery);
   };
 
   // Quick matches suggestions

@@ -241,11 +241,85 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
             </div>
           </div>
 
-          {/* SECTION 3: HERRAMIENTAS DE DEMOSTRACIÓN PARA EL CLIENTE */}
+          {/* SECTION 3: CREAR CÓDIGO QR Y ENVIARLO POR WHATSAPP AL ALUMNO */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2.5 pb-2 border-b border-slate-200">
+              <span className="w-7 h-7 rounded-lg bg-teal-600 text-white font-black text-sm flex items-center justify-center">
+                3
+              </span>
+              <h2 className="text-lg sm:text-xl font-black text-slate-900">
+                Creación del Código QR y Envío por WhatsApp al Estudiante
+              </h2>
+            </div>
+
+            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              El padre de familia o tutor tiene total control desde su celular para generar la credencial digital con código QR de su hijo y compartírsela de forma directa por WhatsApp:
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+              <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2">
+                <div className="w-8 h-8 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center font-black text-xs">
+                  Paso A
+                </div>
+                <h3 className="text-sm font-black text-slate-900">Acceder a la Credencial</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  En el menú del Padre de Familia, selecciona la pestaña <strong>"Credencial QR & WhatsApp"</strong>.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2">
+                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-black text-xs">
+                  Paso B
+                </div>
+                <h3 className="text-sm font-black text-slate-900">Generar y Descargar QR</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Presiona el botón verde <strong>"Enviar QR a mi Hijo (WhatsApp)"</strong>. El sistema genera el QR óptico de alta definición con opción de descargar la imagen PNG para guardarla en la galería del móvil del estudiante.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2">
+                <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center font-black text-xs">
+                  Paso C
+                </div>
+                <h3 className="text-sm font-black text-slate-900">Envío Directo a WhatsApp</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Ingresa el número de tu hijo (opcional) o pulsa <strong>"Enviar por WhatsApp"</strong>. Se abrirá la conversación con un mensaje oficial estructurado que contiene matrícula, grado, grupo y las instrucciones de uso para el alumno.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 4: MÓDULO REGISTRO DE ACCESOS (HISTORIAL CON DÍA Y HORA) */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2.5 pb-2 border-b border-slate-200">
+              <span className="w-7 h-7 rounded-lg bg-indigo-600 text-white font-black text-sm flex items-center justify-center">
+                4
+              </span>
+              <h2 className="text-lg sm:text-xl font-black text-slate-900">
+                Módulo "Registro de Accesos": Historial de Entradas y Salidas
+              </h2>
+            </div>
+
+            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              El rol Padre de Familia incluye el módulo oficial <strong>"Registro de Accesos"</strong> para la consulta histórica de todos los movimientos de su hijo con validez institucional:
+            </p>
+
+            <ul className="list-disc list-inside space-y-1.5 text-xs sm:text-sm text-slate-700 pl-2">
+              <li><strong>Día y Fecha Completa:</strong> Visualización del día de la semana (ej. <em>Miércoles, 23 de Septiembre de 2026</em>) y fecha numérica.</li>
+              <li><strong>Hora Exacta:</strong> Sellado de tiempo en formato de alta precisión (ej. <em>07:48 AM</em>).</li>
+              <li><strong>Tipo de Movimiento:</strong> Identificación clara entre <em>Entrada Escolar</em> y <em>Salida Escolar</em>.</li>
+              <li><strong>Portón Escolar:</strong> Detalle del portón utilizado (Portón Principal, Secundario o Vehicular).</li>
+              <li><strong>Puntualidad:</strong> Indicador de <em>"A tiempo / Puntual"</em> o <em>"Retardo"</em>.</li>
+              <li><strong>Filtros y Búsqueda:</strong> Filtrado dinámico por fecha, tipo de movimiento o palabra clave.</li>
+              <li><strong>Impresión y PDF:</strong> Botón para imprimir el concentrado de asistencia para justificar faltas ante la dirección o médicos.</li>
+            </ul>
+          </div>
+
+          {/* SECTION 5: HERRAMIENTAS DE DEMOSTRACIÓN PARA EL CLIENTE */}
           <div className="space-y-3">
             <div className="flex items-center gap-2.5 pb-2 border-b border-slate-200">
               <span className="w-7 h-7 rounded-lg bg-amber-600 text-white font-black text-sm flex items-center justify-center">
-                3
+                5
               </span>
               <h2 className="text-lg sm:text-xl font-black text-slate-900">
                 Guía Rápida para Demostración en Vivo a Clientes

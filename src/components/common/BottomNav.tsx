@@ -28,6 +28,7 @@ export const BottomNav: React.FC = () => {
 
   const parentNavItems: BottomNavItem[] = [
     { id: 'notifications', label: 'Alertas', icon: Bell, badgeCount: notices.filter(n => !n.isRead).length },
+    { id: 'access_history', label: 'Accesos', icon: Clock },
     { id: 'student_profile', label: 'Credencial', icon: IdCard },
     { id: 'announcements', label: 'Tablón', icon: Megaphone },
   ];
@@ -42,9 +43,9 @@ export const BottomNav: React.FC = () => {
   return (
     <nav
       id="mobile-bottom-navigation"
-      className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 px-3 py-2 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]"
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 px-2 py-1.5 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]"
     >
-      <div className="grid grid-cols-3 gap-2 max-w-lg mx-auto">
+      <div className="grid grid-flow-col auto-cols-fr gap-1.5 max-w-lg mx-auto">
         {currentItems.map(item => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;

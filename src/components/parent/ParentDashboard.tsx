@@ -1,9 +1,10 @@
 import React from 'react';
-import { Users, QrCode } from 'lucide-react';
+import { Users, QrCode, Bell, Clock, IdCard, Megaphone } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { InstantNotificationsModule } from './InstantNotificationsModule';
 import { StudentProfileModule } from './StudentProfileModule';
 import { AnnouncementsBoardModule } from './AnnouncementsBoardModule';
+import { ParentAccessLogModule } from './ParentAccessLogModule';
 import { StudentEntranceNotificationModal } from './StudentEntranceNotificationModal';
 import { ParentEntranceDemoBanner } from './ParentEntranceDemoBanner';
 
@@ -17,7 +18,10 @@ export const ParentDashboard: React.FC = () => {
     entranceAlert,
     setEntranceAlert,
     simulateStudentEntrance,
+    notices,
   } = useApp();
+
+  const unreadNotices = notices.filter(n => !n.isRead).length;
 
   return (
     <div className="space-y-5">
@@ -40,7 +44,7 @@ export const ParentDashboard: React.FC = () => {
               Control de Asistencia & Avisos
             </h2>
             <p className="text-xs sm:text-sm text-sky-100 font-medium mt-0.5">
-              Notificaciones de entrada en portón, credencial digital con QR y comunicados institucionales.
+              Notificaciones de entrada en portón, registro histórico y credencial digital para WhatsApp.
             </p>
           </div>
         </div>
@@ -62,6 +66,62 @@ export const ParentDashboard: React.FC = () => {
         </div>
       </div>
 
+      {/* Parent Navigation Tabs Bar */}
+      <div className="bg-white p-2 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-1.5 overflow-x-auto">
+        <button
+          onClick={() => setActiveTab('notifications')}
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'notifications' || !activeTab || (activeTab !== 'access_history' && activeTab !== 'student_profile' && activeTab !== 'announcements')
+              ? 'bg-blue-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <Bell className="w-4 h-4" />
+          <span>Notificaciones & Beep</span>
+          {unreadNotices > 0 && (
+            <span className="ml-1 px-1.5 py-0.2 bg-rose-500 text-white text-[10px] font-black rounded-full">
+              {unreadNotices}
+            </span>
+          )}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('access_history')}
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'access_history'
+              ? 'bg-blue-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <Clock className="w-4 h-4" />
+          <span>Registro de Accesos</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('student_profile')}
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'student_profile'
+              ? 'bg-blue-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <IdCard className="w-4 h-4" />
+          <span>Credencial QR & WhatsApp</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('announcements')}
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'announcements'
+              ? 'bg-blue-600 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <Megaphone className="w-4 h-4" />
+          <span>Tablón de Avisos</span>
+        </button>
+      </div>
+
       {/* Interactive Demonstration Banner for Client */}
       <ParentEntranceDemoBanner
         onSimulateEntrance={(isLate) => {
@@ -71,9 +131,10 @@ export const ParentDashboard: React.FC = () => {
 
       {/* Active Tab View */}
       <div className="animate-in fade-in duration-200">
-        {(activeTab === 'notifications' || (!activeTab || (activeTab !== 'student_profile' && activeTab !== 'announcements'))) && (
+        {(activeTab === 'notifications' || (!activeTab || (activeTab !== 'access_history' && activeTab !== 'student_profile' && activeTab !== 'announcements'))) && (
           <InstantNotificationsModule />
         )}
+        {activeTab === 'access_history' && <ParentAccessLogModule />}
         {activeTab === 'student_profile' && <StudentProfileModule />}
         {activeTab === 'announcements' && <AnnouncementsBoardModule />}
       </div>
@@ -84,7 +145,7 @@ export const ParentDashboard: React.FC = () => {
         student={entranceAlert?.student || null}
         accessRecord={entranceAlert?.accessRecord || null}
         onClose={() => setEntranceAlert(null)}
-        onViewHistory={() => setActiveTab('notifications')}
+        onViewHistory={() => setActiveTab('access_history')}
       />
     </div>
   );

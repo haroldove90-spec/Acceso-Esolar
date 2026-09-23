@@ -10,14 +10,19 @@ import {
   Phone,
   Printer,
   ShieldCheck,
-  UserCheck
+  UserCheck,
+  Send,
+  Share2,
+  Smartphone
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { StudentCardModal } from '../common/StudentCardModal';
+import { StudentQRCodeWhatsAppModal } from './StudentQRCodeWhatsAppModal';
 
 export const StudentProfileModule: React.FC = () => {
   const { parentSelectedStudentId, students, accessRecords } = useApp();
   const [showModal, setShowModal] = useState(false);
+  const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
 
   const student = students.find(s => s.id === parentSelectedStudentId) || students[0];
 
@@ -54,13 +59,24 @@ export const StudentProfileModule: React.FC = () => {
             </div>
           </div>
 
-          <button
-            onClick={() => setShowModal(true)}
-            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-md transition active:scale-95 cursor-pointer"
-          >
-            <QrCode className="w-5 h-5 stroke-[2.5]" />
-            <span>Ver Credencial Digital</span>
-          </button>
+          <div className="flex flex-col gap-2 w-full sm:w-auto">
+            <button
+              onClick={() => setShowWhatsAppModal(true)}
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-md shadow-emerald-600/20 transition active:scale-95 cursor-pointer"
+              title="Crear y enviar código QR por WhatsApp a tu hijo"
+            >
+              <Send className="w-4 h-4" />
+              <span>Enviar QR a mi Hijo (WhatsApp)</span>
+            </button>
+
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm shadow-xs transition active:scale-95 cursor-pointer"
+            >
+              <QrCode className="w-4 h-4 stroke-[2.5]" />
+              <span>Ver Credencial Digital</span>
+            </button>
+          </div>
         </div>
 
         {/* Live Attendance Status Today Box */}
@@ -181,6 +197,13 @@ export const StudentProfileModule: React.FC = () => {
       {showModal && (
         <StudentCardModal student={student} onClose={() => setShowModal(false)} />
       )}
+
+      {/* QR Code WhatsApp Share Modal */}
+      <StudentQRCodeWhatsAppModal
+        student={student}
+        isOpen={showWhatsAppModal}
+        onClose={() => setShowWhatsAppModal(false)}
+      />
     </div>
   );
 };

@@ -208,10 +208,10 @@ export const RealQRScanner: React.FC<RealQRScannerProps> = ({
 
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             
-            // Try decoding with jsQR
+            // Try decoding with jsQR with both regular and inverted contrast
             try {
-              const code = jsQR(imageData.data, imageData.width, imageData.height, {
-                inversionAttempts: 'dontInvert',
+              let code = jsQR(imageData.data, imageData.width, imageData.height, {
+                inversionAttempts: 'attemptBoth',
               });
 
               if (code && code.data) {

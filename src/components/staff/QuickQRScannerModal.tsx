@@ -46,18 +46,36 @@ export const QuickQRScannerModal: React.FC<QuickQRScannerModalProps> = ({ onClos
 
   // Parse and match scanned code to a student
   const handleDecodedString = (scannedText: string) => {
-    const query = scannedText.trim().toLowerCase();
+    const raw = scannedText.trim();
+    if (!raw) return;
+    const query = raw.toLowerCase();
     
-    // Check various matching criteria
-    const matched = students.find(
+    // 1. Direct match on qrCodeValue, enrollmentId, id
+    let matched = students.find(
       s =>
         s.qrCodeValue.toLowerCase() === query ||
         s.enrollmentId.toLowerCase() === query ||
-        s.id.toLowerCase() === query ||
-        query.includes(s.enrollmentId.toLowerCase()) ||
-        query.includes(s.id.toLowerCase()) ||
-        s.fullName.toLowerCase() === query
+        s.id.toLowerCase() === query
     );
+
+    // 2. Multi-pattern match: check clean enrollmentId
+    if (!matched) {
+      matched = students.find(s => {
+        const cleanEnrollment = s.enrollmentId.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cleanQuery = query.replace(/[^a-z0-9]/g, '');
+        return cleanQuery.includes(cleanEnrollment) || query.includes(s.enrollmentId.toLowerCase());
+      });
+    }
+
+    // 3. Name match
+    if (!matched) {
+      matched = students.find(
+        s =>
+          s.fullName.toLowerCase() === query ||
+          query.includes(s.fullName.toLowerCase()) ||
+          s.fullName.toLowerCase().includes(query)
+      );
+    }
 
     if (matched) {
       const result = registerAccess(matched.id, selectedGate, undefined, accessType);

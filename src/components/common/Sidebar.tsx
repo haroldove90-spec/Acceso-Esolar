@@ -35,8 +35,9 @@ export const Sidebar: React.FC = () => {
   ];
 
   const parentNavItems = [
-    { id: 'notifications', label: 'Notificaciones de Acceso', sub: 'Alertas push y confirmaciones', icon: Bell },
-    { id: 'student_profile', label: 'Perfil y Credencial Digital', sub: 'Código QR y Ficha Médica', icon: IdCard },
+    { id: 'notifications', label: 'Notificaciones de Acceso', sub: 'Alertas push y confirmaciones en vivo', icon: Bell },
+    { id: 'access_history', label: 'Registro de Accesos', sub: 'Historial con día, hora y portón', icon: Clock },
+    { id: 'student_profile', label: 'Credencial QR & WhatsApp', sub: 'Generar código y enviar a hijo', icon: IdCard },
     { id: 'announcements', label: 'Tablón de Avisos y Eventos', sub: 'Circulares Oficiales de Dirección', icon: Megaphone },
   ];
 

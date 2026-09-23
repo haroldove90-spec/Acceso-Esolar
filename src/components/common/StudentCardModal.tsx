@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, QrCode, Printer, Phone, Heart, CheckCircle2, School } from 'lucide-react';
+import { X, QrCode, Printer, Phone, Heart, CheckCircle2, School, Send, Download } from 'lucide-react';
 import QRCode from 'qrcode';
 import { Student } from '../../types';
 
@@ -32,6 +32,26 @@ export const StudentCardModal: React.FC<StudentCardModalProps> = ({ student, onC
   const handlePrint = () => {
     window.print();
   };
+
+  const handleDownloadQR = () => {
+    if (!qrDataUrl) return;
+    const link = document.createElement('a');
+    link.href = qrDataUrl;
+    link.download = `QR-${student.enrollmentId}-${student.fullName.replace(/\s+/g, '_')}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const whatsappMsg = `🎓 *CREDENCIAL ESCOLAR DIGITAL*
+Hola *${student.fullName}*, aquí está tu código oficial de acceso para la escuela:
+• Matrícula: *${student.enrollmentId}*
+• Grado y Grupo: *${student.grade} - ${student.group}*
+• Código de Acceso QR: *${student.qrCodeValue || student.enrollmentId}*
+
+Muestra este código ante la cámara en el portón escolar al entrar o salir.`;
+
+  const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in">
@@ -100,6 +120,13 @@ export const StudentCardModal: React.FC<StudentCardModalProps> = ({ student, onC
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>Código Óptico Válido para Lectores en Puerta</span>
             </div>
+            <button
+              onClick={handleDownloadQR}
+              className="text-xs text-blue-700 hover:text-blue-800 font-bold flex items-center gap-1 pt-1 cursor-pointer"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Descargar Imagen QR</span>
+            </button>
           </div>
 
           {/* Quick info badges */}
@@ -124,20 +151,32 @@ export const StudentCardModal: React.FC<StudentCardModalProps> = ({ student, onC
         </div>
 
         {/* Action Buttons */}
-        <div className="p-4 bg-slate-50 border-t border-slate-100 flex gap-2">
-          <button
-            onClick={handlePrint}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow transition cursor-pointer"
+        <div className="p-4 bg-slate-50 border-t border-slate-100 flex flex-col gap-2">
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow transition cursor-pointer"
           >
-            <Printer className="w-4 h-4" />
-            <span>Imprimir Credencial</span>
-          </button>
-          <button
-            onClick={onClose}
-            className="py-2.5 px-4 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-semibold transition cursor-pointer"
-          >
-            Cerrar
-          </button>
+            <Send className="w-4 h-4" />
+            <span>Enviar QR a mi Hijo por WhatsApp</span>
+          </a>
+
+          <div className="flex gap-2">
+            <button
+              onClick={handlePrint}
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow transition cursor-pointer"
+            >
+              <Printer className="w-4 h-4" />
+              <span>Imprimir</span>
+            </button>
+            <button
+              onClick={onClose}
+              className="py-2.5 px-4 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-semibold transition cursor-pointer"
+            >
+              Cerrar
+            </button>
+          </div>
         </div>
       </div>
     </div>

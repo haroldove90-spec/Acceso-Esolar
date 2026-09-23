@@ -87,7 +87,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 const VALID_TABS_BY_ROLE: Record<RoleType, string[]> = {
   admin: ['students', 'staff', 'reports'],
   staff: ['access', 'status', 'notices'],
-  parent: ['notifications', 'student_profile', 'announcements'],
+  parent: ['notifications', 'access_history', 'student_profile', 'announcements'],
 };
 
 export const getDefaultTabForRole = (role: RoleType | null, currentTab?: string | null): string => {
