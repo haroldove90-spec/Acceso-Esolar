@@ -9,6 +9,7 @@ import {
   ArrowRightCircle,
   Sparkles,
   Camera,
+  CameraOff,
   Volume2,
   ScanLine,
   UserCheck,
@@ -25,7 +26,7 @@ export const AccessControlModule: React.FC = () => {
   const [selectedGate, setSelectedGate] = useState<GateType>('Portón Principal (Entrada General)');
   const [accessType, setAccessType] = useState<'Entrada' | 'Salida'>('Entrada');
   const [inputQuery, setInputQuery] = useState('');
-  const [isCameraActive, setIsCameraActive] = useState(true);
+  const [isCameraActive, setIsCameraActive] = useState(false);
   const [showFullscreenModal, setShowFullscreenModal] = useState(false);
   const [lastScannedStudent, setLastScannedStudent] = useState<{
     student: Student;
@@ -158,18 +159,42 @@ export const AccessControlModule: React.FC = () => {
         <div className="lg:col-span-7 space-y-4">
           {/* Main Scanner Card */}
           <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <span className="text-sm sm:text-base font-black text-slate-800 flex items-center gap-2">
-                <ScanLine className="w-5 h-5 text-emerald-600" /> Escáner de Credencial Digital (Cámara en Vivo)
+                <ScanLine className="w-5 h-5 text-emerald-600" /> Escáner de Credencial Digital
               </span>
-              <button
-                onClick={() => setShowFullscreenModal(true)}
-                className="text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 flex items-center gap-1.5 transition cursor-pointer"
-                title="Abrir Estación a Pantalla Completa"
-              >
-                <Maximize2 className="w-4 h-4" />
-                <span>Estación Rápida</span>
-              </button>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => setIsCameraActive(!isCameraActive)}
+                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black flex items-center gap-2 shadow-xs transition active:scale-95 cursor-pointer ${
+                    isCameraActive
+                      ? 'bg-rose-600 hover:bg-rose-700 text-white'
+                      : 'bg-[#0D6938] hover:bg-[#094d28] text-white'
+                  }`}
+                  title={isCameraActive ? 'Desactivar cámara' : 'Activar cámara para escanear QR'}
+                >
+                  {isCameraActive ? (
+                    <>
+                      <CameraOff className="w-4 h-4 stroke-[2.5]" />
+                      <span>Desactivar Cámara</span>
+                    </>
+                  ) : (
+                    <>
+                      <Camera className="w-4 h-4 stroke-[2.5]" />
+                      <span>Activar Cámara para Leer QR</span>
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={() => setShowFullscreenModal(true)}
+                  className="text-xs sm:text-sm font-black px-3.5 py-2 rounded-xl bg-slate-100 text-slate-800 border border-slate-200 hover:bg-slate-200 flex items-center gap-1.5 transition cursor-pointer"
+                  title="Abrir Estación a Pantalla Completa"
+                >
+                  <Maximize2 className="w-4 h-4" />
+                  <span className="hidden sm:inline">Pantalla Completa</span>
+                </button>
+              </div>
             </div>
 
             {/* Real Camera Scanner Viewport */}

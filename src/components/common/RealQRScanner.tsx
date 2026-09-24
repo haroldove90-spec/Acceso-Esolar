@@ -31,7 +31,7 @@ interface RealQRScannerProps {
 
 export const RealQRScanner: React.FC<RealQRScannerProps> = ({
   onScanResult,
-  isActive = true,
+  isActive = false,
   onToggleActive,
   showControls = true,
   compact = false,

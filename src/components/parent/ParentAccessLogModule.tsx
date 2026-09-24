@@ -72,15 +72,6 @@ export const ParentAccessLogModule: React.FC = () => {
     });
   }, [studentRecords, filterType, filterStatus, searchQuery]);
 
-  // Statistics calculation
-  const totalEntries = studentRecords.filter(r => r.type === 'Entrada').length;
-  const totalExits = studentRecords.filter(r => r.type === 'Salida').length;
-  const lateEntries = studentRecords.filter(r => r.type === 'Entrada' && r.status === 'late').length;
-  const onTimeEntries = studentRecords.filter(
-    r => r.type === 'Entrada' && (r.status === 'on_time' || r.status === 'present')
-  ).length;
-  const punctualityScore = totalEntries > 0 ? Math.round((onTimeEntries / totalEntries) * 100) : 100;
-
   const handlePrintLog = () => {
     window.print();
   };
@@ -145,45 +136,6 @@ export const ParentAccessLogModule: React.FC = () => {
             <Printer className="w-4 h-4" />
             <span>Imprimir Historial</span>
           </button>
-        </div>
-      </div>
-
-      {/* KPI Stats Summary Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 border-l-4 border-l-[#0D6938] shadow-xs">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-black uppercase tracking-wider">Entradas</span>
-            <ArrowRightCircle className="w-4 h-4 text-[#0D6938]" />
-          </div>
-          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">{totalEntries}</p>
-          <span className="text-xs text-[#0D6938] font-bold">Registradas en ciclo</span>
-        </div>
-
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 border-l-4 border-l-[#5B92C8] shadow-xs">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-black uppercase tracking-wider">Puntualidad</span>
-            <CheckCircle2 className="w-4 h-4 text-[#5B92C8]" />
-          </div>
-          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">{punctualityScore}%</p>
-          <span className="text-xs text-slate-500 font-bold">{onTimeEntries} a tiempo</span>
-        </div>
-
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 border-l-4 border-l-[#EAB308] shadow-xs">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-black uppercase tracking-wider">Retardos</span>
-            <AlertTriangle className="w-4 h-4 text-amber-500" />
-          </div>
-          <p className="text-2xl sm:text-3xl font-black text-amber-600 mt-2">{lateEntries}</p>
-          <span className="text-xs text-slate-500 font-bold">Llegadas tarde</span>
-        </div>
-
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 border-l-4 border-l-[#D91A2A] shadow-xs">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-black uppercase tracking-wider">Salidas</span>
-            <ArrowLeftCircle className="w-4 h-4 text-[#D91A2A]" />
-          </div>
-          <p className="text-2xl sm:text-3xl font-black text-[#D91A2A] mt-2">{totalExits}</p>
-          <span className="text-xs text-slate-500 font-bold">Término de jornada</span>
         </div>
       </div>
 

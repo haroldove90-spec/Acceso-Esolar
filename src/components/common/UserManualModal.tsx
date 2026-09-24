@@ -71,29 +71,35 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
           style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
         >
           {/* Document Header */}
-          <div className="border-b-2 border-slate-900 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-14 h-14 bg-blue-700 rounded-2xl flex items-center justify-center text-white font-black shadow-md shrink-0">
-                <School className="w-8 h-8" />
-              </div>
+          <div className="border-b-2 border-slate-900 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+            <div className="flex items-center gap-4">
+              <img
+                src="https://kabris.com.mx/moiseslogo.png"
+                alt="Esc. Sec. Gral. No. 1 Moisés Sáenz"
+                className="h-16 sm:h-20 w-auto object-contain shrink-0"
+                loading="eager"
+              />
               <div>
-                <span className="text-xs font-black uppercase tracking-widest text-blue-700 block">
+                <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#D91A2A] block">
                   SISTEMA OFICIAL DE CONTROL ESCOLAR Y SEGURIDAD
                 </span>
-                <h1 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight">
+                <h1 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight leading-tight">
                   MANUAL DE USUARIO
                 </h1>
-                <p className="text-xs sm:text-sm text-slate-600 font-bold">
-                  Operación de Acceso Escolar mediante Código QR y Notificaciones en Tiempo Real al Tutor
+                <p className="text-xs sm:text-sm text-slate-700 font-bold mt-0.5">
+                  Esc. Sec. Gral. No. 1 Moisés Sáenz • C.C.T. 30DES0040L • Coatzacoalcos, Ver.
+                </p>
+                <p className="text-xs text-slate-500 font-medium">
+                  Operación de Acceso Escolar con Código QR y Notificaciones en Tiempo Real al Tutor
                 </p>
               </div>
             </div>
 
             <div className="sm:text-right border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200">
               <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-900 font-mono font-black text-xs rounded-full border border-emerald-300">
-                VERSIÓN 2.4 - PRODUCCIÓN
+                GUÍA OFICIAL 2026
               </span>
-              <p className="text-xs text-slate-500 font-bold mt-1">Capacidad: 700 Alumnos Activos</p>
+              <p className="text-xs text-slate-500 font-bold mt-1">Secundaria • 12 Grupos (A - L)</p>
               <p className="text-xs text-slate-400 font-medium">Ciclo Escolar Vigente</p>
             </div>
           </div>

@@ -3,11 +3,11 @@ import { Megaphone, Calendar, FileText, Download, Clock, MapPin, Tag, ChevronRig
 import { useApp } from '../../context/AppContext';
 
 export const AnnouncementsBoardModule: React.FC = () => {
-  const { announcements, events } = useApp();
+  const { announcements, events, showToast } = useApp();
   const [activeSection, setActiveSection] = useState<'circulares' | 'eventos'>('circulares');
 
   const handleDownloadAttachment = (filename: string) => {
-    alert(`Descargando documento oficial: ${filename}`);
+    showToast('Descargando Documento', `Descargando circular oficial: ${filename}`, 'info');
   };
 
   return (

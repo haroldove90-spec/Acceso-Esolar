@@ -2,44 +2,29 @@ import React, { useState } from 'react';
 import {
   IdCard,
   QrCode,
-  Calendar,
-  Clock,
-  CheckCircle2,
-  AlertTriangle,
   Heart,
-  Phone,
-  Printer,
-  ShieldCheck,
-  UserCheck,
   Send,
-  Share2,
-  Smartphone
+  Download,
+  School,
+  Sparkles,
+  Share2
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { StudentCardModal } from '../common/StudentCardModal';
 import { StudentQRCodeWhatsAppModal } from './StudentQRCodeWhatsAppModal';
 
 export const StudentProfileModule: React.FC = () => {
-  const { parentSelectedStudentId, students, accessRecords } = useApp();
+  const { parentSelectedStudentId, students } = useApp();
   const [showModal, setShowModal] = useState(false);
   const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
 
   const student = students.find(s => s.id === parentSelectedStudentId) || students[0];
 
-  const studentLogs = accessRecords.filter(
-    a => a.studentId === student?.id || a.enrollmentId === student?.enrollmentId
-  );
-
-  const totalEntries = studentLogs.filter(a => a.type === 'Entrada').length;
-  const onTimeEntries = studentLogs.filter(a => a.status === 'on_time' || a.status === 'present').length;
-  const lateEntries = studentLogs.filter(a => a.status === 'late').length;
-  const punctualityScore = totalEntries > 0 ? Math.round((onTimeEntries / totalEntries) * 100) : 100;
-
   if (!student) return null;
 
   return (
     <div className="space-y-4 max-w-3xl mx-auto">
-      {/* Student Identification & Today's Status Banner */}
+      {/* Student Identification Banner */}
       <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-xs space-y-5">
         <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 text-center sm:text-left">
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5">
@@ -56,6 +41,9 @@ export const StudentProfileModule: React.FC = () => {
               <p className="text-xs sm:text-sm font-bold text-slate-600 mt-0.5">
                 {student.grade} de Secundaria • Grupo {student.group} • Turno {student.shift}
               </p>
+              <span className="inline-block mt-1 text-[11px] font-black text-[#5B92C8] bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-200">
+                Esc. Sec. Gral. No. 1 Moisés Sáenz
+              </span>
             </div>
           </div>
 
@@ -78,97 +66,51 @@ export const StudentProfileModule: React.FC = () => {
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Live Attendance Status Today Box */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-slate-50 to-blue-50/60 border border-blue-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs sm:text-sm">
-          <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-black shrink-0">
-              <UserCheck className="w-6 h-6" />
+      {/* Official Credential Preview Card */}
+      <div className="bg-gradient-to-br from-slate-900 to-[#111827] text-white p-6 rounded-3xl border-2 border-[#D91A2A] shadow-lg relative overflow-hidden">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="space-y-3 text-center sm:text-left flex-1">
+            <div className="flex items-center justify-center sm:justify-start gap-2">
+              <span className="bg-[#D91A2A] text-white text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full">
+                Credencial Escolar Oficial
+              </span>
+              <span className="text-slate-400 text-xs font-bold">Ciclo Escolar 2025-2026</span>
             </div>
-            <div>
-              <span className="text-xs font-black text-slate-500 block uppercase tracking-wider">Estatus de Hoy:</span>
-              <p className="font-black text-slate-900 text-sm sm:text-base">
-                {studentLogs.length > 0 ? 'Dentro del Plantel Escolar' : 'Sin ingreso registrado aún'}
-              </p>
+
+            <h3 className="text-lg sm:text-xl font-black text-white">
+              {student.fullName}
+            </h3>
+
+            <div className="grid grid-cols-2 gap-2 text-xs font-semibold text-slate-300">
+              <div className="bg-white/10 p-2.5 rounded-xl">
+                <span className="text-[10px] uppercase font-black text-slate-400 block">Grado y Grupo</span>
+                <span className="text-white font-black">{student.grade} - Grupo {student.group}</span>
+              </div>
+              <div className="bg-white/10 p-2.5 rounded-xl">
+                <span className="text-[10px] uppercase font-black text-slate-400 block">Turno</span>
+                <span className="text-white font-black">{student.shift}</span>
+              </div>
+              <div className="bg-white/10 p-2.5 rounded-xl">
+                <span className="text-[10px] uppercase font-black text-slate-400 block">Tutor Legal</span>
+                <span className="text-white font-black truncate block">{student.tutorName}</span>
+              </div>
+              <div className="bg-white/10 p-2.5 rounded-xl">
+                <span className="text-[10px] uppercase font-black text-slate-400 block">Estatus</span>
+                <span className="text-emerald-400 font-black">Activo Oficial</span>
+              </div>
             </div>
           </div>
 
-          {studentLogs.length > 0 && (
-            <div className="text-right sm:text-right w-full sm:w-auto">
-              <span className="text-xs sm:text-sm font-black text-emerald-800 bg-emerald-100/90 px-3.5 py-1.5 rounded-xl border border-emerald-300 inline-block">
-                Ingreso: {studentLogs[0].formattedTime} ({studentLogs[0].status === 'late' ? 'Retardo' : 'Puntual'})
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Attendance Stats Cards */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 text-center shadow-xs">
-          <span className="text-xs font-black text-slate-500 uppercase block tracking-wider">Asistencias</span>
-          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">{totalEntries}</p>
-          <span className="text-xs text-emerald-700 font-black">100% Registro</span>
-        </div>
-
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 text-center shadow-xs">
-          <span className="text-xs font-black text-slate-500 uppercase block tracking-wider">Puntualidad</span>
-          <p className="text-2xl sm:text-3xl font-black text-emerald-600 mt-1">{punctualityScore}%</p>
-          <span className="text-xs text-slate-500 font-bold">{onTimeEntries} a tiempo</span>
-        </div>
-
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 text-center shadow-xs">
-          <span className="text-xs font-black text-slate-500 uppercase block tracking-wider">Retardos</span>
-          <p className="text-2xl sm:text-3xl font-black text-amber-600 mt-1">{lateEntries}</p>
-          <span className="text-xs text-slate-500 font-bold">Ciclo escolar</span>
-        </div>
-      </div>
-
-      {/* Detailed Attendance History Table */}
-      <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-          <h3 className="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-blue-600" /> Historial Diario de Asistencia y Retardos
-          </h3>
-          <span className="text-xs font-bold text-slate-500">Últimos movimientos</span>
-        </div>
-
-        <div className="space-y-2.5">
-          {studentLogs.length > 0 ? (
-            studentLogs.map(log => (
-              <div
-                key={log.id}
-                className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm"
-              >
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <div className={`p-2.5 rounded-xl ${
-                    log.status === 'late' ? 'bg-amber-100 text-amber-900' : 'bg-emerald-100 text-emerald-900'
-                  }`}>
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="font-black text-slate-900 text-xs sm:text-sm">{log.type} Escolar</p>
-                    <span className="text-xs font-bold text-slate-500">{log.gate} • {log.date}</span>
-                  </div>
-                </div>
-
-                <div className="text-right">
-                  <span className="font-mono font-black text-slate-900 text-xs sm:text-sm block">{log.formattedTime}</span>
-                  <span className={`text-xs font-black px-2.5 py-0.5 rounded-full inline-block mt-0.5 ${
-                    log.status === 'late'
-                      ? 'bg-amber-100 text-amber-900'
-                      : 'bg-emerald-100 text-emerald-900'
-                  }`}>
-                    {log.status === 'late' ? 'Retardo' : 'A tiempo'}
-                  </span>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="text-center py-8 text-slate-500 text-xs sm:text-sm font-semibold">
-              No hay historial de asistencia disponible aún.
-            </div>
-          )}
+          <div className="flex flex-col items-center gap-2.5 bg-white p-4 rounded-2xl shadow-md shrink-0">
+            <img
+              src={`https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(student.qrCodeValue)}`}
+              alt="QR Alumno"
+              className="w-32 h-32 object-contain"
+            />
+            <span className="text-[10px] font-mono font-black text-slate-700">{student.enrollmentId}</span>
+          </div>
         </div>
       </div>
 

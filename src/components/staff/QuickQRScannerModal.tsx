@@ -12,7 +12,9 @@ import {
   Volume2,
   Sparkles,
   ArrowRightCircle,
-  BellRing
+  BellRing,
+  Camera,
+  CameraOff
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { GateType, Student, AttendanceStatus } from '../../types';
@@ -27,7 +29,7 @@ export const QuickQRScannerModal: React.FC<QuickQRScannerModalProps> = ({ onClos
 
   const [selectedGate, setSelectedGate] = useState<GateType>('Portón Principal (Entrada General)');
   const [accessType, setAccessType] = useState<'Entrada' | 'Salida'>('Entrada');
-  const [isCameraActive, setIsCameraActive] = useState(true);
+  const [isCameraActive, setIsCameraActive] = useState(false);
   const [manualQuery, setManualQuery] = useState('');
   const [sessionScanCount, setSessionScanCount] = useState(0);
 
@@ -211,14 +213,32 @@ export const QuickQRScannerModal: React.FC<QuickQRScannerModalProps> = ({ onClos
           
           {/* Left Column: Live Camera Scanner */}
           <div className="lg:col-span-7 space-y-3.5 flex flex-col">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
               <span className="text-xs sm:text-sm font-black text-slate-800 flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                Visor Óptico de la Cámara
+                <span className={`w-2.5 h-2.5 rounded-full ${isCameraActive ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`}></span>
+                {isCameraActive ? 'Cámara en Vivo' : 'Cámara Desactivada'}
               </span>
-              <span className="text-xs font-bold text-slate-500">
-                Apunte al código QR de la credencial
-              </span>
+              <button
+                type="button"
+                onClick={() => setIsCameraActive(!isCameraActive)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer ${
+                  isCameraActive
+                    ? 'bg-rose-600 hover:bg-rose-700 text-white'
+                    : 'bg-[#0D6938] hover:bg-[#094d28] text-white'
+                }`}
+              >
+                {isCameraActive ? (
+                  <>
+                    <CameraOff className="w-3.5 h-3.5" />
+                    <span>Desactivar Cámara</span>
+                  </>
+                ) : (
+                  <>
+                    <Camera className="w-3.5 h-3.5" />
+                    <span>Activar Cámara</span>
+                  </>
+                )}
+              </button>
             </div>
 
             {/* Real Camera Scanner Component */}

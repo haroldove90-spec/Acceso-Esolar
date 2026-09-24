@@ -1,9 +1,10 @@
 import React from 'react';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck, BookOpen } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { StudentsModule } from './StudentsModule';
 import { StaffModule } from './StaffModule';
 import { ReportsModule } from './ReportsModule';
+import { UserManualModule } from '../common/UserManualModule';
 
 export const AdminDashboard: React.FC = () => {
   const { activeTab, setActiveTab } = useApp();
@@ -22,7 +23,7 @@ export const AdminDashboard: React.FC = () => {
                 Dirección / Control Escolar
               </span>
               <span className="bg-[#D91A2A]/30 text-white text-xs font-black px-2.5 py-0.5 rounded-full border border-red-400/40">
-                Padrón 700 Alumnos
+                Gestión Institucional
               </span>
             </div>
             <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white mt-0.5">
@@ -45,12 +46,12 @@ export const AdminDashboard: React.FC = () => {
         <button
           onClick={() => setActiveTab('students')}
           className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
-            activeTab === 'students' || (!activeTab || (activeTab !== 'staff' && activeTab !== 'reports'))
+            activeTab === 'students' || (!activeTab || (activeTab !== 'staff' && activeTab !== 'reports' && activeTab !== 'manual'))
               ? 'bg-[#0D6938] text-white shadow-xs'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
-          Padrón de Alumnos (700 Plazas)
+          Padrón de Alumnos
         </button>
         <button
           onClick={() => setActiveTab('staff')}
@@ -72,13 +73,25 @@ export const AdminDashboard: React.FC = () => {
         >
           📝 Reportes, Citatorios & Avisos
         </button>
+        <button
+          onClick={() => setActiveTab('manual')}
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'manual'
+              ? 'bg-[#111827] text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <BookOpen className="w-4 h-4 text-amber-400" />
+          <span>Manual de Usuario</span>
+        </button>
       </div>
 
       {/* Render Active Module */}
       <div className="animate-in fade-in duration-200">
-        {(activeTab === 'students' || (!activeTab || (activeTab !== 'staff' && activeTab !== 'reports'))) && <StudentsModule />}
+        {(activeTab === 'students' || (!activeTab || (activeTab !== 'staff' && activeTab !== 'reports' && activeTab !== 'manual'))) && <StudentsModule />}
         {activeTab === 'staff' && <StaffModule />}
         {activeTab === 'reports' && <ReportsModule />}
+        {activeTab === 'manual' && <UserManualModule initialRole="admin" />}
       </div>
     </div>
   );

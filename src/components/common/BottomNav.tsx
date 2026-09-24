@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, UserCheck, BarChart3, QrCode, Clock, Send, Bell, IdCard, Megaphone, FileText } from 'lucide-react';
+import { Users, UserCheck, BarChart3, QrCode, Clock, Send, Bell, IdCard, Megaphone, FileText, BookOpen } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 interface BottomNavItem {
@@ -24,12 +24,14 @@ export const BottomNav: React.FC = () => {
     { id: 'students', label: 'Alumnos', icon: Users },
     { id: 'staff', label: 'Personal', icon: UserCheck },
     { id: 'reports', label: 'Reportes', icon: FileText },
+    { id: 'manual', label: 'Manual', icon: BookOpen },
   ];
 
   const staffNavItems: BottomNavItem[] = [
     { id: 'access', label: 'Acceso QR', icon: QrCode },
     { id: 'status', label: 'Estatus', icon: Clock },
     { id: 'notices', label: 'Avisos', icon: Send },
+    { id: 'manual', label: 'Manual', icon: BookOpen },
   ];
 
   const parentNavItems: BottomNavItem[] = [
@@ -38,6 +40,7 @@ export const BottomNav: React.FC = () => {
     { id: 'access_history', label: 'Accesos', icon: Clock },
     { id: 'student_profile', label: 'Credencial', icon: IdCard },
     { id: 'announcements', label: 'Tablón', icon: Megaphone },
+    { id: 'manual', label: 'Manual', icon: BookOpen },
   ];
 
   const currentItems: BottomNavItem[] =

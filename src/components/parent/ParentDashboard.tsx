@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, QrCode, Bell, Clock, IdCard, Megaphone, FileText } from 'lucide-react';
+import { Users, QrCode, Bell, Clock, IdCard, Megaphone, FileText, BookOpen } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { InstantNotificationsModule } from './InstantNotificationsModule';
 import { StudentProfileModule } from './StudentProfileModule';
@@ -9,6 +9,7 @@ import { ParentReportsCitatoriosModule } from './ParentReportsCitatoriosModule';
 import { StudentEntranceNotificationModal } from './StudentEntranceNotificationModal';
 import { OfficialNoticeFloatingModal } from './OfficialNoticeFloatingModal';
 import { ParentEntranceDemoBanner } from './ParentEntranceDemoBanner';
+import { UserManualModule } from '../common/UserManualModule';
 
 export const ParentDashboard: React.FC = () => {
   const {
@@ -152,14 +153,28 @@ export const ParentDashboard: React.FC = () => {
           <Megaphone className="w-4 h-4" />
           <span>Tablón de Avisos</span>
         </button>
+
+        <button
+          onClick={() => setActiveTab('manual')}
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'manual'
+              ? 'bg-[#111827] text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <BookOpen className="w-4 h-4 text-amber-400" />
+          <span>Manual de Usuario</span>
+        </button>
       </div>
 
-      {/* Interactive Demonstration Banner for Client */}
-      <ParentEntranceDemoBanner
-        onSimulateEntrance={(isLate) => {
-          simulateStudentEntrance(parentSelectedStudentId, isLate);
-        }}
-      />
+      {/* Interactive Demonstration Banner for Client - Only shown on Notifications module */}
+      {activeTab === 'notifications' && (
+        <ParentEntranceDemoBanner
+          onSimulateEntrance={(isLate) => {
+            simulateStudentEntrance(parentSelectedStudentId, isLate);
+          }}
+        />
+      )}
 
       {/* Active Tab View */}
       <div className="animate-in fade-in duration-200">
@@ -168,12 +183,14 @@ export const ParentDashboard: React.FC = () => {
         {activeTab === 'access_history' && <ParentAccessLogModule />}
         {activeTab === 'student_profile' && <StudentProfileModule />}
         {activeTab === 'announcements' && <AnnouncementsBoardModule />}
+        {activeTab === 'manual' && <UserManualModule initialRole="parent" />}
         {(!activeTab || (
           activeTab !== 'reports_citatorios' &&
           activeTab !== 'notifications' &&
           activeTab !== 'access_history' &&
           activeTab !== 'student_profile' &&
-          activeTab !== 'announcements'
+          activeTab !== 'announcements' &&
+          activeTab !== 'manual'
         )) && <ParentReportsCitatoriosModule />}
       </div>
 

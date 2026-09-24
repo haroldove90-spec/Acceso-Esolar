@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { UserCheck, QrCode, ScanLine, Sparkles } from 'lucide-react';
+import { UserCheck, QrCode, ScanLine, Sparkles, Clock, Send, BookOpen } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { AccessControlModule } from './AccessControlModule';
 import { RealTimeStatusModule } from './RealTimeStatusModule';
 import { DirectNoticesModule } from './DirectNoticesModule';
 import { FloatingQRScannerButton } from './FloatingQRScannerButton';
 import { QuickQRScannerModal } from './QuickQRScannerModal';
+import { UserManualModule } from '../common/UserManualModule';
 
 export const StaffDashboard: React.FC = () => {
-  const { activeTab } = useApp();
+  const { activeTab, setActiveTab } = useApp();
   const [showQuickModal, setShowQuickModal] = useState(false);
 
   return (
@@ -53,11 +54,60 @@ export const StaffDashboard: React.FC = () => {
         </div>
       </div>
 
+      {/* Staff Module Switcher Tabs */}
+      <div className="bg-white p-2 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-1.5 overflow-x-auto">
+        <button
+          onClick={() => setActiveTab('access')}
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'access' || (!activeTab || (activeTab !== 'status' && activeTab !== 'notices' && activeTab !== 'manual'))
+              ? 'bg-[#0D6938] text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <QrCode className="w-4 h-4" />
+          <span>Control de Acceso (QR)</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('status')}
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'status'
+              ? 'bg-[#0D6938] text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <Clock className="w-4 h-4" />
+          <span>Estatus en Tiempo Real</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('notices')}
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'notices'
+              ? 'bg-[#0D6938] text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <Send className="w-4 h-4" />
+          <span>Avisos Directos al Tutor</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('manual')}
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'manual'
+              ? 'bg-[#111827] text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <BookOpen className="w-4 h-4 text-amber-400" />
+          <span>Manual de Usuario</span>
+        </button>
+      </div>
+
       {/* Render Active Tab */}
       <div className="animate-in fade-in duration-200">
-        {(activeTab === 'access' || (!activeTab || (activeTab !== 'status' && activeTab !== 'notices'))) && <AccessControlModule />}
+        {(activeTab === 'access' || (!activeTab || (activeTab !== 'status' && activeTab !== 'notices' && activeTab !== 'manual'))) && <AccessControlModule />}
         {activeTab === 'status' && <RealTimeStatusModule />}
         {activeTab === 'notices' && <DirectNoticesModule />}
+        {activeTab === 'manual' && <UserManualModule initialRole="staff" />}
       </div>
 
       {/* Floating Action Button for 1-Tap QR Access on any Tab */}

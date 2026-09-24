@@ -10,6 +10,7 @@ import {
   IdCard,
   Megaphone,
   FileText,
+  BookOpen,
   X,
   LogOut,
   ChevronRight,
@@ -23,15 +24,17 @@ export const Sidebar: React.FC = () => {
   if (!currentRole) return null;
 
   const adminNavItems = [
-    { id: 'students', label: 'Gestión de Alumnos y Grupos', sub: 'Padrón 700 Plazas y Tutores', icon: Users },
+    { id: 'students', label: 'Padrón de Alumnos', sub: 'Matrícula Escolar y Tutores', icon: Users },
     { id: 'staff', label: 'Gestión de Personal Escolar', sub: 'Docentes y Portones Asignados', icon: UserCheck },
     { id: 'reports', label: 'Reportes, Citatorios & Avisos', sub: 'Emisión Masiva e Individual', icon: FileText },
+    { id: 'manual', label: 'Manual del Usuario', sub: 'Guía de Operación y Descarga PDF', icon: BookOpen },
   ];
 
   const staffNavItems = [
     { id: 'access', label: 'Control de Acceso Ágil', sub: 'Escaneo QR y Entrada/Salida', icon: QrCode },
     { id: 'status', label: 'Estatus en Tiempo Real', sub: 'Puntualidad en vivo y Retardos', icon: Clock },
     { id: 'notices', label: 'Avisos Directos al Tutor', sub: 'Comunicados y Alertas al Móvil', icon: Send },
+    { id: 'manual', label: 'Manual del Usuario', sub: 'Guía de Operación y Descarga PDF', icon: BookOpen },
   ];
 
   const parentNavItems = [
@@ -40,6 +43,7 @@ export const Sidebar: React.FC = () => {
     { id: 'access_history', label: 'Registro de Accesos', sub: 'Historial con día, hora y portón', icon: Clock },
     { id: 'student_profile', label: 'Credencial QR & WhatsApp', sub: 'Generar código y enviar a hijo', icon: IdCard },
     { id: 'announcements', label: 'Tablón de Avisos y Eventos', sub: 'Circulares Oficiales de Dirección', icon: Megaphone },
+    { id: 'manual', label: 'Manual del Usuario', sub: 'Guía de Operación y Descarga PDF', icon: BookOpen },
   ];
 
   const currentItems =

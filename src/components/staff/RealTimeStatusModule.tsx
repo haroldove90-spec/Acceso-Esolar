@@ -26,11 +26,6 @@ export const RealTimeStatusModule: React.FC = () => {
             Registro y ajuste directo de la puntualidad de los alumnos ingresados hoy (A tiempo, Retardo, Inasistencia).
           </p>
         </div>
-
-        <div className="flex items-center gap-2 text-xs sm:text-sm font-black text-slate-800 bg-slate-50 px-3.5 py-2 rounded-2xl border border-slate-200">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>{accessRecords.length} Registros Activos Hoy</span>
-        </div>
       </div>
 
       {/* Filter and search */}

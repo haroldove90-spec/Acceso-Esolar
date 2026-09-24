@@ -107,9 +107,9 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const VALID_TABS_BY_ROLE: Record<RoleType, string[]> = {
-  admin: ['students', 'staff', 'reports'],
-  staff: ['access', 'status', 'notices'],
-  parent: ['notifications', 'reports_citatorios', 'access_history', 'student_profile', 'announcements'],
+  admin: ['students', 'staff', 'reports', 'manual'],
+  staff: ['access', 'status', 'notices', 'manual'],
+  parent: ['reports_citatorios', 'notifications', 'access_history', 'student_profile', 'announcements', 'manual'],
 };
 
 export const getDefaultTabForRole = (role: RoleType | null, currentTab?: string | null): string => {

@@ -115,27 +115,12 @@ export const StaffModule: React.FC = () => {
     return matchesSearch && matchesGate && matchesStatus;
   });
 
-  const activeCount = staff.filter(s => s.status !== 'Inactivo').length;
-  const inactiveCount = staff.filter(s => s.status === 'Inactivo').length;
-
   return (
     <div className="space-y-4">
       {/* Top Banner */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs">
         <div>
-          <div className="flex flex-wrap items-center gap-2.5">
-            <h2 className="text-base sm:text-xl font-black text-slate-900">Gestión de Personal & Docentes</h2>
-            <div className="flex items-center gap-2">
-              <span className="bg-emerald-50 text-emerald-800 text-xs font-black px-2.5 py-0.5 rounded-full border border-emerald-200">
-                {activeCount} Activos
-              </span>
-              {inactiveCount > 0 && (
-                <span className="bg-slate-100 text-slate-700 text-xs font-black px-2.5 py-0.5 rounded-full border border-slate-200">
-                  {inactiveCount} Inactivos
-                </span>
-              )}
-            </div>
-          </div>
+          <h2 className="text-base sm:text-xl font-black text-slate-900">Gestión de Personal & Docentes</h2>
           <p className="text-xs sm:text-sm font-semibold text-slate-600 mt-1">
             Alta de docentes con fotografía oficial, delegación de portones, edición, activación/desactivación y borrado.
           </p>
