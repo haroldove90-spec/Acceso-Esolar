@@ -124,8 +124,9 @@ export const getDefaultTabForRole = (role: RoleType | null, currentTab?: string 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentRole, setCurrentRoleState] = useState<RoleType | null>(() => {
     try {
+      const sessionActive = sessionStorage.getItem('sa_session_active');
       const saved = localStorage.getItem('sa_current_role');
-      if (saved === 'admin' || saved === 'staff' || saved === 'parent') {
+      if (sessionActive === 'true' && (saved === 'admin' || saved === 'staff' || saved === 'parent')) {
         return saved as RoleType;
       }
     } catch (e) {
@@ -147,9 +148,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Load / Store Students
+  // Load / Store Students (Ensuring Secundaria and 12 Groups A-L migration)
   const [students, setStudents] = useState<Student[]>(() => {
     try {
+      const dataVersion = localStorage.getItem('sa_data_version');
+      if (dataVersion !== 'secundaria_12grupos_v1') {
+        localStorage.setItem('sa_data_version', 'secundaria_12grupos_v1');
+        localStorage.setItem('sa_students', JSON.stringify(INITIAL_STUDENTS));
+        return INITIAL_STUDENTS;
+      }
       const saved = localStorage.getItem('sa_students');
       return saved ? JSON.parse(saved) : INITIAL_STUDENTS;
     } catch (e) {
@@ -351,9 +358,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       if (role) {
         localStorage.setItem('sa_current_role', role);
+        sessionStorage.setItem('sa_session_active', 'true');
         localStorage.setItem('sa_active_tab', newTab);
       } else {
         localStorage.removeItem('sa_current_role');
+        sessionStorage.removeItem('sa_session_active');
         localStorage.removeItem('sa_active_tab');
       }
     } catch (e) {
@@ -366,6 +375,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsSidebarOpen(false);
     try {
       localStorage.removeItem('sa_current_role');
+      sessionStorage.removeItem('sa_session_active');
       localStorage.removeItem('sa_active_tab');
     } catch (e) {
       console.error('Error clearing session in localStorage:', e);

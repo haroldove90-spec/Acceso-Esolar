@@ -36,7 +36,7 @@ export const StaffModule: React.FC = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     roleTitle: 'Docente de Grupo',
-    subjectOrArea: 'Educación Primaria',
+    subjectOrArea: 'Educación Secundaria / Tecnologías',
     assignedGate: 'Portón Principal (Entrada General)' as GateType,
     phone: '',
     email: '',
@@ -50,7 +50,7 @@ export const StaffModule: React.FC = () => {
     setFormData({
       fullName: '',
       roleTitle: 'Docente de Grupo',
-      subjectOrArea: 'Educación Primaria',
+      subjectOrArea: 'Educación Secundaria / Tecnologías',
       assignedGate: 'Portón Principal (Entrada General)',
       phone: '',
       email: '',
@@ -171,7 +171,7 @@ export const StaffModule: React.FC = () => {
           >
             <option value="todos">Todos los Portones</option>
             <option value="Portón Principal (Entrada General)">Portón Principal</option>
-            <option value="Portón 2 (Primaria / Vehicular)">Portón 2 (Vehicular)</option>
+            <option value="Portón 2 (Vehicular / Secundaria)">Portón 2 (Vehicular)</option>
             <option value="Portón 3 (Peatonal / Secundaria)">Portón 3 (Peatonal)</option>
           </select>
         </div>
@@ -380,7 +380,7 @@ export const StaffModule: React.FC = () => {
                   className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none font-bold text-slate-800 text-sm"
                 >
                   <option value="Portón Principal (Entrada General)">Portón Principal (Entrada General)</option>
-                  <option value="Portón 2 (Primaria / Vehicular)">Portón 2 (Primaria / Vehicular)</option>
+                  <option value="Portón 2 (Vehicular / Secundaria)">Portón 2 (Vehicular / Secundaria)</option>
                   <option value="Portón 3 (Peatonal / Secundaria)">Portón 3 (Peatonal / Secundaria)</option>
                 </select>
               </div>

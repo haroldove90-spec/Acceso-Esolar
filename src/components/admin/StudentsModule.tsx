@@ -19,6 +19,7 @@ import { Student } from '../../types';
 import { StudentCardModal } from '../common/StudentCardModal';
 import { PhotoUploader } from '../common/PhotoUploader';
 import { ConfirmDeleteModal } from '../common/ConfirmDeleteModal';
+import { SECONDARY_GRADES, SECONDARY_GROUPS } from '../../constants/schoolStructure';
 
 export const StudentsModule: React.FC = () => {
   const { students, addStudent, updateStudent, deleteStudent, toggleStudentStatus } = useApp();
@@ -181,13 +182,10 @@ export const StudentsModule: React.FC = () => {
             onChange={e => setSelectedGrade(e.target.value)}
             className="w-full py-2.5 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="todos">Todos los Grados</option>
-            <option value="1°">1° Primaria</option>
-            <option value="2°">2° Primaria</option>
-            <option value="3°">3° Primaria</option>
-            <option value="4°">4° Primaria</option>
-            <option value="5°">5° Primaria</option>
-            <option value="6°">6° Primaria</option>
+            <option value="todos">Todos los Grados (Secundaria)</option>
+            {SECONDARY_GRADES.map(g => (
+              <option key={g.value} value={g.value}>{g.label}</option>
+            ))}
           </select>
         </div>
 
@@ -197,10 +195,10 @@ export const StudentsModule: React.FC = () => {
             onChange={e => setSelectedGroup(e.target.value)}
             className="w-full py-2.5 px-3 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="todos">Todos los Grupos</option>
-            <option value="A">Grupo A</option>
-            <option value="B">Grupo B</option>
-            <option value="C">Grupo C</option>
+            <option value="todos">Todos los Grupos (12)</option>
+            {SECONDARY_GROUPS.map(grp => (
+              <option key={grp} value={grp}>Grupo {grp}</option>
+            ))}
           </select>
         </div>
 
@@ -333,10 +331,10 @@ export const StudentsModule: React.FC = () => {
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
               <div>
                 <h3 className="text-base sm:text-lg font-black text-slate-900">
-                  {editingStudent ? 'Editar Registro de Alumno' : 'Alta de Nuevo Alumno al Padrón'}
+                  {editingStudent ? 'Editar Registro de Alumno (Secundaria)' : 'Alta de Nuevo Alumno (Secundaria)'}
                 </h3>
                 <p className="text-xs text-slate-500 font-semibold">
-                  {editingStudent ? 'Actualiza los datos y la fotografía del alumno.' : 'Completa la información escolar y fotografía oficial.'}
+                  {editingStudent ? 'Actualiza los datos y la fotografía del alumno de secundaria.' : 'Registro oficial en Secundaria General No. 1 Moisés Sáenz (Grupos A a la L).'}
                 </p>
               </div>
               <button
@@ -383,31 +381,28 @@ export const StudentsModule: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="font-black text-slate-800 text-sm block mb-1">Grado *</label>
+                  <label className="font-black text-slate-800 text-sm block mb-1">Grado (Secundaria) *</label>
                   <select
                     value={formData.grade}
                     onChange={e => setFormData({ ...formData, grade: e.target.value })}
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl font-semibold text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   >
-                    <option value="1°">1° de Primaria</option>
-                    <option value="2°">2° de Primaria</option>
-                    <option value="3°">3° de Primaria</option>
-                    <option value="4°">4° de Primaria</option>
-                    <option value="5°">5° de Primaria</option>
-                    <option value="6°">6° de Primaria</option>
+                    {SECONDARY_GRADES.map(g => (
+                      <option key={g.value} value={g.value}>{g.label}</option>
+                    ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="font-black text-slate-800 text-sm block mb-1">Grupo *</label>
+                  <label className="font-black text-slate-800 text-sm block mb-1">Grupo (12 Grupos: A al L) *</label>
                   <select
                     value={formData.group}
                     onChange={e => setFormData({ ...formData, group: e.target.value })}
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl font-semibold text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   >
-                    <option value="A">Grupo A</option>
-                    <option value="B">Grupo B</option>
-                    <option value="C">Grupo C</option>
+                    {SECONDARY_GROUPS.map(grp => (
+                      <option key={grp} value={grp}>Grupo {grp}</option>
+                    ))}
                   </select>
                 </div>
 

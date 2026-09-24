@@ -25,6 +25,7 @@ import { useApp } from '../../context/AppContext';
 import { DirectNotice, AttendanceStatus, Student } from '../../types';
 import { OfficialCitationPrintModal } from './OfficialCitationPrintModal';
 import { soundEffects } from '../../utils/audioNotification';
+import { SECONDARY_GRADES, SECONDARY_GROUPS } from '../../constants/schoolStructure';
 
 export const ReportsModule: React.FC = () => {
   const {
@@ -490,30 +491,30 @@ export const ReportsModule: React.FC = () => {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-black uppercase text-[#0D6938] mb-1">
-                        Grado Escolar:
+                        Grado Escolar (Secundaria):
                       </label>
                       <select
                         value={selectedGrade}
                         onChange={e => setSelectedGrade(e.target.value)}
                         className="w-full bg-white border border-emerald-300 rounded-xl p-2.5 text-xs sm:text-sm font-bold text-slate-900"
                       >
-                        <option value="1°">1° Primer Grado</option>
-                        <option value="2°">2° Segundo Grado</option>
-                        <option value="3°">3° Tercer Grado</option>
+                        {SECONDARY_GRADES.map(g => (
+                          <option key={g.value} value={g.value}>{g.label}</option>
+                        ))}
                       </select>
                     </div>
                     <div>
                       <label className="block text-xs font-black uppercase text-[#0D6938] mb-1">
-                        Grupo:
+                        Grupo (12 Grupos A al L):
                       </label>
                       <select
                         value={selectedGroup}
                         onChange={e => setSelectedGroup(e.target.value)}
                         className="w-full bg-white border border-emerald-300 rounded-xl p-2.5 text-xs sm:text-sm font-bold text-slate-900"
                       >
-                        <option value="A">Grupo A</option>
-                        <option value="B">Grupo B</option>
-                        <option value="C">Grupo C</option>
+                        {SECONDARY_GROUPS.map(grp => (
+                          <option key={grp} value={grp}>Grupo {grp}</option>
+                        ))}
                       </select>
                     </div>
                   </div>

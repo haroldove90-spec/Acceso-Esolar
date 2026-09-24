@@ -2,14 +2,14 @@ export type RoleType = 'admin' | 'staff' | 'parent';
 
 export type AttendanceStatus = 'on_time' | 'late' | 'absent' | 'early_exit' | 'present';
 
-export type GateType = 'Portón Principal (Entrada General)' | 'Portón 2 (Primaria / Vehicular)' | 'Portón 3 (Peatonal / Secundaria)';
+export type GateType = 'Portón Principal (Entrada General)' | 'Portón 2 (Vehicular / Secundaria)' | 'Portón 3 (Peatonal / Secundaria)';
 
 export interface Student {
   id: string;
   enrollmentId: string; // e.g., "ALU-2026-0142"
   fullName: string;
-  grade: string; // "1°", "2°", "3°", "4°", "5°", "6°"
-  group: string; // "A", "B", "C"
+  grade: string; // "1°", "2°", "3°" (Secundaria)
+  group: string; // "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L" (12 grupos)
   shift: 'Matutino' | 'Vespertino';
   photoUrl: string;
   tutorName: string;

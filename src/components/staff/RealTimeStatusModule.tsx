@@ -52,13 +52,10 @@ export const RealTimeStatusModule: React.FC = () => {
             onChange={e => setGradeFilter(e.target.value)}
             className="w-full py-2.5 px-3.5 text-sm sm:text-base font-semibold bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
           >
-            <option value="todos">Todos los Grados</option>
-            <option value="1°">1° Primaria</option>
-            <option value="2°">2° Primaria</option>
-            <option value="3°">3° Primaria</option>
-            <option value="4°">4° Primaria</option>
-            <option value="5°">5° Primaria</option>
-            <option value="6°">6° Primaria</option>
+            <option value="todos">Todos los Grados (Secundaria)</option>
+            <option value="1°">1° de Secundaria</option>
+            <option value="2°">2° de Secundaria</option>
+            <option value="3°">3° de Secundaria</option>
           </select>
         </div>
       </div>

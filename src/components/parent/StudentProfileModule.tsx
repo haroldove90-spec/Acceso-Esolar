@@ -54,7 +54,7 @@ export const StudentProfileModule: React.FC = () => {
               </div>
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-snug">{student.fullName}</h2>
               <p className="text-xs sm:text-sm font-bold text-slate-600 mt-0.5">
-                {student.grade} de Primaria • Grupo {student.group} • Turno {student.shift}
+                {student.grade} de Secundaria • Grupo {student.group} • Turno {student.shift}
               </p>
             </div>
           </div>

@@ -128,7 +128,7 @@ export const AccessControlModule: React.FC = () => {
             className="px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm font-black text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
           >
             <option value="Portón Principal (Entrada General)">Portón Principal (Entrada General)</option>
-            <option value="Portón 2 (Primaria / Vehicular)">Portón 2 (Primaria / Vehicular)</option>
+            <option value="Portón 2 (Vehicular / Secundaria)">Portón 2 (Vehicular / Secundaria)</option>
             <option value="Portón 3 (Peatonal / Secundaria)">Portón 3 (Peatonal / Secundaria)</option>
           </select>
 
