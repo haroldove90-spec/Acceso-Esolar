@@ -76,10 +76,76 @@ class SoundEffects {
   }
 
   /**
+   * Authoritative 3-tone melodious chime sequence for Official Citatorios & Reports (F5 -> A5 -> C6)
+   */
+  public playNoticeAlert() {
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const notes = [698.46, 880.00, 1046.50]; // F5, A5, C6 major chord
+
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const start = now + idx * 0.14;
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, start);
+
+        gain.gain.setValueAtTime(0.001, start);
+        gain.gain.linearRampToValueAtTime(0.3, start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.4);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(start);
+        osc.stop(start + 0.42);
+      });
+    } catch (err) {
+      console.warn('Error playing notice alert chime:', err);
+    }
+  }
+
+  /**
+   * Urgent dual-tone chime for immediate citations
+   */
+  public playUrgentAlert() {
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      [880, 1174.66, 880, 1174.66].forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const start = now + idx * 0.12;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, start);
+
+        gain.gain.setValueAtTime(0.001, start);
+        gain.gain.linearRampToValueAtTime(0.4, start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.2);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(start);
+        osc.stop(start + 0.22);
+      });
+    } catch (err) {
+      console.warn('Error playing urgent alert sound:', err);
+    }
+  }
+
+  /**
    * Simple single test beep
    */
   public playTestBeep() {
-    this.playEntranceBeep();
+    this.playNoticeAlert();
   }
 }
 

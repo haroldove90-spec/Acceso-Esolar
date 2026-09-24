@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, UserCheck, BarChart3, QrCode, Clock, Send, Bell, IdCard, Megaphone } from 'lucide-react';
+import { Users, UserCheck, BarChart3, QrCode, Clock, Send, Bell, IdCard, Megaphone, FileText } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 interface BottomNavItem {
@@ -10,14 +10,20 @@ interface BottomNavItem {
 }
 
 export const BottomNav: React.FC = () => {
-  const { currentRole, activeTab, setActiveTab, notices } = useApp();
+  const { currentRole, activeTab, setActiveTab, notices, parentSelectedStudentId } = useApp();
 
   if (!currentRole) return null;
+
+  const pendingCitatorios = notices.filter(
+    n => (n.studentId === parentSelectedStudentId || n.targetScope === 'masivo') &&
+         (n.category === 'Citatorio' || n.category === 'Citatorio Dirección') &&
+         !n.isConfirmedByTutor
+  ).length;
 
   const adminNavItems: BottomNavItem[] = [
     { id: 'students', label: 'Alumnos', icon: Users },
     { id: 'staff', label: 'Personal', icon: UserCheck },
-    { id: 'reports', label: 'Reportes', icon: BarChart3 },
+    { id: 'reports', label: 'Reportes', icon: FileText },
   ];
 
   const staffNavItems: BottomNavItem[] = [
@@ -27,6 +33,7 @@ export const BottomNav: React.FC = () => {
   ];
 
   const parentNavItems: BottomNavItem[] = [
+    { id: 'reports_citatorios', label: 'Citatorios', icon: FileText, badgeCount: pendingCitatorios },
     { id: 'notifications', label: 'Alertas', icon: Bell, badgeCount: notices.filter(n => !n.isRead).length },
     { id: 'access_history', label: 'Accesos', icon: Clock },
     { id: 'student_profile', label: 'Credencial', icon: IdCard },

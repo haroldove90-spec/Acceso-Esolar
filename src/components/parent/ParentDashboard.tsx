@@ -1,11 +1,13 @@
 import React from 'react';
-import { Users, QrCode, Bell, Clock, IdCard, Megaphone } from 'lucide-react';
+import { Users, QrCode, Bell, Clock, IdCard, Megaphone, FileText } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { InstantNotificationsModule } from './InstantNotificationsModule';
 import { StudentProfileModule } from './StudentProfileModule';
 import { AnnouncementsBoardModule } from './AnnouncementsBoardModule';
 import { ParentAccessLogModule } from './ParentAccessLogModule';
+import { ParentReportsCitatoriosModule } from './ParentReportsCitatoriosModule';
 import { StudentEntranceNotificationModal } from './StudentEntranceNotificationModal';
+import { OfficialNoticeFloatingModal } from './OfficialNoticeFloatingModal';
 import { ParentEntranceDemoBanner } from './ParentEntranceDemoBanner';
 
 export const ParentDashboard: React.FC = () => {
@@ -18,10 +20,19 @@ export const ParentDashboard: React.FC = () => {
     entranceAlert,
     setEntranceAlert,
     simulateStudentEntrance,
+    officialNoticeAlert,
+    setOfficialNoticeAlert,
+    confirmNoticeReceipt,
     notices,
   } = useApp();
 
   const unreadNotices = notices.filter(n => !n.isRead).length;
+  const studentNotices = notices.filter(
+    n => n.studentId === parentSelectedStudentId || n.targetScope === 'masivo'
+  );
+  const pendingCitatorios = studentNotices.filter(
+    n => (n.category === 'Citatorio' || n.category === 'Citatorio Dirección') && !n.isConfirmedByTutor
+  ).length;
 
   return (
     <div className="space-y-5">
@@ -44,7 +55,7 @@ export const ParentDashboard: React.FC = () => {
               Control de Asistencia & Avisos
             </h2>
             <p className="text-xs sm:text-sm text-emerald-100 font-medium mt-0.5">
-              Notificaciones de entrada en portón, registro histórico y credencial digital para WhatsApp.
+              Notificaciones de entrada en portón, citatorios oficiales, registro histórico y credencial digital.
             </p>
           </div>
         </div>
@@ -69,9 +80,30 @@ export const ParentDashboard: React.FC = () => {
       {/* Parent Navigation Tabs Bar */}
       <div className="bg-white p-2 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-1.5 overflow-x-auto">
         <button
+          onClick={() => setActiveTab('reports_citatorios')}
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'reports_citatorios'
+              ? 'bg-[#D91A2A] text-white shadow-xs'
+              : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <FileText className="w-4 h-4" />
+          <span>Reportes & Citatorios</span>
+          {pendingCitatorios > 0 ? (
+            <span className="ml-1 px-2 py-0.5 bg-amber-400 text-slate-900 text-[10px] font-black rounded-full animate-pulse">
+              {pendingCitatorios} Cita
+            </span>
+          ) : (
+            <span className="ml-1 px-1.5 py-0.2 bg-slate-200 text-slate-700 text-[10px] font-bold rounded-full">
+              {studentNotices.length}
+            </span>
+          )}
+        </button>
+
+        <button
           onClick={() => setActiveTab('notifications')}
           className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
-            activeTab === 'notifications' || !activeTab || (activeTab !== 'access_history' && activeTab !== 'student_profile' && activeTab !== 'announcements')
+            activeTab === 'notifications'
               ? 'bg-[#0D6938] text-white shadow-xs'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
@@ -106,7 +138,7 @@ export const ParentDashboard: React.FC = () => {
           }`}
         >
           <IdCard className="w-4 h-4" />
-          <span>Credencial QR & WhatsApp</span>
+          <span>Credencial QR</span>
         </button>
 
         <button
@@ -131,12 +163,18 @@ export const ParentDashboard: React.FC = () => {
 
       {/* Active Tab View */}
       <div className="animate-in fade-in duration-200">
-        {(activeTab === 'notifications' || (!activeTab || (activeTab !== 'access_history' && activeTab !== 'student_profile' && activeTab !== 'announcements'))) && (
-          <InstantNotificationsModule />
-        )}
+        {activeTab === 'reports_citatorios' && <ParentReportsCitatoriosModule />}
+        {activeTab === 'notifications' && <InstantNotificationsModule />}
         {activeTab === 'access_history' && <ParentAccessLogModule />}
         {activeTab === 'student_profile' && <StudentProfileModule />}
         {activeTab === 'announcements' && <AnnouncementsBoardModule />}
+        {(!activeTab || (
+          activeTab !== 'reports_citatorios' &&
+          activeTab !== 'notifications' &&
+          activeTab !== 'access_history' &&
+          activeTab !== 'student_profile' &&
+          activeTab !== 'announcements'
+        )) && <ParentReportsCitatoriosModule />}
       </div>
 
       {/* Floating Real-time Entrance Notification Window (Triggered by QR Scan or Simulation) */}
@@ -146,6 +184,15 @@ export const ParentDashboard: React.FC = () => {
         accessRecord={entranceAlert?.accessRecord || null}
         onClose={() => setEntranceAlert(null)}
         onViewHistory={() => setActiveTab('access_history')}
+      />
+
+      {/* Floating Real-time Official Notice / Citation Notification Window */}
+      <OfficialNoticeFloatingModal
+        isOpen={!!officialNoticeAlert}
+        notice={officialNoticeAlert?.notice || null}
+        student={officialNoticeAlert?.student || students.find(s => s.id === officialNoticeAlert?.notice?.studentId) || null}
+        onClose={() => setOfficialNoticeAlert(null)}
+        onConfirmReceipt={(noticeId) => confirmNoticeReceipt(noticeId)}
       />
     </div>
   );

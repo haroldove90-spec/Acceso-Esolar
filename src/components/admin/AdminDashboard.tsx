@@ -6,7 +6,7 @@ import { StaffModule } from './StaffModule';
 import { ReportsModule } from './ReportsModule';
 
 export const AdminDashboard: React.FC = () => {
-  const { activeTab } = useApp();
+  const { activeTab, setActiveTab } = useApp();
 
   return (
     <div className="space-y-5">
@@ -38,6 +38,40 @@ export const AdminDashboard: React.FC = () => {
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
           <span className="text-xs sm:text-sm font-bold text-white">Servidor Activo</span>
         </div>
+      </div>
+
+      {/* Admin Module Switcher Tabs */}
+      <div className="bg-white p-2 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-1.5 overflow-x-auto">
+        <button
+          onClick={() => setActiveTab('students')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'students' || (!activeTab || (activeTab !== 'staff' && activeTab !== 'reports'))
+              ? 'bg-[#0D6938] text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          Padrón de Alumnos (700 Plazas)
+        </button>
+        <button
+          onClick={() => setActiveTab('staff')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'staff'
+              ? 'bg-[#0D6938] text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          Personal & Portones
+        </button>
+        <button
+          onClick={() => setActiveTab('reports')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition cursor-pointer ${
+            activeTab === 'reports'
+              ? 'bg-[#D91A2A] text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          📝 Reportes, Citatorios & Avisos
+        </button>
       </div>
 
       {/* Render Active Module */}

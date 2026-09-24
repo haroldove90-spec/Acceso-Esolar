@@ -9,6 +9,7 @@ import {
   Bell,
   IdCard,
   Megaphone,
+  FileText,
   X,
   LogOut,
   ChevronRight,
@@ -24,7 +25,7 @@ export const Sidebar: React.FC = () => {
   const adminNavItems = [
     { id: 'students', label: 'Gestión de Alumnos y Grupos', sub: 'Padrón 700 Plazas y Tutores', icon: Users },
     { id: 'staff', label: 'Gestión de Personal Escolar', sub: 'Docentes y Portones Asignados', icon: UserCheck },
-    { id: 'reports', label: 'Módulo de Reportes & Historial', sub: 'Estadísticas e Incidencias', icon: BarChart3 },
+    { id: 'reports', label: 'Reportes, Citatorios & Avisos', sub: 'Emisión Masiva e Individual', icon: FileText },
   ];
 
   const staffNavItems = [
@@ -34,6 +35,7 @@ export const Sidebar: React.FC = () => {
   ];
 
   const parentNavItems = [
+    { id: 'reports_citatorios', label: 'Reportes & Citatorios Oficiales', sub: 'Citatorios con Acuse y Avisos', icon: FileText },
     { id: 'notifications', label: 'Notificaciones de Acceso', sub: 'Alertas push y confirmaciones en vivo', icon: Bell },
     { id: 'access_history', label: 'Registro de Accesos', sub: 'Historial con día, hora y portón', icon: Clock },
     { id: 'student_profile', label: 'Credencial QR & WhatsApp', sub: 'Generar código y enviar a hijo', icon: IdCard },

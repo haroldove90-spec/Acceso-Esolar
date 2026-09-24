@@ -58,6 +58,28 @@ interface AppContextType {
   setEntranceAlert: (alert: { student: Student; accessRecord: AccessRecord } | null) => void;
   simulateStudentEntrance: (studentId?: string, isLate?: boolean) => void;
 
+  // Floating Official Notice / Citation Alert for Parent
+  officialNoticeAlert: { notice: DirectNotice; student?: Student } | null;
+  setOfficialNoticeAlert: (alert: { notice: DirectNotice; student?: Student } | null) => void;
+  createAndSendOfficialNotice: (params: {
+    category: DirectNotice['category'];
+    title: string;
+    message: string;
+    priority: DirectNotice['priority'];
+    targetScope: 'individual' | 'grade_group' | 'masivo';
+    targetStudentId?: string;
+    targetGrade?: string;
+    targetGroup?: string;
+    citatorioDate?: string;
+    citatorioTime?: string;
+    citatorioLocation?: string;
+    requiresConfirmation?: boolean;
+    senderStaffName?: string;
+    senderRole?: string;
+  }) => { success: boolean; count: number; notice?: DirectNotice };
+  confirmNoticeReceipt: (noticeId: string) => void;
+  simulateOfficialCitationAlert: (studentId?: string) => void;
+
   // Actions
   addStudent: (student: Omit<Student, 'id' | 'qrCodeValue'>) => void;
   updateStudent: (student: Student) => void;
@@ -87,7 +109,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 const VALID_TABS_BY_ROLE: Record<RoleType, string[]> = {
   admin: ['students', 'staff', 'reports'],
   staff: ['access', 'status', 'notices'],
-  parent: ['notifications', 'access_history', 'student_profile', 'announcements'],
+  parent: ['notifications', 'reports_citatorios', 'access_history', 'student_profile', 'announcements'],
 };
 
 export const getDefaultTabForRole = (role: RoleType | null, currentTab?: string | null): string => {
@@ -182,7 +204,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Entrance floating modal alert for Parent role
   const [entranceAlert, setEntranceAlert] = useState<{ student: Student; accessRecord: AccessRecord } | null>(null);
 
-  // Cross-tab synchronization: notify Parent role when an entrance is recorded in another tab/window
+  // Official Report / Citation floating modal alert for Parent role
+  const [officialNoticeAlert, setOfficialNoticeAlert] = useState<{ notice: DirectNotice; student?: Student } | null>(null);
+
+  // Cross-tab synchronization: notify Parent role when an entrance or official notice is recorded in another tab/window
   useEffect(() => {
     let channel: BroadcastChannel | null = null;
     try {
@@ -195,6 +220,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             if (stu && currentRole === 'parent') {
               soundEffects.playEntranceBeep();
               setEntranceAlert({ student: stu, accessRecord: event.data.record });
+            }
+          } else if (event.data?.type === 'OFFICIAL_NOTICE' && event.data?.notice) {
+            const notice: DirectNotice = event.data.notice;
+            const stu = students.find(s => s.id === notice.studentId);
+            if (currentRole === 'parent') {
+              if (notice.priority === 'Urgente') {
+                soundEffects.playUrgentAlert();
+              } else {
+                soundEffects.playNoticeAlert();
+              }
+              setOfficialNoticeAlert({ notice, student: stu });
             }
           }
         };
@@ -212,6 +248,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             if (stu && currentRole === 'parent') {
               soundEffects.playEntranceBeep();
               setEntranceAlert({ student: stu, accessRecord: parsed.record });
+            }
+          }
+        } catch (err) {}
+      } else if (e.key === 'sa_last_official_notice' && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (parsed && parsed.notice) {
+            const stu = students.find(s => s.id === parsed.notice.studentId);
+            if (currentRole === 'parent') {
+              if (parsed.notice.priority === 'Urgente') {
+                soundEffects.playUrgentAlert();
+              } else {
+                soundEffects.playNoticeAlert();
+              }
+              setOfficialNoticeAlert({ notice: parsed.notice, student: stu });
             }
           }
         } catch (err) {}
@@ -649,6 +700,155 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
   };
 
+  const createAndSendOfficialNotice = (params: {
+    category: DirectNotice['category'];
+    title: string;
+    message: string;
+    priority: DirectNotice['priority'];
+    targetScope: 'individual' | 'grade_group' | 'masivo';
+    targetStudentId?: string;
+    targetGrade?: string;
+    targetGroup?: string;
+    citatorioDate?: string;
+    citatorioTime?: string;
+    citatorioLocation?: string;
+    requiresConfirmation?: boolean;
+    senderStaffName?: string;
+    senderRole?: string;
+  }) => {
+    let targetStudents: Student[] = [];
+
+    if (params.targetScope === 'individual') {
+      const stu = students.find(s => s.id === params.targetStudentId);
+      if (stu) targetStudents = [stu];
+    } else if (params.targetScope === 'grade_group') {
+      targetStudents = students.filter(
+        s =>
+          (!params.targetGrade || s.grade === params.targetGrade) &&
+          (!params.targetGroup || s.group === params.targetGroup)
+      );
+    } else {
+      // Masivo (toda la escuela)
+      targetStudents = [...students];
+    }
+
+    if (targetStudents.length === 0) {
+      showToast('Error de Destinatario', 'No se encontraron alumnos para los criterios seleccionados.', 'warning');
+      return { success: false, count: 0 };
+    }
+
+    const nowIso = new Date().toISOString();
+    const newNotices: DirectNotice[] = targetStudents.map((stu, idx) => ({
+      id: `not-${Date.now()}-${idx}`,
+      studentId: stu.id,
+      studentName: stu.fullName,
+      tutorName: stu.tutorName,
+      senderStaffName: params.senderStaffName || 'Dra. Carmen Estrada Montes',
+      senderRole: params.senderRole || 'Dirección Escolar',
+      category: params.category,
+      title: params.title,
+      message: params.message,
+      timestamp: nowIso,
+      isRead: false,
+      priority: params.priority,
+      citatorioDate: params.citatorioDate,
+      citatorioTime: params.citatorioTime,
+      citatorioLocation: params.citatorioLocation,
+      requiresConfirmation: params.requiresConfirmation ?? (params.category === 'Citatorio' || params.category === 'Citatorio Dirección'),
+      isConfirmedByTutor: false,
+      targetScope: params.targetScope,
+      targetGrade: params.targetGrade,
+      targetGroup: params.targetGroup,
+    }));
+
+    setNotices(prev => [...newNotices, ...prev]);
+
+    // Audio chime notification
+    if (params.priority === 'Urgente') {
+      soundEffects.playUrgentAlert();
+    } else {
+      soundEffects.playNoticeAlert();
+    }
+
+    // Set floating alert for the first notice so current session/parent immediately sees the popup
+    const firstNotice = newNotices[0];
+    const firstStudent = targetStudents[0];
+    setOfficialNoticeAlert({ notice: firstNotice, student: firstStudent });
+
+    // Broadcast across windows/tabs
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(
+          'sa_last_official_notice',
+          JSON.stringify({ notice: firstNotice, timestamp: Date.now() })
+        );
+        if ('BroadcastChannel' in window) {
+          const ch = new BroadcastChannel('school_access_channel');
+          ch.postMessage({ type: 'OFFICIAL_NOTICE', notice: firstNotice });
+          ch.close();
+        }
+      }
+    } catch (e) {
+      console.warn('Error broadcasting notice:', e);
+    }
+
+    const scopeLabel =
+      params.targetScope === 'masivo'
+        ? `Toda la Escuela (${targetStudents.length} tutores)`
+        : params.targetScope === 'grade_group'
+        ? `${params.targetGrade} ${params.targetGroup} (${targetStudents.length} alumnos)`
+        : targetStudents[0].fullName;
+
+    showToast(
+      'Documento Emitido con Éxito',
+      `${params.category} enviado a: ${scopeLabel}. Notificación sonora y ventana flotante activadas.`,
+      'success'
+    );
+
+    return { success: true, count: targetStudents.length, notice: firstNotice };
+  };
+
+  const confirmNoticeReceipt = (noticeId: string) => {
+    const nowIso = new Date().toISOString();
+    setNotices(prev =>
+      prev.map(n =>
+        n.id === noticeId
+          ? { ...n, isConfirmedByTutor: true, confirmedAt: nowIso, isRead: true }
+          : n
+      )
+    );
+    showToast('Acuse Registrado', 'Has confirmado la recepción y asistencia del documento oficial.', 'success');
+  };
+
+  const simulateOfficialCitationAlert = (studentId?: string) => {
+    const stu = students.find(s => s.id === (studentId || parentSelectedStudentId)) || students[0];
+    const demoNotice: DirectNotice = {
+      id: `demo-cit-${Date.now()}`,
+      studentId: stu.id,
+      studentName: stu.fullName,
+      tutorName: stu.tutorName,
+      senderStaffName: 'Dra. Carmen Estrada Montes',
+      senderRole: 'Dirección Escolar',
+      category: 'Citatorio',
+      title: '🚨 CITATORIO URGENTE: Asunto Administrativo en Dirección',
+      message: 'Estimado Tutor: Se solicita su presencia formal e indispensable el día de mañana para atender asuntos relativos al expediente y desempeño escolar del alumno.',
+      timestamp: new Date().toISOString(),
+      isRead: false,
+      priority: 'Urgente',
+      citatorioDate: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+      citatorioTime: '08:30 AM',
+      citatorioLocation: 'Dirección Escolar (Planta Alta)',
+      requiresConfirmation: true,
+      isConfirmedByTutor: false,
+      targetScope: 'individual',
+    };
+
+    setNotices(prev => [demoNotice, ...prev]);
+    soundEffects.playUrgentAlert();
+    setOfficialNoticeAlert({ notice: demoNotice, student: stu });
+    showToast('Alerta Flotante Activada', `Citatorio simulado para ${stu.fullName}`, 'warning');
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -673,6 +873,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         entranceAlert,
         setEntranceAlert,
         simulateStudentEntrance,
+        officialNoticeAlert,
+        setOfficialNoticeAlert,
+        createAndSendOfficialNotice,
+        confirmNoticeReceipt,
+        simulateOfficialCitationAlert,
         addStudent,
         updateStudent,
         deleteStudent,

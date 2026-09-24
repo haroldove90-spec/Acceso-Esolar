@@ -59,12 +59,31 @@ export interface DirectNotice {
   tutorName: string;
   senderStaffName: string;
   senderRole: string;
-  category: 'Conducta' | 'Puntualidad' | 'Salud / Enfermería' | 'Tareas y Materiales' | 'Aviso General';
+  category:
+    | 'Conducta'
+    | 'Puntualidad'
+    | 'Salud / Enfermería'
+    | 'Tareas y Materiales'
+    | 'Aviso General'
+    | 'Citatorio'
+    | 'Reporte Disciplinario'
+    | 'Citatorio Dirección'
+    | 'Felicitación';
   title: string;
   message: string;
   timestamp: string;
   isRead: boolean;
   priority: 'Normal' | 'Importante' | 'Urgente';
+  // Specific fields for Citatorios & Official Administrative Reports
+  citatorioDate?: string; // "2026-09-26"
+  citatorioTime?: string; // "08:30 AM"
+  citatorioLocation?: string; // "Dirección Escolar", "Trabajo Social", "Prefectura"
+  requiresConfirmation?: boolean;
+  isConfirmedByTutor?: boolean;
+  confirmedAt?: string;
+  targetScope?: 'individual' | 'grade_group' | 'masivo';
+  targetGrade?: string;
+  targetGroup?: string;
 }
 
 export interface Announcement {
