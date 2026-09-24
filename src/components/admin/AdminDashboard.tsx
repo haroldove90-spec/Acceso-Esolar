@@ -11,24 +11,24 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="space-y-5">
       {/* Top Context Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white p-5 sm:p-6 rounded-3xl shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#111827] border-b-4 border-[#D91A2A] text-white p-5 sm:p-6 rounded-3xl shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-indigo-300 shrink-0">
+          <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white shrink-0">
             <ShieldCheck className="w-8 h-8 stroke-[2.2]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-black uppercase tracking-wider text-indigo-300">
+              <span className="text-xs font-black uppercase tracking-wider text-red-400">
                 Dirección / Control Escolar
               </span>
-              <span className="bg-indigo-400/20 text-indigo-200 text-xs font-black px-2.5 py-0.5 rounded-full border border-indigo-300/30">
+              <span className="bg-[#D91A2A]/30 text-white text-xs font-black px-2.5 py-0.5 rounded-full border border-red-400/40">
                 Padrón 700 Alumnos
               </span>
             </div>
             <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white mt-0.5">
               Panel Administrativo Institucional
             </h2>
-            <p className="text-xs sm:text-sm text-indigo-100 font-medium mt-0.5">
+            <p className="text-xs sm:text-sm text-slate-300 font-medium mt-0.5">
               Supervisión de matrícula escolar, registro docente y reportería de accesos.
             </p>
           </div>

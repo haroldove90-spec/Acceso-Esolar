@@ -14,7 +14,7 @@ const MainContent: React.FC = () => {
   const { currentRole } = useApp();
 
   return (
-    <div className="min-h-screen bg-[#F0F5F9] text-slate-800 flex flex-col antialiased selection:bg-blue-500 selection:text-white">
+    <div className="min-h-screen bg-white text-slate-900 flex flex-col antialiased selection:bg-[#D91A2A] selection:text-white">
       {/* App Header */}
       <Header />
 

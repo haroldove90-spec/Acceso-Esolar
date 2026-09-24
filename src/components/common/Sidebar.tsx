@@ -11,11 +11,10 @@ import {
   Megaphone,
   X,
   LogOut,
-  Shield,
   ChevronRight,
-  School
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { SchoolLogo } from './SchoolLogo';
 
 export const Sidebar: React.FC = () => {
   const { currentRole, activeTab, setActiveTab, isSidebarOpen, setIsSidebarOpen, logout } = useApp();
@@ -67,13 +66,11 @@ export const Sidebar: React.FC = () => {
       >
         {/* Header inside sidebar */}
         <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-white">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-black shadow-sm">
-              <School className="h-5 w-5 stroke-[2.2]" />
-            </div>
+          <div className="flex items-center gap-2.5">
+            <SchoolLogo size="sm" />
             <div>
-              <p className="text-base font-black text-slate-900 leading-tight uppercase">Acceso Escolar</p>
-              <p className="text-xs text-slate-500 font-bold tracking-wider uppercase">Menú de Navegación</p>
+              <p className="text-sm font-black text-slate-900 leading-tight uppercase">Moises saenz</p>
+              <p className="text-[11px] text-slate-500 font-bold tracking-wider uppercase">Menú Institucional</p>
             </div>
           </div>
           <button
@@ -86,11 +83,21 @@ export const Sidebar: React.FC = () => {
         </div>
 
         {/* Current Active Role Header */}
-        <div className="p-4 sm:p-5 bg-blue-50/80 border-b border-blue-100">
-          <span className="text-xs font-black text-blue-800 uppercase tracking-wider block">Rol Activo:</span>
-          <p className="text-base font-black text-slate-900 mt-0.5">
+        <div className={`p-4 sm:p-5 border-b ${
+          currentRole === 'admin'
+            ? 'bg-red-50/80 border-red-200'
+            : currentRole === 'staff'
+            ? 'bg-amber-50/80 border-amber-200'
+            : 'bg-emerald-50/80 border-emerald-200'
+        }`}>
+          <span className={`text-[10px] font-black uppercase tracking-wider block ${
+            currentRole === 'admin' ? 'text-[#D91A2A]' : currentRole === 'staff' ? 'text-[#D97706]' : 'text-[#0D6938]'
+          }`}>
+            Rol Activo:
+          </span>
+          <p className="text-sm sm:text-base font-black text-slate-900 mt-0.5">
             {currentRole === 'admin'
-              ? 'Administrador (Dirección)'
+              ? 'Dirección / Control Escolar'
               : currentRole === 'staff'
               ? 'Docente / Personal de Puerta'
               : 'Padres de Familia / Tutores'}
@@ -105,6 +112,13 @@ export const Sidebar: React.FC = () => {
           {currentItems.map(item => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
+            const activeBg =
+              currentRole === 'admin'
+                ? 'bg-[#D91A2A] text-white shadow-md shadow-[#D91A2A]/25'
+                : currentRole === 'staff'
+                ? 'bg-[#D97706] text-white shadow-md shadow-[#D97706]/25'
+                : 'bg-[#0D6938] text-white shadow-md shadow-[#0D6938]/25';
+
             return (
               <button
                 key={item.id}
@@ -115,7 +129,7 @@ export const Sidebar: React.FC = () => {
                 }}
                 className={`w-full flex items-center justify-between p-3.5 rounded-2xl text-left transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25 font-bold'
+                    ? `${activeBg} font-bold`
                     : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900 font-semibold'
                 }`}
               >
@@ -131,7 +145,7 @@ export const Sidebar: React.FC = () => {
                     <div className="text-sm sm:text-base leading-snug font-bold">{item.label}</div>
                     <div
                       className={`text-xs ${
-                        isActive ? 'text-blue-100' : 'text-slate-500'
+                        isActive ? 'text-white/80' : 'text-slate-500'
                       }`}
                     >
                       {item.sub}

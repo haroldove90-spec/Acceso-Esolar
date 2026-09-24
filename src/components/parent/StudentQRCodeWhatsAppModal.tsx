@@ -112,7 +112,7 @@ Hola *${student.fullName}*, aquí tienes tu código oficial para registrar tu en
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/75 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-200">
       <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-6 transform animate-in zoom-in-95 duration-200">
         {/* Top Header */}
-        <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-700 text-white p-5 flex items-center justify-between">
+        <div className="bg-[#0D6938] border-b-4 border-[#D91A2A] text-white p-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center font-black shadow-inner">
               <QrCode className="w-6 h-6 text-white" />

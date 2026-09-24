@@ -15,14 +15,14 @@ export const StaffCardModal: React.FC<StaffCardModalProps> = ({ staff, onClose, 
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in">
       <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 p-5 text-white flex items-center justify-between">
+        <div className="bg-[#111827] border-b-4 border-[#0D6938] p-5 text-white flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="p-2 bg-white/10 rounded-xl backdrop-blur-xs">
-              <Shield className="w-5 h-5 text-blue-300" />
+              <Shield className="w-5 h-5 text-emerald-400" />
             </div>
             <div>
               <h2 className="text-base font-black tracking-wide">Ficha de Personal Escolar</h2>
-              <p className="text-[11px] text-blue-200 font-medium">Credencial y Responsabilidades de Acceso</p>
+              <p className="text-[11px] text-emerald-200 font-medium">Credencial y Responsabilidades de Acceso</p>
             </div>
           </div>
           <button
@@ -35,7 +35,7 @@ export const StaffCardModal: React.FC<StaffCardModalProps> = ({ staff, onClose, 
 
         {/* Body */}
         <div className="p-6 text-center space-y-4">
-          <div className="relative mx-auto w-24 h-24 rounded-2xl overflow-hidden border-3 border-blue-600 shadow-md bg-slate-100 flex items-center justify-center">
+          <div className="relative mx-auto w-24 h-24 rounded-2xl overflow-hidden border-3 border-[#0D6938] shadow-md bg-slate-100 flex items-center justify-center">
             {staff.photoUrl ? (
               <img
                 src={staff.photoUrl}

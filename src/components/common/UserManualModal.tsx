@@ -146,7 +146,7 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
               </div>
 
               <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2">
-                <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center font-black text-xs">
+                <div className="w-8 h-8 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center font-black text-xs">
                   Paso 3
                 </div>
                 <h3 className="text-sm font-black text-slate-900">Validación y Registro Inmediato</h3>
@@ -244,7 +244,7 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
           {/* SECTION 3: CREAR CÓDIGO QR Y ENVIARLO POR WHATSAPP AL ALUMNO */}
           <div className="space-y-4">
             <div className="flex items-center gap-2.5 pb-2 border-b border-slate-200">
-              <span className="w-7 h-7 rounded-lg bg-teal-600 text-white font-black text-sm flex items-center justify-center">
+              <span className="w-7 h-7 rounded-lg bg-[#0D6938] text-white font-black text-sm flex items-center justify-center">
                 3
               </span>
               <h2 className="text-lg sm:text-xl font-black text-slate-900">
@@ -258,9 +258,9 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
 
             {/* Step-by-Step Flow Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-              <div className="p-4 rounded-2xl border-2 border-teal-200 bg-teal-50/50 space-y-2">
+              <div className="p-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-lg bg-teal-700 text-white font-black text-xs flex items-center justify-center">
+                  <span className="w-6 h-6 rounded-lg bg-[#0D6938] text-white font-black text-xs flex items-center justify-center">
                     1
                   </span>
                   <h3 className="text-sm font-black text-slate-900">
@@ -272,9 +272,9 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl border-2 border-teal-200 bg-teal-50/50 space-y-2">
+              <div className="p-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-lg bg-teal-700 text-white font-black text-xs flex items-center justify-center">
+                  <span className="w-6 h-6 rounded-lg bg-[#0D6938] text-white font-black text-xs flex items-center justify-center">
                     2
                   </span>
                   <h3 className="text-sm font-black text-slate-900">
@@ -282,13 +282,13 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
                   </h3>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed pl-8">
-                  Haz clic en la pestaña <strong>"Credencial QR & WhatsApp"</strong>. A continuación, pulsa el botón verde principal: <strong className="text-emerald-700">"📲 Enviar QR a mi Hijo (WhatsApp)"</strong>.
+                  Haz clic en la pestaña <strong>"Credencial QR & WhatsApp"</strong>. A continuación, pulsa el botón verde principal: <strong className="text-[#0D6938]">"📲 Enviar QR a mi Hijo (WhatsApp)"</strong>.
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl border-2 border-teal-200 bg-teal-50/50 space-y-2">
+              <div className="p-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-lg bg-teal-700 text-white font-black text-xs flex items-center justify-center">
+                  <span className="w-6 h-6 rounded-lg bg-[#0D6938] text-white font-black text-xs flex items-center justify-center">
                     3
                   </span>
                   <h3 className="text-sm font-black text-slate-900">
@@ -300,9 +300,9 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl border-2 border-teal-200 bg-teal-50/50 space-y-2">
+              <div className="p-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-lg bg-teal-700 text-white font-black text-xs flex items-center justify-center">
+                  <span className="w-6 h-6 rounded-lg bg-[#0D6938] text-white font-black text-xs flex items-center justify-center">
                     4
                   </span>
                   <h3 className="text-sm font-black text-slate-900">
@@ -352,7 +352,7 @@ export const UserManualModal: React.FC<UserManualModalProps> = ({ isOpen, onClos
           {/* SECTION 4: MÓDULO REGISTRO DE ACCESOS (HISTORIAL CON DÍA Y HORA) */}
           <div className="space-y-4">
             <div className="flex items-center gap-2.5 pb-2 border-b border-slate-200">
-              <span className="w-7 h-7 rounded-lg bg-indigo-600 text-white font-black text-sm flex items-center justify-center">
+              <span className="w-7 h-7 rounded-lg bg-[#0D6938] text-white font-black text-sm flex items-center justify-center">
                 4
               </span>
               <h2 className="text-lg sm:text-xl font-black text-slate-900">

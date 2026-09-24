@@ -136,7 +136,7 @@ export const AccessControlModule: React.FC = () => {
             <button
               onClick={() => setAccessType('Entrada')}
               className={`px-4 py-1.5 rounded-xl transition cursor-pointer ${
-                accessType === 'Entrada' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-700 hover:text-slate-950'
+                accessType === 'Entrada' ? 'bg-[#0D6938] text-white shadow-sm' : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               Entrada
@@ -144,7 +144,7 @@ export const AccessControlModule: React.FC = () => {
             <button
               onClick={() => setAccessType('Salida')}
               className={`px-4 py-1.5 rounded-xl transition cursor-pointer ${
-                accessType === 'Salida' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-700 hover:text-slate-950'
+                accessType === 'Salida' ? 'bg-[#D91A2A] text-white shadow-sm' : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               Salida

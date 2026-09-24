@@ -33,16 +33,17 @@ export const PWAInstallButton: React.FC<{ compact?: boolean }> = ({ compact = fa
       <button
         id="pwa-install-header-btn"
         onClick={handleInstallClick}
-        aria-label="Instalar aplicación Acceso Escolar"
-        className={`group relative flex items-center gap-2 rounded-full transition-all duration-200 shadow-sm font-semibold ${
+        aria-label="Instalar aplicación Moisés Sáenz"
+        className={`group relative flex items-center gap-1.5 sm:gap-2 rounded-xl sm:rounded-full transition-all duration-200 shadow-sm font-semibold cursor-pointer ${
           compact
-            ? 'p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl'
-            : 'px-3.5 sm:px-4 py-1.5 sm:py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm active:scale-95'
+            ? 'p-2 bg-[#0D6938] hover:bg-[#094d28] text-white rounded-xl'
+            : 'px-2.5 sm:px-4 py-1.5 sm:py-2 bg-[#0D6938] hover:bg-[#094d28] text-white text-xs sm:text-sm active:scale-95'
         }`}
+        title="Instalar aplicación en tu dispositivo"
       >
-        <Download className="w-4 h-4 animate-bounce group-hover:animate-none" />
-        <span className="whitespace-nowrap">Instalar App</span>
-        <span className="hidden md:inline-block text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full text-blue-100 uppercase tracking-wider">
+        <Download className="w-4 h-4 animate-bounce group-hover:animate-none shrink-0" />
+        <span className="hidden sm:inline whitespace-nowrap">Instalar App</span>
+        <span className="hidden lg:inline-block text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full text-white uppercase tracking-wider">
           Móvil
         </span>
       </button>

@@ -137,15 +137,15 @@ export const QuickQRScannerModal: React.FC<QuickQRScannerModalProps> = ({ onClos
       <div className="relative w-full max-w-4xl bg-white rounded-3xl sm:rounded-4xl shadow-2xl border border-slate-200 overflow-hidden my-auto flex flex-col max-h-[92vh]">
         
         {/* Modal Top Header Bar */}
-        <div className="bg-gradient-to-r from-emerald-800 to-teal-900 text-white p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <div className="bg-[#0D6938] border-b-4 border-[#D91A2A] text-white p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-400/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300">
+            <div className="w-10 h-10 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center text-white">
               <QrCode className="w-6 h-6 stroke-[2.5]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-base sm:text-xl font-black tracking-tight">Estación Independiente de Escaneo QR</h3>
-                <span className="hidden sm:inline-block bg-emerald-400/30 text-emerald-200 text-xs font-black px-2.5 py-0.5 rounded-full border border-emerald-300/30">
+                <span className="hidden sm:inline-block bg-white/20 text-white text-xs font-black px-2.5 py-0.5 rounded-full border border-white/30">
                   Lector Activo
                 </span>
               </div>
@@ -155,7 +155,7 @@ export const QuickQRScannerModal: React.FC<QuickQRScannerModalProps> = ({ onClos
 
           <div className="flex items-center gap-3">
             <div className="bg-black/25 px-3 py-1.5 rounded-2xl border border-white/10 text-xs font-bold flex items-center gap-2">
-              <Zap className="w-4 h-4 text-emerald-400" />
+              <Zap className="w-4 h-4 text-amber-400" />
               <span>{sessionScanCount} Registrados</span>
             </div>
 
@@ -173,12 +173,12 @@ export const QuickQRScannerModal: React.FC<QuickQRScannerModalProps> = ({ onClos
         <div className="p-3 sm:p-4 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm shrink-0">
           <div className="flex flex-wrap items-center gap-2 flex-1 min-w-[280px]">
             <span className="font-black text-slate-700 flex items-center gap-1.5">
-              <DoorClosed className="w-4 h-4 text-emerald-600" /> Portón:
+              <DoorClosed className="w-4 h-4 text-[#0D6938]" /> Portón:
             </span>
             <select
               value={selectedGate}
               onChange={e => setSelectedGate(e.target.value as GateType)}
-              className="px-3 py-2 bg-white border border-slate-300 rounded-xl font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+              className="px-3 py-2 bg-white border border-slate-300 rounded-xl font-bold text-slate-800 focus:ring-2 focus:ring-[#0D6938] focus:outline-none"
             >
               <option value="Portón Principal (Entrada General)">Portón Principal (Entrada General)</option>
               <option value="Portón 2 (Primaria / Vehicular)">Portón 2 (Primaria / Vehicular)</option>
@@ -190,7 +190,7 @@ export const QuickQRScannerModal: React.FC<QuickQRScannerModalProps> = ({ onClos
             <button
               onClick={() => setAccessType('Entrada')}
               className={`px-4 py-1.5 rounded-xl transition cursor-pointer ${
-                accessType === 'Entrada' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-700 hover:text-slate-900'
+                accessType === 'Entrada' ? 'bg-[#0D6938] text-white shadow-sm' : 'text-slate-700 hover:text-slate-900'
               }`}
             >
               Entrada Escolar
@@ -198,7 +198,7 @@ export const QuickQRScannerModal: React.FC<QuickQRScannerModalProps> = ({ onClos
             <button
               onClick={() => setAccessType('Salida')}
               className={`px-4 py-1.5 rounded-xl transition cursor-pointer ${
-                accessType === 'Salida' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-700 hover:text-slate-900'
+                accessType === 'Salida' ? 'bg-[#D91A2A] text-white shadow-sm' : 'text-slate-700 hover:text-slate-900'
               }`}
             >
               Salida Escolar

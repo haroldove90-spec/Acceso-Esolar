@@ -14,17 +14,17 @@ export const StaffDashboard: React.FC = () => {
   return (
     <div className="space-y-5 relative">
       {/* Top Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-emerald-900 to-teal-950 text-white p-5 sm:p-6 rounded-3xl shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#0D6938] border-b-4 border-[#D97706] text-white p-5 sm:p-6 rounded-3xl shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300 shrink-0">
+          <div className="w-14 h-14 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center text-white shrink-0 shadow-inner">
             <UserCheck className="w-8 h-8 stroke-[2.2]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-black uppercase tracking-wider text-emerald-300">
+              <span className="text-xs font-black uppercase tracking-wider text-amber-300">
                 Docente / Personal de Puerta
               </span>
-              <span className="bg-emerald-400/20 text-emerald-200 text-xs font-black px-2.5 py-0.5 rounded-full border border-emerald-300/30">
+              <span className="bg-white/20 text-white text-xs font-black px-2.5 py-0.5 rounded-full border border-white/30">
                 Lector de Portón
               </span>
             </div>
@@ -40,14 +40,14 @@ export const StaffDashboard: React.FC = () => {
         <div className="flex items-center gap-2.5 self-start md:self-auto">
           <button
             onClick={() => setShowQuickModal(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs sm:text-sm shadow-md transition active:scale-95 cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#D97706] hover:bg-[#b45309] text-white font-black text-xs sm:text-sm shadow-md transition active:scale-95 cursor-pointer"
           >
             <QrCode className="w-4 h-4 stroke-[2.5]" />
             <span>Abrir Lector QR Rápido</span>
           </button>
 
-          <div className="flex items-center gap-2 bg-white/10 px-3.5 py-2 rounded-2xl border border-white/10">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <div className="flex items-center gap-2 bg-black/25 px-3.5 py-2 rounded-2xl border border-white/20">
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
             <span className="text-xs font-bold text-white">Listo</span>
           </div>
         </div>

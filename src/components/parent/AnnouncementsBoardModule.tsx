@@ -96,23 +96,23 @@ export const AnnouncementsBoardModule: React.FC = () => {
               className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4"
             >
               <div className="flex items-start gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-700 to-indigo-700 text-white flex flex-col items-center justify-center font-bold shrink-0 shadow-xs">
+                <div className="w-14 h-14 rounded-2xl bg-[#0D6938] border border-emerald-300 text-white flex flex-col items-center justify-center font-bold shrink-0 shadow-xs">
                   <span className="text-xs uppercase font-black tracking-wider">{new Date(evt.date).toLocaleDateString('es-ES', { month: 'short' })}</span>
                   <span className="text-lg font-black leading-none">{evt.date.split('-')[2]}</span>
                 </div>
 
                 <div className="space-y-1.5">
-                  <span className="text-xs font-black px-2.5 py-0.5 rounded-lg bg-indigo-50 text-indigo-800 border border-indigo-100">
+                  <span className="text-xs font-black px-2.5 py-0.5 rounded-lg bg-emerald-50 text-[#0D6938] border border-emerald-200">
                     {evt.type}
                   </span>
                   <h3 className="text-base sm:text-lg font-black text-slate-900">{evt.title}</h3>
                   <p className="text-xs sm:text-sm text-slate-600 font-medium">{evt.description}</p>
                   <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-slate-500 pt-1">
                     <span className="flex items-center gap-1.5">
-                      <Clock className="w-4 h-4 text-blue-600" /> {evt.time}
+                      <Clock className="w-4 h-4 text-[#0D6938]" /> {evt.time}
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <MapPin className="w-4 h-4 text-blue-600" /> {evt.location}
+                      <MapPin className="w-4 h-4 text-[#0D6938]" /> {evt.location}
                     </span>
                   </div>
                 </div>

@@ -65,27 +65,27 @@ export const StudentEntranceNotificationModal: React.FC<StudentEntranceNotificat
         aria-modal="true"
       >
         {/* Animated Accent Top Bar */}
-        <div className="h-2.5 bg-gradient-to-r from-emerald-500 via-teal-400 to-blue-600 animate-pulse" />
+        <div className="h-2.5 bg-gradient-to-r from-[#D91A2A] via-[#EAB308] to-[#0D6938]" />
 
         {/* Header with Badges */}
         <div className="p-4 sm:p-5 pb-3 flex items-start justify-between gap-3 bg-gradient-to-b from-emerald-50/80 to-white">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30">
+              <div className="w-12 h-12 rounded-2xl bg-[#0D6938] text-white flex items-center justify-center shadow-lg shadow-[#0D6938]/30">
                 <Bell className="w-6 h-6 animate-bounce" />
               </div>
               <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white"></span>
+                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#0D6938] border-2 border-white"></span>
               </span>
             </div>
 
             <div>
               <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-[#0D6938] px-2 py-0.5 rounded-full border border-emerald-300">
                   Notificación en Tiempo Real
                 </span>
-                <span className="text-[10px] font-black uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full border border-blue-200">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-red-50 text-[#D91A2A] px-2 py-0.5 rounded-full border border-red-200">
                   Lector QR Activo
                 </span>
               </div>
@@ -198,7 +198,7 @@ export const StudentEntranceNotificationModal: React.FC<StudentEntranceNotificat
           <div className="flex flex-col sm:flex-row gap-2 pt-1">
             <button
               onClick={onClose}
-              className="flex-1 py-3 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-md shadow-emerald-600/20 transition active:scale-98 cursor-pointer flex items-center justify-center gap-2"
+              className="flex-1 py-3 px-4 rounded-2xl bg-[#0D6938] hover:bg-[#094d28] text-white font-black text-xs sm:text-sm shadow-md shadow-[#0D6938]/20 transition active:scale-98 cursor-pointer flex items-center justify-center gap-2"
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>¡Excelente, Enterado!</span>
@@ -210,7 +210,7 @@ export const StudentEntranceNotificationModal: React.FC<StudentEntranceNotificat
                   onClose();
                   onViewHistory();
                 }}
-                className="py-3 px-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs sm:text-sm transition cursor-pointer"
+                className="py-3 px-4 rounded-2xl bg-[#111827] hover:bg-black text-white font-bold text-xs sm:text-sm transition cursor-pointer"
               >
                 Ver Notificaciones
               </button>
@@ -220,7 +220,7 @@ export const StudentEntranceNotificationModal: React.FC<StudentEntranceNotificat
               href={`https://api.whatsapp.com/send?text=${whatsappMessage}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="py-3 px-3.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer"
+              className="py-3 px-3.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-[#0D6938] border border-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer"
               title="Compartir notificación a WhatsApp del Tutor"
             >
               <Share2 className="w-3.5 h-3.5" />

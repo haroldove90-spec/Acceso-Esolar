@@ -114,15 +114,15 @@ export const ParentAccessLogModule: React.FC = () => {
       {/* Top Banner & Header */}
       <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center font-black shadow-xs shrink-0">
+          <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#0D6938] border border-emerald-200 flex items-center justify-center font-black shadow-xs shrink-0">
             <Clock className="w-8 h-8 stroke-[2.2]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-black uppercase tracking-wider text-blue-700">
+              <span className="text-xs font-black uppercase tracking-wider text-[#0D6938]">
                 Padrón Escolar Oficial
               </span>
-              <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-0.5 rounded-full border border-emerald-300">
+              <span className="bg-emerald-100 text-[#0D6938] text-[10px] font-black px-2.5 py-0.5 rounded-full border border-emerald-300">
                 Sincronización en Vivo
               </span>
             </div>
@@ -139,7 +139,7 @@ export const ParentAccessLogModule: React.FC = () => {
         <div className="flex items-center gap-2 self-start md:self-auto">
           <button
             onClick={handlePrintLog}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold shadow-xs transition active:scale-95 cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#111827] hover:bg-black text-white text-xs sm:text-sm font-bold shadow-xs transition active:scale-95 cursor-pointer"
             title="Imprimir o guardar como PDF el concentrado de accesos de tu hijo"
           >
             <Printer className="w-4 h-4" />
@@ -150,25 +150,25 @@ export const ParentAccessLogModule: React.FC = () => {
 
       {/* KPI Stats Summary Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs">
+        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 border-l-4 border-l-[#0D6938] shadow-xs">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-xs font-black uppercase tracking-wider">Entradas</span>
-            <ArrowRightCircle className="w-4 h-4 text-emerald-600" />
+            <ArrowRightCircle className="w-4 h-4 text-[#0D6938]" />
           </div>
           <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">{totalEntries}</p>
-          <span className="text-xs text-emerald-700 font-bold">Registradas en ciclo</span>
+          <span className="text-xs text-[#0D6938] font-bold">Registradas en ciclo</span>
         </div>
 
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs">
+        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 border-l-4 border-l-[#5B92C8] shadow-xs">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-xs font-black uppercase tracking-wider">Puntualidad</span>
-            <CheckCircle2 className="w-4 h-4 text-blue-600" />
+            <CheckCircle2 className="w-4 h-4 text-[#5B92C8]" />
           </div>
-          <p className="text-2xl sm:text-3xl font-black text-blue-700 mt-2">{punctualityScore}%</p>
+          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">{punctualityScore}%</p>
           <span className="text-xs text-slate-500 font-bold">{onTimeEntries} a tiempo</span>
         </div>
 
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs">
+        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 border-l-4 border-l-[#EAB308] shadow-xs">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-xs font-black uppercase tracking-wider">Retardos</span>
             <AlertTriangle className="w-4 h-4 text-amber-500" />
@@ -177,12 +177,12 @@ export const ParentAccessLogModule: React.FC = () => {
           <span className="text-xs text-slate-500 font-bold">Llegadas tarde</span>
         </div>
 
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs">
+        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 border-l-4 border-l-[#D91A2A] shadow-xs">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-xs font-black uppercase tracking-wider">Salidas</span>
-            <ArrowLeftCircle className="w-4 h-4 text-indigo-600" />
+            <ArrowLeftCircle className="w-4 h-4 text-[#D91A2A]" />
           </div>
-          <p className="text-2xl sm:text-3xl font-black text-indigo-700 mt-2">{totalExits}</p>
+          <p className="text-2xl sm:text-3xl font-black text-[#D91A2A] mt-2">{totalExits}</p>
           <span className="text-xs text-slate-500 font-bold">Término de jornada</span>
         </div>
       </div>
@@ -198,7 +198,7 @@ export const ParentAccessLogModule: React.FC = () => {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Buscar por fecha (ej. 2026-09), hora o portón..."
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0D6938]"
             />
           </div>
 
@@ -207,7 +207,7 @@ export const ParentAccessLogModule: React.FC = () => {
             <button
               onClick={() => setFilterType('all')}
               className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
-                filterType === 'all' ? 'bg-white text-slate-900 shadow-xs font-black' : 'text-slate-600 hover:text-slate-900'
+                filterType === 'all' ? 'bg-[#111827] text-white shadow-xs font-black' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Todos
@@ -215,7 +215,7 @@ export const ParentAccessLogModule: React.FC = () => {
             <button
               onClick={() => setFilterType('Entrada')}
               className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
-                filterType === 'Entrada' ? 'bg-emerald-600 text-white shadow-xs font-black' : 'text-slate-600 hover:text-slate-900'
+                filterType === 'Entrada' ? 'bg-[#0D6938] text-white shadow-xs font-black' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Solo Entradas
@@ -223,7 +223,7 @@ export const ParentAccessLogModule: React.FC = () => {
             <button
               onClick={() => setFilterType('Salida')}
               className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
-                filterType === 'Salida' ? 'bg-indigo-600 text-white shadow-xs font-black' : 'text-slate-600 hover:text-slate-900'
+                filterType === 'Salida' ? 'bg-[#D91A2A] text-white shadow-xs font-black' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Solo Salidas
@@ -289,8 +289,8 @@ export const ParentAccessLogModule: React.FC = () => {
                       isEntry
                         ? isLate
                           ? 'bg-amber-100 text-amber-800'
-                          : 'bg-emerald-100 text-emerald-800'
-                        : 'bg-indigo-100 text-indigo-800'
+                          : 'bg-emerald-100 text-[#0D6938]'
+                        : 'bg-red-100 text-[#D91A2A]'
                     }`}
                   >
                     {isEntry ? (

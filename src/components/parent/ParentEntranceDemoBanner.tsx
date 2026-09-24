@@ -49,7 +49,7 @@ export const ParentEntranceDemoBanner: React.FC<ParentEntranceDemoBannerProps> =
               </span>
             </div>
             <p className="text-xs sm:text-sm font-black text-slate-900 mt-0.5">
-              Simular escaneo de QR para: <span className="text-blue-700 underline font-black">{currentStudent?.fullName}</span>
+              Simular escaneo de QR para: <span className="text-[#0D6938] underline font-black">{currentStudent?.fullName}</span>
             </p>
           </div>
         </div>
@@ -60,7 +60,7 @@ export const ParentEntranceDemoBanner: React.FC<ParentEntranceDemoBannerProps> =
           <button
             type="button"
             onClick={() => onSimulateEntrance(false)}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-black shadow-sm transition active:scale-95 cursor-pointer"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#0D6938] hover:bg-[#094d28] text-white text-xs sm:text-sm font-black shadow-sm transition active:scale-95 cursor-pointer"
             title="Simula que el alumno pasa su código QR en la entrada a tiempo"
           >
             <QrCode className="w-4 h-4 stroke-[2.5]" />
@@ -71,7 +71,7 @@ export const ParentEntranceDemoBanner: React.FC<ParentEntranceDemoBannerProps> =
           <button
             type="button"
             onClick={() => onSimulateEntrance(true)}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-black shadow-sm transition active:scale-95 cursor-pointer"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#D97706] hover:bg-[#b45309] text-white text-xs font-black shadow-sm transition active:scale-95 cursor-pointer"
             title="Simula un escaneo fuera de horario para mostrar alerta de retardo"
           >
             <Clock className="w-3.5 h-3.5" />
@@ -84,12 +84,12 @@ export const ParentEntranceDemoBanner: React.FC<ParentEntranceDemoBannerProps> =
             onClick={handleTestBeepOnly}
             className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-black transition active:scale-95 cursor-pointer ${
               isPlayingTest
-                ? 'bg-blue-600 text-white border-blue-600'
+                ? 'bg-[#0D6938] text-white border-[#0D6938]'
                 : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-300'
             }`}
             title="Reproduce el sonido Beep de notificación sin abrir la ventana"
           >
-            <Volume2 className={`w-4 h-4 ${isPlayingTest ? 'animate-bounce' : 'text-blue-600'}`} />
+            <Volume2 className={`w-4 h-4 ${isPlayingTest ? 'animate-bounce' : 'text-[#0D6938]'}`} />
             <span className="hidden md:inline">Probar Beep</span>
           </button>
 
@@ -97,7 +97,7 @@ export const ParentEntranceDemoBanner: React.FC<ParentEntranceDemoBannerProps> =
           <button
             type="button"
             onClick={() => setIsManualOpen(true)}
-            className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-blue-300 bg-blue-600 hover:bg-blue-700 text-white text-xs font-black shadow-xs transition active:scale-95 cursor-pointer"
+            className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-red-300 bg-[#D91A2A] hover:bg-[#b81220] text-white text-xs font-black shadow-xs transition active:scale-95 cursor-pointer"
             title="Abrir o Descargar el Manual de Usuario en PDF para el Cliente"
           >
             <FileText className="w-4 h-4" />

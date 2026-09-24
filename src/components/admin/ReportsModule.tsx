@@ -164,12 +164,12 @@ export const ReportsModule: React.FC = () => {
         <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs">
           <div className="flex items-center justify-between">
             <span className="text-xs sm:text-sm font-black text-slate-600">Capacidad Total</span>
-            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-700">
+            <div className="p-2 rounded-xl bg-slate-100 text-slate-800">
               <BarChart3 className="w-5 h-5" />
             </div>
           </div>
-          <p className="text-2xl sm:text-3xl font-black text-indigo-950 mt-2">{totalStudents}</p>
-          <p className="text-xs font-bold text-indigo-700 mt-0.5">Matrícula escolar máxima</p>
+          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">{totalStudents}</p>
+          <p className="text-xs font-bold text-slate-600 mt-0.5">Matrícula escolar máxima</p>
         </div>
       </div>
 

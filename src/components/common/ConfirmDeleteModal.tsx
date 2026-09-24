@@ -22,9 +22,9 @@ export const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in">
-      <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-rose-100 p-6 space-y-4">
+      <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-red-100 p-6 space-y-4">
         <div className="flex items-start justify-between">
-          <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-red-50 text-[#D91A2A] border border-red-200 flex items-center justify-center">
             <AlertTriangle className="w-6 h-6 stroke-[2.5]" />
           </div>
           <button
@@ -40,9 +40,9 @@ export const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
           <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1">{message}</p>
         </div>
 
-        <div className="p-3.5 bg-rose-50/70 rounded-2xl border border-rose-100">
-          <span className="text-xs font-bold text-rose-900 block">Registro a eliminar:</span>
-          <span className="text-sm font-black text-rose-700">{itemName}</span>
+        <div className="p-3.5 bg-red-50/70 rounded-2xl border border-red-200">
+          <span className="text-xs font-bold text-red-900 block">Registro a eliminar:</span>
+          <span className="text-sm font-black text-[#D91A2A]">{itemName}</span>
         </div>
 
         <p className="text-[11px] font-semibold text-slate-400">
@@ -52,7 +52,7 @@ export const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
         <div className="flex gap-2.5 pt-2">
           <button
             onClick={onConfirm}
-            className="flex-1 py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-black shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer"
+            className="flex-1 py-2.5 px-4 rounded-xl bg-[#D91A2A] hover:bg-[#b81220] text-white text-xs sm:text-sm font-black shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer"
           >
             <Trash2 className="w-4 h-4" />
             <span>Confirmar Eliminación</span>
